@@ -155,8 +155,29 @@
         'is_obsolete' => 0,
         'is_relationshiptype' => 0,
         'definition' => 'The colour of the seed coat'
+      ),
+      // double check with three blow when test on KP-dev
+      'comment' => array(
+        'name' => 'comment',
+        'is_obsolete' => 0,
+        'is_relationshiptype' => 0,
+        'definition' => 'Comments, typically from users. '
+      ),
+      'femal_type' => array(
+        'name' => 'femal_type',
+        'is_obsolete' => 0,
+        'is_relationshiptype' => 0,
+        'definition' => ''
+      ),
+      'male_type' => array(
+        'name' => 'male_type',
+        'is_obsolete' => 0,
+        'is_relationshiptype' => 0,
+        'definition' => ''
       )
+
     );
+
     $CVTERM = $this->check_and_insert_cvterm($CVTERM);
     var_dump($CVTERM);
     //TO-DO: check table:cvterm and looking for femal_type / male_type
@@ -171,7 +192,7 @@
     //
     // Here we'll get the size of the file and tell the TripalImporter how
     // many "items" we have to process (in this case bytes of the file).
-    $filesize = filesize($file_path); 
+    $filesize = filesize($file_path);
     $this->setTotalItems($filesize);
     $this->setItemsHandled(0);
     $bytes_read = 0;
