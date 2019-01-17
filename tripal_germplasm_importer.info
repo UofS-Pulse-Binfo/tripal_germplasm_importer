@@ -1,9 +1,8 @@
 name = Tripal Germplasm Importer
-description = Demonstrate how to use importer.
+description = Import germplasm into the Chado stock tables.
 core = 7.x
 project = tripal
-package = Triplal Exetensions
-version = 7.x-1.x-aplpha1
+package = Tripal Extensions
 
 dependencies[] = tripal
 
