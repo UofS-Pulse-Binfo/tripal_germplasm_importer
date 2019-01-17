@@ -1,0 +1,105 @@
+<?php
+
+/**
+ * @see TripalImporter
+ */
+ class ExampleImporter extends TripalImporter {
+
+  /**
+   * The name of this loader.  This name will be presented to the site
+   * user.
+   */
+  public static $name = 'Germplasm Importer';
+
+  /**
+   * The machine name for this loader. This name will be used to construct
+   * the URL for the loader.
+   */
+  public static $machine_name = 'tripal_germplasm_importer';
+
+  /**
+   * A brief description for this loader.  This description will be
+   * presented to the site user.
+   */
+  public static $description = 'import germplasm into Knowpulse';
+
+  /**
+   * An array containing the extensions of allowed file types.
+   */
+  public static $file_types = ['txt', 'tst', 'csv'];
+
+  /**
+   * Provides information to the user about the file upload.  Typically this
+   * may include a description of the file types allowed.
+   */
+  public static $upload_description = 'Germplasm file should be a tab-delimited file containing multiple columns.';
+
+  /**
+   * Indicates the methods that the file uploader will support.
+   */
+  public static $methods = [
+    // Allow the user to upload a file to the server.
+    'file_upload' => TRUE,
+    // Allow the user to provide the path on the Tripal server for the file.
+    'file_local' => TRUE,
+    // Allow the user to provide a remote URL for the file.
+    'file_remote' => TRUE,
+  ];
+
+  public function form($form, &$form_state){
+
+    //Instructions
+    $markup = '<h3> Welcome to Germplasm Importer</h3>
+    <p> sth </p>
+    <p> sth </p>
+    <p> sth </p>';
+
+    //Pick a CVterm
+
+
+    $form['instruction'] = [
+      '#markup' => $markup
+    ];
+
+    $sql = "SELECT * FROM {organism} ORDER BY genus, species";
+    $org_rset = chado_query($sql);
+    $organisms = array();
+    $organisms[''] = '';
+    while ($organism = $org_rset->fetchObject()) {
+      $organisms[$organism->organism_id] = "$organism->genus $organism->species ($organism->common_name)";
+    }
+
+    $form['organism_id'] = [
+      '#type' => 'select',
+      '#title' => t('Organism'),
+      '#options' => $organisms,
+      '#required' => TRUE,
+      '#description' => t('Select the organism for germplasm file you would like to upload'),
+    ];
+
+    //dpm($form);
+
+    return $form;
+  }
+
+  public function formValidate($form, &$form_state){
+    parent::formValidate($form, $form_state);
+
+    $chosen_cvterm = $form_state['values']['pick_cvterm'];
+
+    if ($chosen_cvterm == 0){
+      form_set_error('pick_cvterm','Please choose a CVterm');
+    }
+
+  }
+
+  public function load_germplasm($organism){
+    var_dump($organism);
+
+  }
+
+
+
+}
+
+

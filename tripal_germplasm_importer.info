@@ -1,0 +1,9 @@
+name = Tripal Germplasm Importer
+description = Demonstrate how to use importer.
+core = 7.x
+project = tripal
+package = Triplal Exetensions
+version = 7.x-1.x-aplpha1
+
+dependencies[] = tripal
+
