@@ -14,4 +14,7 @@ This module supports loading of spreadsheet file formats (txt, tst, csv, tsv):
 Year 	Season	Cross No.	Maternal Parent	Paternal Parent	Cross Type	Seed Type	Cotyledon Colour	Seed Coat	Comment	Male Type	Female Type
 2000	Winter	ABC	ABC_M	ABC_P	Backcross	Yellow  Yellow  Green Comment Male  Female
 ```
+## Data Storage
+Germplasm loaded by this module will be stored in chado in talbes: stock, stockprop, and stock_relationship.
 
+Controlled vocabulary terms required by this module are expected in chado or will be inserted.
