@@ -65,9 +65,9 @@
 
     //Instructions
     $markup = '<h3> Welcome to Germplasm Importer</h3>
-    <p> sth </p>
-    <p> sth </p>
-    <p> sth </p>';
+    <p>  </p>
+    <p>  </p>
+    <p>  </p>';
 
     //Pick a CVterm
 
@@ -112,7 +112,8 @@
         'name' => 'F1',
         'is_obsolete' => 0,
         'is_relationshiptype' => 0,
-        'definition' => 'The first generation of offspring from a parent cross.'
+        'definition' => '',
+        'cvterm_id' => 4335
       ),
       'maternal_parent' => array(
         'name' => 'is_maternal_parent_of',
@@ -161,16 +162,17 @@
         'name' => 'comment',
         'is_obsolete' => 0,
         'is_relationshiptype' => 0,
-        'definition' => 'Comments, typically from users. '
+        'definition' => 'Comments, typically from users. ',
+        'cvterm_id' => 3649
       ),
       'femal_type' => array(
-        'name' => 'femal_type',
+        'name' => 'female parent',
         'is_obsolete' => 0,
         'is_relationshiptype' => 0,
         'definition' => ''
       ),
       'male_type' => array(
-        'name' => 'male_type',
+        'name' => 'male parent',
         'is_obsolete' => 0,
         'is_relationshiptype' => 0,
         'definition' => ''
@@ -180,9 +182,10 @@
 
     $CVTERM = $this->check_and_insert_cvterm($CVTERM);
     var_dump($CVTERM);
-    //TO-DO: check table:cvterm and looking for femal_type / male_type
+    
     //  no good match in KP chado.cvterm, also for seed_type
-    //  temperately create there three terms
+    //  insert as new cvterm for seed_type
+    //  for now, we have multiple matches for F1 and comment, hard code cvterm_id for now (TO-DO)
 
     //From DOC (https://tripal.readthedocs.io/en/latest/dev_guide/custom_data_loader.html)
     // We want to provide a progress report to the end-user so that they:
@@ -205,22 +208,21 @@
 
     //read file, and explode each line
     while ($line_germplasm = fgets($fh)){
-
-      //var_dump([$line_germplasm]);
+      
       //From DOC (https://tripal.readthedocs.io/en/latest/dev_guide/custom_data_loader.html)
       // Calculate how many bytes we have read from the file and let the
       // importer know how many have been processed so it can provide a
       // progress indicator.
-      $bytes_read += drupal_strlen($line);
+      $bytes_read += drupal_strlen($line_germplasm);
       $this->setItemsHandled($bytes_read);
 
       $line_germplasm = trim($line_germplasm);
       $germ_col = explode(",", $line_germplasm);
 
-      //header check, confirm column order
+      //TO-DO: header check, confirm column order
       //should be in order:
       //1.Year 2.Season 3.Cross No. 4.Maternal Parent 5.paternal Parent 6.Cross Type
-      //7.Seed Type 8.Cotyledon Colour 9.Seed Coat
+      //7.Seed Type 8.Cotyledon Colour 9.Seed Coat 10.Comment 
       if (preg_match('/^Year/', $line_germplasm) ){
         //check header specific names
 	       var_dump(['Header line detected:']);
@@ -228,14 +230,14 @@
         continue;
       }
 
-      //For each germplasm lines
-      //  since this organism is selected from drop-down box, so it exists in chado
-      //  check maternal parent exist in db
-      //  check paternal parent exist in db
-      //chado api for check is chado_select_record($table, $columns, $values, $options = NULL)
-      //chado api for insert is
-      //save values into $array
-
+      /**For each germplasm line
+      * since this organism is selected from drop-down box, so it exists in chado already
+      * cvterm should be checked, selected/inserted and cvterm_id should be reported to array CVTERM
+      * 1.  check and insert this germplasm
+      * 2.  check and insert properties of this germplasm
+      * 3.  check and insert relationships with parents
+      * 4.  (???)insert properties for parents
+      */
       // skip comments
       if (preg_match('/^#/', $line_germplasm)) {
         continue;
@@ -276,17 +278,10 @@
       if($germ_col[9]){
         $stock['comment'] = $germ_col[9];
       }
-      if($germ_col[10]){
-        $stock['male_type'] = $germ_col[10];
-      }
-      if($germ_col[11]){
-        $stock['female_type'] = $germ_col[11];
-      }
-      // TO-DO
-      // male_type, female_type, commont
-      var_dump($stock);
+      
+      $this->logMessage(("\n\n".'Start to processes !stock.'),['!stock' => $stock['name']], TRIPAL_WARNING);
       //************************************************************************
-
+    
       //FIRSRT: load to table Stock
       //check this germplasm name not exist in db
       // report error is yes
@@ -307,7 +302,7 @@
       }
       else{
         // then try to insert this germplasm into table:stock
-        $this->logMessage('The stock, !stock, has no matched matched name in chado.stock.',['!stock' => $stock['name']], TRIPAL_WARNING);
+        $this->logMessage('The stock, !stock, has no matched name in chado.stock, start insertion.',['!stock' => $stock['name']], TRIPAL_WARNING);
         $value = array(
           'organism_id' => $organism,
           'name' => $stock['name'],
@@ -346,8 +341,6 @@
         }
 
         if ($CVTERM[$key]){
-          // for test, delete after
-          echo $key . ' for ' . $CVTERM[$key]['name'] . "\n";
           // check if this cvterm exist in table:cvterm
           // we should have cheked this cvterm, double check just for sure
           $match = array(
@@ -355,7 +348,6 @@
           );
           $results = chado_select_record('cvterm', ['cvterm_id'], $match);
           if ($results == 0){
-            // for test, should be log message???
             $this->logMessage('ERROR: Cvterm , !cvterm, does not exist in databas table:cvterm.', ['!cvterm' => $CVTERM[$key]['name']], TRIPAL_WARNING);
           }
           else{
@@ -369,7 +361,7 @@
 
       }
 
-      //TO-DO: check if insertion is successful
+      //TO-DO: check if insertion is successful?
 
       //  check maternal parent exist in db
       $match = array(
@@ -386,12 +378,6 @@
       elseif (count($results) == 1){
         // load maternal parent to table stock_relationship
         $this->load_stock_relationship($stock['maternal_parent'], $maternal_parent_stock_id, $germplasm_stock_id, $CVTERM['maternal_parent']['type_id']);
-
-        //  also load 'femal type' to table:stockprop
-        //  load_stockprop($stockprop_name, $stockprop_stock_id, $stockprop_type_id, $stockprop_value)
-        if ($stock['female_type']){
-          $this->load_stockprop($stock['maternal_parent'], $maternal_parent_stock_id, $CVTERM['seed_type']['type_id'], $stock['female_type']);
-        }
       }
 
       //  check paternal parent exist in db
@@ -410,11 +396,6 @@
         // load paternal parent to table stock_relationship
         $this->load_stock_relationship($stock['paternal_parent'], $paternal_parent_stock_id, $germplasm_stock_id, $CVTERM['paternal_parent']['type_id']);
 
-        //  also load 'male type' to table:stockprop
-        //  load_stockprop($stockprop_name, $stockprop_stock_id, $stockprop_type_id, $stockprop_value)
-        if ($stock['male_type']){
-          $this->load_stockprop($stock['paternal_parent'], $paternal_parent_stock_id, $CVTERM['seed_type']['type_id'], $stock['male_type']);
-        }
       }
 
     }//end of fget loop through uploaded file
@@ -425,7 +406,7 @@
  /** check all cvterms required in this module
  * Three situatioins for each:
  *    1. only one match, use it, and save cvterm_id for further use as type_id
- *    2. no match, insert this term using chado api chado_insert_cvterm()
+ *    2. no match, insert this term using api chado_insert_cvterm()
  *    3. more than one match ?????????????????????? TO-DO
  *      for now, check KP.chado.cvterm, find cv for this cvterm and make in unique
  *  after insertion/checking, update type_id(cvterm_id), cv_id, dbxref_id to array $CVTERM
@@ -450,7 +431,12 @@
        $this->logMessage('The cvterm, !cvterm, has one match in chado.cvterm',['!cvterm' => $one_cvterm['name']], TRIPAL_WARNING);
      }
      else{
-       $this->logMessage('WARNING: The cvterm, !cvterm, has more than one match in chado.cvterm',['!cvterm' => $one_cvterm['name']], TRIPAL_WARNING);
+       if (array_key_exists('cvterm_id', $one_cvterm)){
+         $result_cvterm = chado_select_record('cvterm', ['cvterm_id','cv_id', 'dbxref_id'], ['name'=>$one_cvterm['name'], 'cvterm_id'=>$one_cvterm['cvterm_id']]);
+       }
+       else{
+         $this->logMessage('WARNING: The cvterm, !cvterm, has more than one match in chado.cvterm and no cvterm_id supplied for a unique match.',['!cvterm' => $one_cvterm['name']], TRIPAL_WARNING);
+       }
      }
      $CVTERM[$key_hr_name]['type_id'] = $result_cvterm[0]->cvterm_id;
      $CVTERM[$key_hr_name]['cv_id'] = $result_cvterm[0]->cv_id;
@@ -478,10 +464,10 @@
        'object_id'  => $stock_re_object_id,
        'type_id' => $stock_re_type_id
      );
-     $results_stock_rs = chado_select_record('stock_relationship', 'stock_relationship_id', $match);
+     $results_stock_rs = chado_select_record('stock_relationship', ['stock_relationship_id'], $match);
      if (count($results_stock_rs) == 0){
        // for test, delete after
-       echo 'Talbe:stock_relationship insertion for ' . $stock_re_name . ':subject_id: ' . $stockprop_stock_id . ';object_id ' . $stockprop_type_id . ';type_id: ' . $stockprop_value . "\n";
+       echo 'Talbe:stock_relationship insertion for ' . $stock_re_name . ':subject_id: ' . $stock_re_subject_id . ';object_id ' . $stock_re_object_id . ';type_id: ' . $stock_re_type_id . "\n";
        $values = array(
          'subject_id' => $stock_re_subject_id,
          'object_id' => $stock_re_object_id,
