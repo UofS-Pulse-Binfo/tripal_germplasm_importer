@@ -62,17 +62,6 @@
       '#required' => TRUE,
       '#description' => t('Select the organism for germplasm file you would like to upload'),
     ];
-    /**
-    //Instructions
-    $markup = '<h3> Welcome to Germplasm Importer</h3>
-    <p>  </p>
-    <p>  </p>
-    <p>  </p>';
-
-    $form['instruction'] = [
-      '#markup' => $markup
-    ];
-    */
     
     return $form;
   }
@@ -315,7 +304,7 @@
           'name' => $stock['name'],
           'uniquename' => uniqid("Germplasm:"),
           'type_id' => [
-            'cvterm_id' => $CVTERM['cross_type']['cvterm_id']
+            'cvterm_id' => $CVTERM['stock_type']['cvterm_id']
             ],
           'dbxref_id' => $dbxref_id,
           'description' => $description,
