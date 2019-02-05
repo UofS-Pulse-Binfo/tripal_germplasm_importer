@@ -62,21 +62,22 @@
       '#required' => TRUE,
       '#description' => t('Select the organism for germplasm file you would like to upload'),
     ];
-
+    /**
     //Instructions
     $markup = '<h3> Welcome to Germplasm Importer</h3>
     <p>  </p>
     <p>  </p>
     <p>  </p>';
 
-    //Pick a CVterm
-
     $form['instruction'] = [
       '#markup' => $markup
     ];
+    */
+    
     return $form;
   }
-
+  
+  
   /**
    * @see TripalImporter::formValidate()
    */
@@ -108,12 +109,18 @@
 
     //???read cvterm
     $CVTERM = array(
-      'cross_type' => array(
+      'stock_type' => array(
         'name' => 'F1',
         'is_obsolete' => 0,
         'is_relationshiptype' => 0,
         'definition' => '',
         'cvterm_id' => 4335
+      ),
+      'cross_type' => array(
+        'name' => 'additionalType',
+        'is_obsolete' => 0,
+        'is_relationshiptype' => 0,
+        'definition' => '',
       ),
       'maternal_parent' => array(
         'name' => 'is_maternal_parent_of',
@@ -308,7 +315,7 @@
           'name' => $stock['name'],
           'uniquename' => uniqid("Germplasm:"),
           'type_id' => [
-            'name'=>'F1'
+            'cvterm_id' => $CVTERM['cross_type']['cvterm_id']
             ],
           'dbxref_id' => $dbxref_id,
           'description' => $description,
@@ -321,6 +328,7 @@
           'organism_id' => $organism
         );
         $results = chado_select_record('stock', ['stock_id'], $match);
+        
         if (count($results) == 0){
           print('ERROR:Import of germplasm '.$stock['name'].' FAILED!!!'."\n");
         }elseif (count($results) == 1){
@@ -358,7 +366,6 @@
         else{
           $this->logMessage('Column name , !header_name, does not exist in array CVTERM.', ['!header_name' => $key], TRIPAL_WARNING);
         }
-
       }
 
       //TO-DO: check if insertion is successful?
@@ -376,8 +383,11 @@
         //continue;
       }
       elseif (count($results) == 1){
-        // load maternal parent to table stock_relationship
+        //  load maternal parent to table stock_relationship
         $this->load_stock_relationship($stock['maternal_parent'], $maternal_parent_stock_id, $germplasm_stock_id, $CVTERM['maternal_parent']['type_id']);
+        
+        //  load 'female parent' as a property table:stockprop
+        //$shit->load_stockprop($stock['name'], $germplasm_stock_id, $CVTERM['femal_type']['type_id'], $stock['maternal_parent']);
       }
 
       //  check paternal parent exist in db
@@ -393,9 +403,10 @@
         //continue;
       }
       elseif (count($results) == 1){
-        // load paternal parent to table stock_relationship
+        //  load paternal parent to table stock_relationship
         $this->load_stock_relationship($stock['paternal_parent'], $paternal_parent_stock_id, $germplasm_stock_id, $CVTERM['paternal_parent']['type_id']);
-
+        //  load 'female parent' as a property to table:stockprop
+        //$shit->load_stockprop($stock['name'], $germplasm_stock_id, $CVTERM['male_type']['type_id'], $stock['paternal_parent']);
       }
 
     }//end of fget loop through uploaded file
