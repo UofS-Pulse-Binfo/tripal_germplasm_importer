@@ -26,13 +26,13 @@
   /**
    * An array containing the extensions of allowed file types.
    */
-  public static $file_types = ['txt', 'tst', 'csv', 'tsv'];
+  public static $file_types = ['csv'];
 
   /**
    * Provides information to the user about the file upload.  Typically this
    * may include a description of the file types allowed.
    */
-  public static $upload_description = 'Germplasm file should be a tab-delimited file containing multiple columns.';
+  public static $upload_description = 'Germplasm file should be a comma separated file containing multiple columns.';
 
   /**
    * Indicates the methods that the file uploader will support.
@@ -54,6 +54,19 @@
     while ($organism = $org_rset->fetchObject()) {
       $organisms[$organism->organism_id] = "$organism->genus $organism->species ($organism->common_name)";
     }
+
+    $form['instructions'] = [
+      '#weight' => -100,
+      '#markup' => '
+        <h2>Load germplasm into database</h2>
+        <p>Upload file must in csv (comma-separated values) format.
+        </p>
+        <p>Header of upload file should be:
+        <table><tr><td>Year</td><td>Season</td><td>Cross NO.</td><td>Maternal Parent</td><td>Maternal Parent</td><td>Cross Type</td><td>Seed Type</td><td>Cotyledon Colour</td><td>Comment</td></tr></table>
+        </p>
+        <p>Please confirm file format and column order before upload.</p>
+      ',
+    ];
 
     $form['organism_id'] = [
       '#type' => 'select',
