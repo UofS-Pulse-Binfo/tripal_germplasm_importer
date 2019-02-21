@@ -9,7 +9,7 @@
    * The name of this loader.  This name will be presented to the site
    * user.
    */
-  public static $name = 'Germplasm Importer';
+  public static $name = 'Germplasm Cross Importer';
 
   /**
    * The machine name for this loader. This name will be used to construct
@@ -21,7 +21,7 @@
    * A brief description for this loader.  This description will be
    * presented to the site user.
    */
-  public static $description = 'import germplasm into Knowpulse';
+  public static $description = 'Imports breeding crosses into Chado.';
 
   /**
    * An array containing the extensions of allowed file types.
@@ -32,7 +32,17 @@
    * Provides information to the user about the file upload.  Typically this
    * may include a description of the file types allowed.
    */
-  public static $upload_description = 'Germplasm file should be a comma separated file containing multiple columns.';
+  public static $upload_description = 'Germplasm file should be a comma separated file with the following colums:<ol>
+      <li>Year: the year the cross was made in.</li>
+      <li>Season: the season the cross was made in (e.g. Spring, Fall, Winter, Summer).</li>
+      <li>Cross Number: a unique identifier for the cross (e.g. 1234S).</li>
+      <li>Maternal Parent: the name of the maternal parent of this cross.</li>
+      <li>Paternal Parent: the name of the paternal parent of this cross.</li>
+      <li>Cross Type: the type of cross (e.g. single, double, triple).</li>
+      <li>Seed Type: either the market class or seed coat colour of the seed resulting from the cross.</li>
+      <li>Cotyledon Colour: the cotyledon colour of the seed resulting from the cross.</li>
+      <li>Comment: a free-text comment about the cross.</li>
+    </ol>';
 
   /**
    * Indicates the methods that the file uploader will support.
