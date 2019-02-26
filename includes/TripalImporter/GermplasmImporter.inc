@@ -26,7 +26,7 @@
   /**
    * An array containing the extensions of allowed file types.
    */
-  public static $file_types = ['csv', 'txt'];
+  public static $file_types = ['tsv', 'txt'];
 
   /**
    * Provides information to the user about the file upload.  Typically this
@@ -329,9 +329,7 @@ TO-DO: include female parent and male parent
           'organism_id' => $organism,
           'name' => $stock['name'],
           'uniquename' => uniqid("Germplasm:"),
-          'type_id' => [
-            'cvterm_id' => $CVTERM['stock_type']['cvterm_id']
-            ],
+          'type_id' => $CVTERM['stock_type']['type_id'],
           'dbxref_id' => $dbxref_id,
           'description' => $description,
           'is_obsolete' => $is_obsolete
