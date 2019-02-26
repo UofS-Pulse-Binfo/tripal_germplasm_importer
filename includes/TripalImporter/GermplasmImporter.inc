@@ -26,7 +26,7 @@
   /**
    * An array containing the extensions of allowed file types.
    */
-  public static $file_types = ['csv'];
+  public static $file_types = ['csv', 'txt'];
 
   /**
    * Provides information to the user about the file upload.  Typically this
