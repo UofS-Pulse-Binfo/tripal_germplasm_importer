@@ -26,13 +26,13 @@
   /**
    * An array containing the extensions of allowed file types.
    */
-  public static $file_types = ['csv'];
+  public static $file_types = ['csv', 'txt'];
 
   /**
    * Provides information to the user about the file upload.  Typically this
    * may include a description of the file types allowed.
    */
-  public static $upload_description = 'Germplasm file should be a comma separated file with the following colums:<ol>
+  public static $upload_description = 'Germplasm file should be a tab separated file with the following colums:<ol>
       <li>Year: the year the cross was made in.</li>
       <li>Season: the season the cross was made in (e.g. Spring, Fall, Winter, Summer).</li>
       <li>Cross Number: a unique identifier for the cross (e.g. 1234S).</li>
@@ -69,12 +69,7 @@
       '#weight' => -100,
       '#markup' => '
         <h2>Load germplasm into database</h2>
-        <p>Upload file must in csv (comma-separated values) format.
-        </p>
-        <p>Header of upload file should be:
-        <table><tr><td>Year</td><td>Season</td><td>Cross NO.</td><td>Maternal Parent</td><td>Maternal Parent</td><td>Cross Type</td><td>Seed Type</td><td>Cotyledon Colour</td><td>Comment</td></tr></table>
-        </p>
-        <p>Please confirm file format and column order before upload.</p>
+        <p>Upload file must in TSV (tab-separated values) format. Please confirm file format and column order before upload.</p>
       ',
     ];
 
@@ -126,55 +121,63 @@
         'is_obsolete' => 0,
         'is_relationshiptype' => 0,
         'definition' => '',
-        'cvterm_id' => 4335
+        'cv_name' => ' KnowPulse Germplasm'
       ),
       'cross_type' => array(
         'name' => 'additionalType',
         'is_obsolete' => 0,
         'is_relationshiptype' => 0,
         'definition' => '',
+        'cv_name' => 'schema'
       ),
       'maternal_parent' => array(
         'name' => 'is_maternal_parent_of',
         'is_obsolete' => 0,
         'is_relationshiptype' => 0,
-        'definition' => ''
+        'definition' => '',
+        'cv_name' => 'stock_relationship'
       ),
       'paternal_parent' => array(
         'name' => 'is_paternal_parent_of',
         'is_obsolete' => 0,
         'is_relationshiptype' => 0,
-        'definition' => ''
+        'definition' => '',
+        'cv_name' => 'stock_relationship'
       ),
       'season' => array(
         'name' => 'crossingblock_season',
         'is_obsolete' => 0,
         'is_relationshiptype' => 0,
-        'definition' => 'Indicates that the current stock was the progeny of a cross made in the season specified.'
+        'definition' => 'Indicates that the current stock was the progeny of a cross made in the season specified.',
+        'cv_name' => 'stock_property'
       ),
       'year' => array(
         'name' => 'crossingblock_year',
         'is_obsolete' => 0,
         'is_relationshiptype' => 0,
-        'definition' => 'Indicates that the current stock was the progeny of a cross made in the year specified.'
+        'definition' => 'Indicates that the current stock was the progeny of a cross made in the year specified.',
+        'cv_name' => 'stock_property'
       ),
       'cotyledon_colour' => array(
         'name' => 'cotyledon_colour',
         'is_obsolete' => 0,
         'is_relationshiptype' => 0,
-        'definition' => 'The colour of the cotyledon'
+        'definition' => 'The colour of the cotyledon',
+        'cv_name' => 'stock_property'
       ),
       'seed_type' => array(
         'name' => 'seed_type',
         'is_obsolete' => 0,
         'is_relationshiptype' => 0,
-        'definition' => 'Characteristics or observable phenotypes of the seed.'
+        'definition' => 'Characteristics or observable phenotypes of the seed.',
+        'cv_name' => 'local'
       ),
       'seed_coat_colour' => array(
         'name' => 'seed_coat_colour',
         'is_obsolete' => 0,
         'is_relationshiptype' => 0,
-        'definition' => 'The colour of the seed coat'
+        'definition' => 'The colour of the seed coat',
+        'cv_name' => 'stock_property'
       ),
       // double check with three blow when test on KP-dev
       'comment' => array(
@@ -182,9 +185,15 @@
         'is_obsolete' => 0,
         'is_relationshiptype' => 0,
         'definition' => 'Comments, typically from users. ',
-        'cvterm_id' => 3649
-      ),
-      'femal_type' => array(
+        'cv_name' => 'stock_property'
+      )
+
+    );
+
+/*
+TO-DO: include female parent and male parent
+
+      'female_type' => array(
         'name' => 'female parent',
         'is_obsolete' => 0,
         'is_relationshiptype' => 0,
@@ -196,16 +205,11 @@
         'is_relationshiptype' => 0,
         'definition' => ''
       )
-
-    );
-
+*/
+//database various so we need names for both cvterm and cv to determine specific cvterm id for a cvterm 
     $CVTERM = $this->check_and_insert_cvterm($CVTERM);
     var_dump($CVTERM);
     
-    //  no good match in KP chado.cvterm, also for seed_type
-    //  insert as new cvterm for seed_type
-    //  for now, we have multiple matches for F1 and comment, hard code cvterm_id for now (TO-DO)
-
     //From DOC (https://tripal.readthedocs.io/en/latest/dev_guide/custom_data_loader.html)
     // We want to provide a progress report to the end-user so that they:
     // 1) Recognize that the loader is not hung if running a large file, but is
@@ -236,7 +240,7 @@
       $this->setItemsHandled($bytes_read);
 
       $line_germplasm = trim($line_germplasm);
-      $germ_col = explode(",", $line_germplasm);
+      $germ_col = explode("\t", $line_germplasm);
 
       //TO-DO: header check, confirm column order
       //should be in order:
@@ -255,7 +259,6 @@
       * 1.  check and insert this germplasm
       * 2.  check and insert properties of this germplasm
       * 3.  check and insert relationships with parents
-      * 4.  (???)insert properties for parents
       */
       // skip comments
       if (preg_match('/^#/', $line_germplasm)) {
@@ -430,8 +433,7 @@
  * Three situatioins for each:
  *    1. only one match, use it, and save cvterm_id for further use as type_id
  *    2. no match, insert this term using api chado_insert_cvterm()
- *    3. more than one match ?????????????????????? TO-DO
- *      for now, check KP.chado.cvterm, find cv for this cvterm and make in unique
+ *    3. more than one match, then use cv name
  *  after insertion/checking, update type_id(cvterm_id), cv_id, dbxref_id to array $CVTERM
  *  @param $CVTERM
  */
@@ -455,7 +457,7 @@
      }
      else{
        if (array_key_exists('cvterm_id', $one_cvterm)){
-         $result_cvterm = chado_select_record('cvterm', ['cvterm_id','cv_id', 'dbxref_id'], ['name'=>$one_cvterm['name'], 'cvterm_id'=>$one_cvterm['cvterm_id']]);
+         $result_cvterm = chado_select_record('cvterm', ['cvterm_id','cv_id', 'dbxref_id'], ['name'=>$one_cvterm['name'], 'cv'=>['name'=>$one_cvterm['cv_name']]]);
        }
        else{
          $this->logMessage('WARNING: The cvterm, !cvterm, has more than one match in chado.cvterm and no cvterm_id supplied for a unique match.',['!cvterm' => $one_cvterm['name']], TRIPAL_WARNING);
