@@ -516,7 +516,7 @@ public function check_and_insert_cv($CV){
  public function check_and_insert_cvterm($CVTERM){
    //check each cvterm
    foreach($CVTERM as $key_hr_name =>$one_cvterm){
-     $result_cvterm = chado_select_record('cvterm', ['cvterm_id','cv_id', 'dbxref_id'], ['name'=>$one_cvterm['name'], 'cv_id'=>$CV[$one_cvterm['cv_name']]['cv_id']]);
+     $result_cvterm = chado_select_record('cvterm', ['cvterm_id','cv_id', 'dbxref_id'], ['name'=>$one_cvterm['name']]);
      if (count($result_cvterm) == 0) {
        $term = array(
          'name' => $one_cvterm['name'],
@@ -526,7 +526,7 @@ public function check_and_insert_cv($CV){
          'cv_name' => $one_cvterm['cv_name'],
          'id' => $one_cvterm['db_name'].':'.$one_cvterm['accession']
        );
-       $result_cvterm = chado_insert_cvterm($term);
+       chado_insert_cvterm($term);
        $result_cvterm = chado_select_record('cvterm', ['cvterm_id','cv_id', 'dbxref_id'], ['name'=>$one_cvterm['name']]);
      }
      elseif(count($result_cvterm) == 1){
@@ -534,14 +534,14 @@ public function check_and_insert_cv($CV){
      }
      else{
        if (array_key_exists('cvterm_id', $one_cvterm)){
-         $result_cvterm = chado_select_record('cvterm', ['cvterm_id','cv_id', 'dbxref_id'], ['name'=>$one_cvterm['name'], 'cv_id'=>$CV[$one_cvterm['cv_name']]['cv_id']]);
+         $result_cvterm = chado_select_record('cvterm', ['cvterm_id','cv_id', 'dbxref_id'], ['name'=>$one_cvterm['name'], 'cv_id'=>$CV[ $one_cvterm['cv_name'] ]['cv_id']]);
        }
        else{
          //@log $this->logMessage('WARNING: The cvterm, !cvterm, has more than one match in chado.cvterm and no cvterm_id supplied for a unique match.',['!cvterm' => $one_cvterm['name']], TRIPAL_WARNING);
        }
      }
      $CVTERM[$key_hr_name]['type_id'] = $result_cvterm[0]->cvterm_id;
-     //$CVTERM[$key_hr_name]['cv_id'] = $result_cvterm[0]->cv_id;
+     $CVTERM[$key_hr_name]['cv_id'] = $result_cvterm[0]->cv_id;
      $CVTERM[$key_hr_name]['dbxref_id'] = $result_cvterm[0]->dbxref_id;
    }
    return $CVTERM;
