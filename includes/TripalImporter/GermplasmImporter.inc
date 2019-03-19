@@ -93,11 +93,11 @@
       '#required' => TRUE,
       '#description' => t('Select the organism for germplasm file you would like to upload'),
     ];
-    
+
     return $form;
   }
-  
-  
+
+
   /**
    * @see TripalImporter::formValidate()
    */
@@ -121,10 +121,10 @@
     $organism_id = $arguments['organism_id'];
     $user_prefix = $arguments['prefix'];
 
-    $this->loadGermplasm($analysis_id, $file_path, $organism_id, $user_prefix, $dbxref_id = NULL, $description = NULL, $is_obsolete = f);
+    $this->loadGermplasm($file_path, $organism_id, $user_prefix, $dbxref_id = NULL, $description = NULL, $is_obsolete = f);
   }
 
-  public function loadGermplasm($analysis_id, $file_path, $organism, $user_prefix, $dbxref_id, $description, $is_obsolete){
+  public function loadGermplasm($file_path, $organism, $user_prefix, $dbxref_id, $description, $is_obsolete){
 
     $CV = array(
       'schema' => array(
@@ -148,7 +148,7 @@
         'definition' => 'A local vocabulary that contains a list of types for stocks.'
         ),
       );
-      
+
     //read cvterm
     $CVTERM = array(
       'stock_type' => array(
@@ -242,13 +242,13 @@
         'db_name' => 'schema'
       )
     );
-    
-    
-    //database various so we need names for both cvterm and cv to determine specific cvterm id for a cvterm 
+
+
+    //database various so we need names for both cvterm and cv to determine specific cvterm id for a cvterm
     $CV = $this->check_and_insert_cv($CV);
     $CVTERM = $this->check_and_insert_cvterm($CVTERM);
-    
-    
+
+
     //From DOC (https://tripal.readthedocs.io/en/latest/dev_guide/custom_data_loader.html)
     // We want to provide a progress report to the end-user so that they:
     // 1) Recognize that the loader is not hung if running a large file, but is
@@ -270,7 +270,7 @@
 
     //read file, and explode each line
     while ($line_germplasm = fgets($fh)){
-      
+
       //From DOC (https://tripal.readthedocs.io/en/latest/dev_guide/custom_data_loader.html)
       // Calculate how many bytes we have read from the file and let the
       // importer know how many have been processed so it can provide a
@@ -284,7 +284,7 @@
       //TO-DO: header check, confirm column order
       //should be in order:
       //1.Year 2.Season 3.Cross No. 4.Maternal Parent 5.paternal Parent 6.Cross Type
-      //7.Seed Type 8.Cotyledon Colour 9.Seed Coat 10.Comment 
+      //7.Seed Type 8.Cotyledon Colour 9.Seed Coat 10.Comment
       if (preg_match('/^Year/', $line_germplasm) ){
         continue;
       }
@@ -336,10 +336,10 @@
       if($germ_col[9]){
         $stock['comment'] = $germ_col[9];
       }
-      
+
       //@log $this->logMessage(("\n\n".'Loading !stock.'),['!stock' => $stock['name']], TRIPAL_WARNING);
       //************************************************************************
-    
+
       //FIRSRT: load to table Stock
       //check this germplasm name not exist in db
       // report error is yes
@@ -361,7 +361,7 @@
         // then try to insert this germplasm into table:stock
         //@log $this->logMessage('The stock, !stock, has no matched name in chado.stock, start insertion.',['!stock' => $stock['name']], TRIPAL_WARNING);
         // uniquename of each germplasm is a random string prefiexed with Germplasm: for now, need to update it latter
-        
+
         $value = array(
           'organism_id' => $organism,
           'name' => $stock['name'],
@@ -378,7 +378,7 @@
           'organism_id' => $organism
         );
         $results = chado_select_record('stock', ['stock_id'], $match);
-        
+
         if (count($results) == 0){
           $this->logMessage('The import of germplasm to table:stock, !stock failed.',['!stock' => $stock['name']], TRIPAL_WARNING);
         }elseif (count($results) == 1){
@@ -386,7 +386,7 @@
           $germplasm_stock_id = $results[0]->stock_id;
         }
       }
-      
+
       // always update unique name, for both situations of this stock need insertion or exists already
       // check user input on prefix, use default if not exist
       if(!empty($user_prefix)){
@@ -395,7 +395,7 @@
       else{
         $unique_name_4update = 'GERM'.$germplasm_stock_id;
       }
-      
+
       $update_match = array(
         'name' => $stock['name'],
         'organism_id' => $organism,
@@ -404,9 +404,9 @@
       $update_value = array(
         'uniquename' => $unique_name_4update
         );
-      
+
       $results = chado_update_record('stock', $update_match, $update_value);
-      
+
       if ($results == FALSE){
         $this->logMessage('The uniquename update for stock, !stock failed.',['!stock' => $stock['name']], TRIPAL_WARNING);
       }
@@ -458,7 +458,7 @@
       elseif (count($results) == 1){
         //  load maternal parent to table stock_relationship
         $this->load_stock_relationship($stock['maternal_parent'], $maternal_parent_stock_id, $germplasm_stock_id, $CVTERM['maternal_parent']['type_id']);
-        
+
         //  load 'female parent' as a property table:stockprop
         //$shit->load_stockprop($stock['name'], $germplasm_stock_id, $CVTERM['femal_type']['type_id'], $stock['maternal_parent']);
       }
