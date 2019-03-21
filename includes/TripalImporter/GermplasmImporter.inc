@@ -328,18 +328,17 @@
         $stock['seed_type'] = $germ_col[6];
       }
       if($germ_col[7]){
-        $stock['cotyledon_color'] = $germ_col[7];
+        $stock['cotyledon_colour'] = $germ_col[7];
       }
       if($germ_col[8]){
-        $stock['seed_coat_color'] = $germ_col[8];
+        $stock['seed_coat_colour'] = $germ_col[8];
       }
       if($germ_col[9]){
         $stock['comment'] = $germ_col[9];
       }
 
-      //@log $this->logMessage(("\n\n".'Loading !stock.'),['!stock' => $stock['name']], TRIPAL_WARNING);
+      $this->logMessage(("\n\n".'Loading !stock.'),['!stock' => $stock['name']], TRIPAL_WARNING);
       //************************************************************************
-
       //FIRSRT: load to table Stock
       //check this germplasm name not exist in db
       // report error is yes
@@ -483,7 +482,7 @@
       }
 
     }//end of fget loop through uploaded file
-    return 1;
+    return [$file_path, $organism, $user_prefix];
  }// end of function loadGermplasm
 
 /** check all cv required in this module
