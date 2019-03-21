@@ -32,12 +32,12 @@ class ImportingTest extends TripalTestCase {
     $organism_id = $organism->organism_id;
 
     //$arguments['prefix'] = 'UnitTest_';
-    $user_prefix = 'UnitTest_';
+    $user_prefix = 'UnitTest';
 
     $importer = new \GermplasmImporter();
     //$importer->create($file_path, $organism_id, $user_prefix);
     $result = $importer->loadGermplasm($file_path, $organism_id, $user_prefix, $dbxref_id = NULL, $description = NULL, $is_obsolete = f);
-    var_dump($result);
+    //@test var_dump($result);
     return [
       'test_file_path' => trim($file_path, '"'),
       'organism_id' => $organism_id,
@@ -72,13 +72,13 @@ class ImportingTest extends TripalTestCase {
     $test_file = fopen(($insertion_result['test_file_path']), 'r');
     while ($line = fgets($test_file)) {
       //  test stock insertion in chado:stock
-      trim($line);
+      $line = trim($line);
       if (preg_match("/Year/", $line)){continue;}
-      //print($line);
+
       $line_explode = explode("\t", $line);
-      //var_dump($line_explode);
       
       $results = chado_select_record('stock', ['stock_id', 'uniquename', 'type_id'], ['name'=> $line_explode[2], 'organism_id'=> $insertion_result['organism_id'] ]);
+      
       $this->assertEquals(1, count($results), "No or more than one $line_explode[2] in db chado:stock.");
       $germ_stock_id = $results[0]->stock_id;
 
@@ -87,16 +87,13 @@ class ImportingTest extends TripalTestCase {
       $this->assertEquals('F1', $result[0]->name, "cvterm F1 does not match with cvterm in stock.");
 
       //  test prefix of uniquename
-      var_dump(preg_match($insertion_result['prefix'], $results[0]->uniquename));
-      //$this->assertTrue(preg_match($insertion_result['prefix'], $results[0]->uniquename), "User input suffix is not updated in db.");
-	$result = chado_select_record('stockprop', ['type_id', 'value'], ['stock_id'=>$germ_stock_id]);
-      var_dump($result);
+      $this->assertEquals('0', strpos($results[0]->uniquename, $insertion_result['prefix']), "User input suffix is not updated in db.");
+
+      $result = chado_select_record('stockprop', ['type_id', 'value'], ['stock_id'=>$germ_stock_id]);
       foreach($cvterm_term_check as $key => $value){
-	      print 'key:'. $key . 'value:' . $value. 'stock_id:'. $germ_stock_id .'value:'. $line_explode[$key] ."\n";
+	      //@test print 'key:'. $key . 'value:' . $value. 'stock_id:'. $germ_stock_id .'value:'. $line_explode[$key] ."\n";
 	      $result = chado_select_record('stockprop', ['type_id'], ['stock_id'=>$germ_stock_id, 'value'=>$line_explode[$key]]);
-	      var_dump($result);
 	      $result = chado_select_record('cvterm', ['name'], ['cvterm_id'=>$result[0]->type_id]);
-	      var_dump($result);
         $this->assertEquals($value, $result[0]->name, "cvterm $value does not match with cvterm in stockprop.");
       }
 
