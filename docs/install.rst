@@ -18,7 +18,7 @@ The module is availabe as one repository for `Pulse Bioinformatics, University o
   git clone https://github.com/UofS-Pulse-Binfo/tripal_germplasm_importer.git
 
 
-Germplasm Cross Importer should be installed by now and the status of our module can be checked in "Home » Administration » Tripal » Modules".
+Germplasm Cross Importer should be installed by now and the status of this module can be checked in "Home » Administration » Tripal » Modules".
 
 .. image:: install.1.tripal_module_page.png
 

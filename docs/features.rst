@@ -4,7 +4,7 @@ Germplasm Cross Importer is developed following `Tripal Developer’s Guide » C
 
 File Upload
 -----------
-Requirements for upload files can be found easily in the module.
+Format requirements for upload files can be found easily in the module.
 
 .. image:: features.1.file_upload.png
 
@@ -21,7 +21,7 @@ Bulk load germplasm crosses
 ---------------------------
 As Chado is the data store for Tripal, germplasm data will be saved in five `chado tables <https://laceysanderson.github.io/chado-docs/index.html>`_: cv, cvterm, stock, stockprop, and stock_relationship in this module.
 
-  - required control vocabularies (cv) and cvterms will be checked before data loading
+  - required control vocabularies (CV) and cvterms will be checked before data loading
 
   - germplasm crosses will be loaded into table stock
 
@@ -32,7 +32,7 @@ As Chado is the data store for Tripal, germplasm data will be saved in five `cha
 
   .. note::
 
-    CV and cvterm used in this module is customized for our database. Users can check their own database and modify the cv and cvterm accordingly.
+    CVs and cvterms used in this module is customized for our database. Users can check their own database and modify CVs and cvterms accordingly.
 
 PHP UnitTest
 ------------
