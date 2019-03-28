@@ -9,7 +9,7 @@ This module is developed following [Tripal Developer's Guide: Creating Custom Da
 2. PostgreSQL
 
 ## Germplasm File Format
-This module supports loading of spreadsheet file formats (txt, tst, csv, tsv):
+This module supports loading of spreadsheet file formats (txt, tsv):
 ```
 Year 	Season	Cross No.	Maternal Parent	Paternal Parent	Cross Type	Seed Type	Cotyledon Colour	Seed Coat	Comment
 2000	Winter	ABC	ABC_M	ABC_P	Backcross	Yellow  Yellow  Green Comment
