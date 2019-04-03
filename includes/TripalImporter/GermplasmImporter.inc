@@ -454,7 +454,7 @@
         // relationship with maternal parent should not exist, check it
         $result_sr_not_exist = chado_select_record('stock_relationship', ['stock_relationship_id'], ['object_id'  => $germplasm_stock_id, 'type_id' => $CVTERM['maternal_parent']['type_id'] ]);
         if (count($result_sr_not_exist) != 0){
-          $this->logMessage('WARNING: Stock relationship , !stock_relationship, exists in table:stock_relationship but different from new maternal parent in file.', ['!stock_relationship' => $stock['name']], TRIPAL_WARNING);
+          $this->logMessage('WARNING: Maternal parent for !stock_relationship NOT exist in DB but parent relationship does.', ['!stock_relationship' => $stock['name']], TRIPAL_WARNING);
         }
       }
       elseif (count($results) == 1){
@@ -477,7 +477,7 @@
         // relationship with paternal parent should not exist, check it
         $result_sr_not_exist = chado_select_record('stock_relationship', ['stock_relationship_id'], ['object_id'  => $germplasm_stock_id, 'type_id' => $CVTERM['paternal_parent']['type_id'] ]);
         if (count($result_sr_not_exist) != 0){
-          $this->logMessage('WARNING: Stock relationship , !stock_relationship, exists in table:stock_relationship but different from new paternal parent in file.', ['!stock_relationship' => $stock['name']], TRIPAL_WARNING);
+          $this->logMessage('WARNING: Paternal parent for !stock_relationship NOT exist in DB but parent relationship does.', ['!stock_relationship' => $stock['name']], TRIPAL_WARNING);
         }
       }
       elseif (count($results) == 1){
@@ -566,7 +566,7 @@ public function check_and_insert_cv($CV){
        'object_id'  => $stock_re_object_id,
        'type_id' => $stock_re_type_id
      );
-     $results_stock_rs_exist = chado_select_record('stock_relationship', ['stock_relationship_id'], $match);
+     $results_stock_rs_exist = chado_select_record('stock_relationship', ['stock_relationship_id', 'subject_id'], $match);
      
      $match = array(
        'subject_id' => $stock_re_subject_id,
@@ -583,12 +583,13 @@ public function check_and_insert_cv($CV){
        );
        chado_insert_record('stock_relationship', $values);
      }
-     elseif(count($results_stock_rs) > 1){
+     elseif(count($results_stock_rs_exist) > 1){
        $this->logMessage('ERROE: Stock relationship , !stock_relationship, has multiple same kind relationships in table:stock_relationship.', ['!stock_relationship' => $stock_re_name], TRIPAL_WARNING);
      }
      else{
        if (count($results_stock_rs) == 0){
-        $this->logMessage('WARNING: Stock relationship , !stock_relationship, exists in table:stock_relationship but different from new parent in file.', ['!stock_relationship' => $stock_re_name], TRIPAL_WARNING);
+          $result = chado_select_record('stock', ['name'], ['stock_id'=> $results_stock_rs_exist[0]->subject_id]);
+          $this->logMessage('WARNING: !stock_relationship has one relationship with !stock_parent but different from new parent in file.', ['!stock_relationship' => $stock_re_name, '!stock_parent' => $result[0]->name], TRIPAL_WARNING);
        }
      }
    }
