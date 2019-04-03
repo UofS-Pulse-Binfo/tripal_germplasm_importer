@@ -125,7 +125,11 @@
   }
 
   public function loadGermplasm($file_path, $organism, $user_prefix, $dbxref_id, $description, $is_obsolete){
-
+    
+    // print upload file name in Job LOGS
+    $file_name_exp = explode('/', $file_path);
+    $this->logMessage('Upload file name: !input_file ',['!input_file' => array_pop($file_name_exp)], TRIPAL_WARNING);
+    
     $CV = array(
       'schema' => array(
         'name' => 'schema',
@@ -247,7 +251,6 @@
     //database various so we need names for both cvterm and cv to determine specific cvterm id for a cvterm
     $CV = $this->check_and_insert_cv($CV);
     $CVTERM = $this->check_and_insert_cvterm($CVTERM, $CV);
-
 
     //From DOC (https://tripal.readthedocs.io/en/latest/dev_guide/custom_data_loader.html)
     // We want to provide a progress report to the end-user so that they:
@@ -584,7 +587,7 @@ public function check_and_insert_cv($CV){
        chado_insert_record('stock_relationship', $values);
      }
      elseif(count($results_stock_rs_exist) > 1){
-       $this->logMessage('ERROE: Stock relationship , !stock_relationship, has multiple same kind relationships in table:stock_relationship.', ['!stock_relationship' => $stock_re_name], TRIPAL_WARNING);
+       $this->logMessage('WARNING: !stock_relationship, has multiple same kind relationships in table:stock_relationship.', ['!stock_relationship' => $stock_re_name], TRIPAL_WARNING);
      }
      else{
        if (count($results_stock_rs) == 0){
