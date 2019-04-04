@@ -1,0 +1,121 @@
+<?php
+/**
+ *
+ */
+
+ /**
+   * Implement hook_enable()
+   */
+function tripal_germplasm_importer_enable(){
+
+  // ensure we have the cvs and cvterms
+  $CV = array(
+    'schema' => array(
+      'name' => 'schema',
+      'definition' => 'Schema.org. Schema.org is sponsored by Google, Microsoft, Yahoo and Yandex. The vocabularies are developed by an open community process.'
+      ),
+    'stock_relationship' => array(
+      'name' => 'stock_relationship',
+      'definition' => 'A local vocabulary that contains types of relationships between stocks.'
+      ),
+    'stock_property' => array(
+      'name' => 'stock_property',
+      'definition' => 'A local vocabulary that contains types of relationships between stocks.'
+      ),
+    'local' => array(
+      'name' => 'local',
+      'definition' => 'Locally created terms.'
+      ),
+    'stock_type' => array(
+      'name' => 'stock_type',
+      'definition' => 'A local vocabulary that contains a list of types for stocks.'
+      ),
+    );
+
+  $CVTERM = array(
+    'stock_type' => array(
+      'name' => 'F1',
+      'definition' => 'The first generation of offsprint from a parental cross.',
+      'cv_name' => 'stock_type',
+      'accession' => 'F1',
+      'db_name' => 'tripal'
+    ),
+    'cross_type' => array(
+      'name' => 'additionalType',
+      'definition' => '',
+      'cv_name' => 'schema',
+      'accession' => 'additionalType',
+      'db_name' => 'schema'
+    ),
+    'maternal_parent' => array(
+      'name' => 'is_maternal_parent_of',
+      'definition' => '',
+      'cv_name' => 'stock_relationship',
+      'accession' => 'is_maternal_parent_of',
+      'db_name' => 'tripal'
+    ),
+    'paternal_parent' => array(
+      'name' => 'is_paternal_parent_of',
+      'definition' => '',
+      'cv_name' => 'stock_relationship',
+      'accession' => 'is_paternal_parent_of',
+      'db_name' => 'tripal'
+    ),
+    'season' => array(
+      'name' => 'crossingblock_season',
+      'definition' => 'Indicates that the current stock was the progeny of a cross made in the season specified.',
+      'cv_name' => 'stock_property',
+      'accession' => 'crossingblock_season',
+      'db_name' => 'tripal'
+    ),
+    'year' => array(
+      'name' => 'crossingblock_year',
+      'definition' => 'Indicates that the current stock was the progeny of a cross made in the year specified.',
+      'cv_name' => 'stock_property',
+      'accession' => 'crossingblock_year',
+      'db_name' => 'tripal'
+    ),
+    'cotyledon_colour' => array(
+      'name' => 'cotyledon_colour',
+      'definition' => 'The colour of the cotyledon',
+      'cv_name' => 'stock_property',
+      'accession' => 'cotyledon_colour',
+      'db_name' => 'tripal'
+    ),
+    'seed_type' => array(
+      'name' => 'seed_type',
+      'definition' => 'Characteristics or observable phenotypes of the seed.',
+      'cv_name' => 'stock_property',
+      'accession' => 'seed_type',
+      'db_name' => 'tripal'
+    ),
+    'seed_coat_colour' => array(
+      'name' => 'seed_coat_colour',
+      'definition' => 'The colour of the seed coat',
+      'cv_name' => 'stock_property',
+      'accession' => 'seed_coat_colour',
+      'db_name' => 'tripal'
+    ),
+    'comment' => array(
+      'name' => 'comment',
+      'definition' => 'Comments, typically from users. ',
+      'cv_name' => 'schema',
+      'accession' => 'comment',
+      'db_name' => 'schema'
+    )
+  );
+
+  foreach ($CV as $cv_key => $cv_value){
+    tripal_insert_cv($cv_value['name'], $cv_value['definition']);
+  }
+
+  foreach($CVTERM as $cvterm_key => $cvterm_value){
+    tripal_insert_cvterm(array(
+      'name' => $cvterm_value['name'],
+      'id' => $cvterm_value['db_name'].':'.$cvterm_value['accession'],
+      'cv_name' => $cvterm_value['cv_name'],
+      'definition' => $cvterm_value['definition']
+    ));
+  }
+
+}
