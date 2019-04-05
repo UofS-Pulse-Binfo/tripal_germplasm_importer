@@ -126,6 +126,10 @@
 
   public function loadGermplasm($file_path, $organism, $user_prefix, $dbxref_id, $description, $is_obsolete){
 
+    // print upload file name in Job LOGS
+    $file_name_exp = explode('/', $file_path);
+    $this->logMessage('Upload file name: !input_file ',['!input_file' => array_pop($file_name_exp)], TRIPAL_WARNING);
+
     $CV = array(
       'schema' => array(
         'name' => 'schema',
@@ -247,7 +251,6 @@
     //database various so we need names for both cvterm and cv to determine specific cvterm id for a cvterm
     $CV = $this->check_and_insert_cv($CV);
     $CVTERM = $this->check_and_insert_cvterm($CVTERM, $CV);
-
 
     //From DOC (https://tripal.readthedocs.io/en/latest/dev_guide/custom_data_loader.html)
     // We want to provide a progress report to the end-user so that they:
@@ -443,42 +446,52 @@
       //TO-DO: check if insertion is successful?
 
       //  check maternal parent exist in db
-      $match = array(
-        'name' => $stock['maternal_parent'],
-        'organism_id' => $organism
-      );
-      $results = chado_select_record('stock', ['stock_id'], $match);
-      $maternal_parent_stock_id = $results[0]->stock_id;
+      if ($stock['maternal_parent']){
+        $match = array(
+          'name' => $stock['maternal_parent'],
+          'organism_id' => $organism
+        );
+        $results = chado_select_record('stock', ['stock_id'], $match);
+        $maternal_parent_stock_id = $results[0]->stock_id;
 
-      if (count($results) == 0){
-        //@log $this->logMessage('The stock, !stock, of maternal parent does not exist in the database',['!stock' => $stock['maternal_parent']], TRIPAL_WARNING);
-        //continue;
-      }
-      elseif (count($results) == 1){
-        //  load maternal parent to table stock_relationship
-        $this->load_stock_relationship($stock['maternal_parent'], $maternal_parent_stock_id, $germplasm_stock_id, $CVTERM['maternal_parent']['type_id']);
+        if (count($results) == 0){
+          // relationship with maternal parent should not exist, check it
+          $result_sr_not_exist = chado_select_record('stock_relationship', ['stock_relationship_id'], ['object_id'  => $germplasm_stock_id, 'type_id' => $CVTERM['maternal_parent']['type_id'] ]);
+          if (count($result_sr_not_exist) != 0){
+            $this->logMessage('WARNING: Maternal parent for !stock_relationship NOT exist in DB but parent relationship does.', ['!stock_relationship' => $stock['name']], TRIPAL_WARNING);
+          }
+        }
+        elseif (count($results) == 1){
+          //  load maternal parent to table stock_relationship
+          $this->load_stock_relationship($stock['name'], $maternal_parent_stock_id, $germplasm_stock_id, $CVTERM['maternal_parent']['type_id']);
 
-        //  load 'female parent' as a property table:stockprop
-        //$shit->load_stockprop($stock['name'], $germplasm_stock_id, $CVTERM['femal_type']['type_id'], $stock['maternal_parent']);
+          //  load 'female parent' as a property table:stockprop
+          //$shit->load_stockprop($stock['name'], $germplasm_stock_id, $CVTERM['femal_type']['type_id'], $stock['maternal_parent']);
+        }
       }
 
       //  check paternal parent exist in db
-      $match = array(
-        'name' => $stock['paternal_parent'],
-        'organism_id' => $organism
-      );
-      $results = chado_select_record('stock', ['stock_id'], $match);
-      $paternal_parent_stock_id = $results[0]->stock_id;
+      if($stock['paternal_parent']){
+        $match = array(
+          'name' => $stock['paternal_parent'],
+          'organism_id' => $organism
+        );
+        $results = chado_select_record('stock', ['stock_id'], $match);
+        $paternal_parent_stock_id = $results[0]->stock_id;
 
-      if (count($results) == 0){
-        //@log $this->logMessage('The stock, !stock, of paternal parent does not exist in the database',['!stock' => $stock['paternal_parent']], TRIPAL_WARNING);
-        //continue;
-      }
-      elseif (count($results) == 1){
-        //  load paternal parent to table stock_relationship
-        $this->load_stock_relationship($stock['paternal_parent'], $paternal_parent_stock_id, $germplasm_stock_id, $CVTERM['paternal_parent']['type_id']);
-        //  load 'female parent' as a property to table:stockprop
-        //$shit->load_stockprop($stock['name'], $germplasm_stock_id, $CVTERM['male_type']['type_id'], $stock['paternal_parent']);
+        if (count($results) == 0){
+          // relationship with paternal parent should not exist, check it
+          $result_sr_not_exist = chado_select_record('stock_relationship', ['stock_relationship_id'], ['object_id'  => $germplasm_stock_id, 'type_id' => $CVTERM['paternal_parent']['type_id'] ]);
+          if (count($result_sr_not_exist) != 0){
+            $this->logMessage('WARNING: Paternal parent for !stock_relationship NOT exist in DB but parent relationship does.', ['!stock_relationship' => $stock['name']], TRIPAL_WARNING);
+          }
+        }
+        elseif (count($results) == 1){
+          //  load paternal parent to table stock_relationship
+          $this->load_stock_relationship($stock['name'], $paternal_parent_stock_id, $germplasm_stock_id, $CVTERM['paternal_parent']['type_id']);
+          //  load 'female parent' as a property to table:stockprop
+          //$shit->load_stockprop($stock['name'], $germplasm_stock_id, $CVTERM['male_type']['type_id'], $stock['paternal_parent']);
+        }
       }
 
     }//end of fget loop through uploaded file
@@ -555,14 +568,21 @@ public function check_and_insert_cv($CV){
   * @param  $stock_re_type_id
   */
    public function load_stock_relationship($stock_re_name, $stock_re_subject_id, $stock_re_object_id, $stock_re_type_id){
+
+      $match = array(
+       'object_id'  => $stock_re_object_id,
+       'type_id' => $stock_re_type_id
+     );
+     $results_stock_rs_exist = chado_select_record('stock_relationship', ['stock_relationship_id', 'subject_id'], $match);
+
      $match = array(
        'subject_id' => $stock_re_subject_id,
        'object_id'  => $stock_re_object_id,
        'type_id' => $stock_re_type_id
      );
      $results_stock_rs = chado_select_record('stock_relationship', ['stock_relationship_id'], $match);
-     if (count($results_stock_rs) == 0){
-       // for test, delete after: echo 'Talbe:stock_relationship insertion for ' . $stock_re_name . ':subject_id: ' . $stock_re_subject_id . ';object_id ' . $stock_re_object_id . ';type_id: ' . $stock_re_type_id . "\n";
+
+     if (count($results_stock_rs_exist) == 0){
        $values = array(
          'subject_id' => $stock_re_subject_id,
          'object_id' => $stock_re_object_id,
@@ -570,12 +590,14 @@ public function check_and_insert_cv($CV){
        );
        chado_insert_record('stock_relationship', $values);
      }
-     elseif(count($results_stock_rs) == 1){
-       //@log $this->logMessage('Stock relationship , !stock_relationship, exists in table:stock_relationship already.', ['!stock_relationship' => $stock_re_name], TRIPAL_WARNING);
+     elseif(count($results_stock_rs_exist) > 1){
+       $this->logMessage('WARNING: !stock_relationship, has multiple same kind relationships in table:stock_relationship.', ['!stock_relationship' => $stock_re_name], TRIPAL_WARNING);
      }
      else{
-       // report for error, this property for this stock should only have one match
-       $this->logMessage('ERROE: Stock relationship , !stock_relationship, has multiple matches in table:stock_relationship.', ['!stock_relationship' => $stock_re_name], TRIPAL_WARNING);
+       if (count($results_stock_rs) == 0){
+          $result = chado_select_record('stock', ['name'], ['stock_id'=> $results_stock_rs_exist[0]->subject_id]);
+          $this->logMessage('WARNING: !stock_relationship has one relationship with !stock_parent but different from new parent in file.', ['!stock_relationship' => $stock_re_name, '!stock_parent' => $result[0]->name], TRIPAL_WARNING);
+       }
      }
    }
 
