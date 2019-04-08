@@ -18,3 +18,6 @@ Year 	Season	Cross No.	Maternal Parent	Paternal Parent	Cross Type	Seed Type	Coty
 Germplasm loaded by this module will be stored in chado in talbes: stock, stockprop, and stock_relationship. Germplasm will be stored in stock, their features will be stored in stockprop, and their relationships with parents will be stored in stock_relationship.
 
 Controlled vocabulary terms required by this module are expected in chado or will be inserted.
+
+## Documentation
+Please visit our [online documentation](https://tripal-germplasm-importer.readthedocs.io/en/latest/index.html) to learn more details about this module.
