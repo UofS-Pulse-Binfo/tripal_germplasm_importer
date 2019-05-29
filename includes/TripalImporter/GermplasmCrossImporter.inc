@@ -3,7 +3,7 @@
 /**
  * @see TripalImporter
  */
- class GermplasmImporter extends TripalImporter {
+ class GermplasmCrossImporter extends TripalImporter {
 
   /**
    * The name of this loader.  This name will be presented to the site
@@ -15,7 +15,7 @@
    * The machine name for this loader. This name will be used to construct
    * the URL for the loader.
    */
-  public static $machine_name = 'tripal_germplasm_importer';
+  public static $machine_name = 'tripal_germplasm_cross_importer';
 
   /**
    * A brief description for this loader.  This description will be
@@ -121,10 +121,10 @@
     $organism_id = $arguments['organism_id'];
     $user_prefix = $arguments['prefix'];
 
-    $this->loadGermplasm($file_path, $organism_id, $user_prefix, $dbxref_id = NULL, $description = NULL, $is_obsolete = f);
+    $this->loadGermplasmCross($file_path, $organism_id, $user_prefix, $dbxref_id = NULL, $description = NULL, $is_obsolete = f);
   }
 
-  public function loadGermplasm($file_path, $organism, $user_prefix, $dbxref_id, $description, $is_obsolete){
+  public function loadGermplasmCross($file_path, $organism, $user_prefix, $dbxref_id, $description, $is_obsolete){
 
     // print upload file name in Job LOGS
     $file_name_exp = explode('/', $file_path);
