@@ -1,0 +1,2287 @@
+format-version: 1.2
+date: 10:09:2009 14:26
+auto-generated-by: OBO-Edit 2.0
+default-namespace: GCP germplasm ontology
+namespace-id-rule: * CO_010:$sequence(7,0,9999999)$
+
+[Term]
+id: CO_010:0000000
+name: GCP germplasm ontology
+comment: release date: July 31, 2007\nversion: 1.0 Adapted from Descriptors for Banana (Musa spp.) (1996) and Descriptors for Mango by Bioversity\ncoverage: General germplasm descriptors\ncreator: Jeffrey Detras, Tom Hazekamp and Richard Bruskiewich\npublisher: Bioversity International and IRRI for the Generation Challenge Program
+xref: GCPDomainModel:CO_000:0000165
+
+[Term]
+id: CO_010:0000003
+name: collected germplasm descriptor
+is_a: CO_010:0000020 ! origin descriptor
+relationship: CO_010:0000002 CO_010:0000254 ! collected germplasm
+
+[Term]
+id: CO_010:0000004
+name: elevation of collecting site
+comment: Elevation of collecting site expressed in meters above sea level. Negative values allowed. Format:[m asl].
+synonym: "ELEVATION" EXACT []
+xref: multicrop passport ontology:CO_020:0000017
+is_a: CO_010:0000226 ! collecting site descriptor
+
+[Term]
+id: CO_010:0000005
+name: collecting or acquisition source
+comment: The coding scheme proposed can be used at 2 different levels of detail: Either by using the global codes such as 1, 2, 3, 4 or by using the more detailed coding such as 1.1, 1.2, 1.3 etc.
+synonym: "COLLSRC" EXACT []
+xref: multicrop passport ontology:CO_020:0000022
+is_a: CO_010:0000226 ! collecting site descriptor
+
+[Term]
+id: CO_010:0000006
+name: photograph
+comment: Was a photograph(s) taken of the accession or habitat at the time of collecting? If so,provide an identification number(s) in descriptor collector's notes.
+is_a: CO_010:0000256 ! collecting event descriptor
+
+[Term]
+id: CO_010:0000007
+name: primary administrative subdivision
+comment: Name of the primary administrative subdivision of the country in which the sample was collected.
+synonym: "province" RELATED []
+synonym: "state" RELATED []
+xref: GCPDomainModel:CO_000:0000142
+is_a: CO_010:0000226 ! collecting site descriptor
+
+[Term]
+id: CO_010:0000008
+name: latitude of collecting site
+comment: Degrees and minutes followed by N (North) or S (South) (e.g. 1030S). Missing data (minutes) should be indicated with hyphen (e.g. 10 S).
+synonym: "LATITUDE" EXACT []
+xref: multicrop passport ontology:CO_020:0000015
+is_a: CO_010:0000226 ! collecting site descriptor
+
+[Term]
+id: CO_010:0000009
+name: prevailing stress
+comment: Information on associated biotic and abiotic stresses and the accessions reaction. Indicate if disease indexing was done at the time of collecting in descriptor collector's notes.
+is_a: CO_010:0000226 ! collecting site descriptor
+
+[Term]
+id: CO_010:0000010
+name: country of origin
+comment: Name of the country in which the sample was originally collected or derived. Use the ISO 3166 extended codes, (i.e. current and old 3 letter ISO 3166 country codes).
+synonym: "country of collecting" RELATED []
+synonym: "ORIGCTY" EXACT []
+xref: GCPDomainModel:CO_000:0000173
+xref: multicrop passport ontology:CO_020:0000013
+is_a: CO_010:0000226 ! collecting site descriptor
+
+[Term]
+id: CO_010:0000011
+name: ethnic group
+comment: Name of the tribe of the farmer donating the sample or of the people living in the area of collecting.
+is_a: CO_010:0000227 ! ethnobotany descriptor
+
+[Term]
+id: CO_010:0000012
+name: associated flora
+comment: Other dominant crop/plant species, found in and around the collecting site.
+is_a: CO_010:0000226 ! collecting site descriptor
+
+[Term]
+id: CO_010:0000013
+name: post-movement activities data
+comment: Use descriptors destination of the accession and treatment of sample during mission in pre- and post-movement activities data.
+is_a: CO_010:0000003 ! collected germplasm descriptor
+
+[Term]
+id: CO_010:0000014
+name: collecting number
+comment: Original number assigned by the collector(s) of the sample, normally composed of the name or initials of the collector(s) followed by a number. This item is essential for identifying duplicates held in different collections. It should be unique and always accompany subsamples wherever they are sent.
+synonym: "COLLNUMB" EXACT []
+xref: multicrop passport ontology:CO_020:0000003
+is_a: CO_010:0000021 ! accession identifier descriptor
+
+[Term]
+id: CO_010:0000015
+name: plant population density
+is_a: CO_010:0000256 ! collecting event descriptor
+
+[Term]
+id: CO_010:0000016
+name: plant use
+is_a: CO_010:0000227 ! ethnobotany descriptor
+
+[Term]
+id: CO_010:0000017
+name: cultural method
+is_a: CO_010:0000227 ! ethnobotany descriptor
+is_a: CO_010:0000345 ! multiplication descriptor
+is_a: CO_010:0000375 ! regeneration descriptor
+
+[Term]
+id: CO_010:0000018
+name: status of plantation
+is_a: CO_010:0000017 ! cultural method
+
+[Term]
+id: CO_010:0000019
+name: cropping system
+is_a: CO_010:0000017 ! cultural method
+
+[Term]
+id: CO_010:0000020
+name: origin descriptor
+is_a: CO_010:0000037 ! accession descriptor
+
+[Term]
+id: CO_010:0000021
+name: accession identifier descriptor
+is_a: CO_010:0000037 ! accession descriptor
+
+[Term]
+id: CO_010:0000022
+name: biological status of accession
+comment: The coding scheme proposed can be used at 3 different levels of detail: either by using the general codes (in boldface) such as 100, 200, 300, 400 or by using the more specific codes such as 110, 120 etc.
+synonym: "SAMPSTAT" EXACT []
+synonym: "status of sample" RELATED []
+xref: GCPDomainModel:CO_000:0000138
+xref: multicrop passport ontology:CO_020:0000020
+is_a: CO_010:0000037 ! accession descriptor
+
+[Term]
+id: CO_010:0000023
+name: collecting source environment
+comment: Use collecting and/or characterization/evaluation site environment descriptors.
+is_a: CO_010:0000226 ! collecting site descriptor
+
+[Term]
+id: CO_010:0000024
+name: collecting institute code
+comment: Code of the Institute collecting the sample. If the holding institute has collected the material, the collecting institute code (COLLCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard.
+synonym: "COLLCODE" EXACT []
+xref: multicrop passport ontology:CO_020:0000004
+is_a: CO_010:0000080 ! collecting mission descriptor
+is_a: CO_010:0000154 ! institute code
+
+[Term]
+id: CO_010:0000025
+name: local name
+comment: Name given by farmer to crop and cultivar/landrace/weed. State language and dialect if the ethnic group is not provided.
+synonym: "vernacular name" RELATED []
+is_a: CO_010:0000237 ! local germplasm name descriptor
+
+[Term]
+id: CO_010:0000026
+name: longitude of collecting site
+comment: Degrees and minutes followed by E (East) or W (West) (e.g. 07625W). Missing data (minutes) should be indicated with hyphen (e.g. 076 W).
+synonym: "LONGITUDE" EXACT []
+xref: multicrop passport ontology:CO_020:0000016
+is_a: CO_010:0000226 ! collecting site descriptor
+
+[Term]
+id: CO_010:0000027
+name: herbarium specimen
+comment: Was a herbarium specimen collected? If so, provide an identification number in descriptor.
+is_a: CO_010:0000256 ! collecting event descriptor
+
+[Term]
+id: CO_010:0000028
+name: location of collecting site
+comment: Location information below the country level that describes where the accession was collected starting with the most detailed information. Might include the distance in kilometers and direction from the nearest town, village or map grid reference point, (e.g. CURITIBA 7S, PARANA means 7 km south of Curitiba in the state of Parana).
+synonym: "COLLSITE" EXACT []
+xref: multicrop passport ontology:CO_020:0000014
+is_a: CO_010:0000226 ! collecting site descriptor
+
+[Term]
+id: CO_010:0000029
+name: cultivar
+is_a: CO_010:0000224 ! taxon rank
+
+[Term]
+id: CO_010:0000030
+name: collecting date of sample
+comment: Collecting date of the sample where YYYY is the year, MM is the month and DD is the day. Missing data (MM or DD) should be indicated with hyphens. Leading zeros are required. Format: [DDMMYYYY].
+synonym: "COLLDATE" EXACT []
+xref: multicrop passport ontology:CO_020:0000018
+is_a: CO_010:0000256 ! collecting event descriptor
+
+[Term]
+id: CO_010:0000031
+name: collector's note
+comment: Additional information recorded by the collector or any specific information on any state in any of the above descriptors.
+is_a: CO_010:0000256 ! collecting event descriptor
+
+[Term]
+id: CO_010:0000032
+name: secondary administrative subdivision
+comment: Name of the secondary administrative subdivision (within a Province/State) of the country in which the sample was collected.
+synonym: "county" RELATED []
+synonym: "department" RELATED []
+xref: GCPDomainModel:CO_000:0000142
+is_a: CO_010:0000226 ! collecting site descriptor
+
+[Term]
+id: CO_010:0000033
+name: site number
+comment: Number assigned to the physical site by the collector.
+is_a: CO_010:0000226 ! collecting site descriptor
+
+[Term]
+id: CO_010:0000034
+name: number of plants sampled
+is_a: CO_010:0000256 ! collecting event descriptor
+
+[Term]
+id: CO_010:0000035
+name: parts of the plant used
+is_a: CO_010:0000227 ! ethnobotany descriptor
+
+[Term]
+id: CO_010:0000036
+name: type of sample collected
+comment: Form of sample collected. If different types of material were collected from the same source, each sample type should be designated with a unique collecting number and a corresponding unique accession number.
+is_a: CO_010:0000256 ! collecting event descriptor
+
+[Term]
+id: CO_010:0000037
+name: accession descriptor
+is_a: CO_010:0000374 ! passport descriptor
+relationship: CO_010:0000002 CO_010:0000044 ! accession
+
+[Term]
+id: CO_010:0000038
+name: full scientific name
+comment: The full name of the lowest taxon to which the organism can be identified.The full name of the lowest taxon to which the organism can be identified.
+is_a: CO_010:0000223 ! taxonomy descriptor
+
+[Term]
+id: CO_010:0000039
+name: species
+comment: Specific epithet portion of the scientific name in lowercase letters plus authority1. Following abbreviation is allowed: sp.
+synonym: "SPECIES" EXACT []
+xref: GCPDomainModel:CO_000:0000205
+xref: multicrop passport ontology:CO_020:0000006
+is_a: CO_010:0000224 ! taxon rank
+
+[Term]
+id: CO_010:0000040
+name: subtaxa
+comment: Subtaxa can be used to store any additional taxonomic identifier plus authority1. Following abbreviations are allowed: ssp. (for subspecies); var. (for variety); convar. (for convariety); f. (for form).
+synonym: "Subspecies" RELATED []
+synonym: "SUBTAXA" EXACT []
+xref: GCPDomainModel:CO_000:0000151
+xref: multicrop passport ontology:CO_020:0000008
+is_a: CO_010:0000224 ! taxon rank
+
+[Term]
+id: CO_010:0000041
+name: reference form
+comment: Either a registered or other formal designation given to the accession (e.g. Pisang Mas is the reference name to be used for cultivars Figue sucre Amas, Kluai Khai, etc.).
+synonym: "cultivar" RELATED []
+is_a: CO_010:0000223 ! taxonomy descriptor
+
+[Term]
+id: CO_010:0000042
+name: genus
+comment: Genus name for taxon. Initial Uppercase letter required.
+synonym: "GENUS" EXACT []
+xref: GCPDomainModel:CO_000:0000154
+xref: multicrop passport ontology:CO_020:0000005
+is_a: CO_010:0000224 ! taxon rank
+
+[Term]
+id: CO_010:0000043
+name: section
+is_a: CO_010:0000224 ! taxon rank
+
+[Term]
+id: CO_010:0000044
+name: accession
+xref: GCPDomainModel:CO_000:0000115
+is_a: CO_010:0000151 ! entity
+
+[Term]
+id: CO_010:0000045
+name: accession name
+comment: Either a registered or other formal designation given to the accession. First letter uppercase. Multiple names separated with semicolon.
+synonym: "ACCENAME" EXACT []
+xref: multicrop passport ontology:CO_020:0000011
+is_a: CO_010:0000021 ! accession identifier descriptor
+
+[Term]
+id: CO_010:0000046
+name: synonym
+comment: Include here any previous identification other than the current name and the country. Collecting number or newly assigned station name are frequently used as identifiers.
+is_a: CO_010:0000021 ! accession identifier descriptor
+
+[Term]
+id: CO_010:0000047
+name: translation
+comment: Provide translation of the local accession name into English.
+synonym: "transliteration" RELATED []
+is_a: CO_010:0000237 ! local germplasm name descriptor
+is_a: CO_010:0000249 ! crop name descriptor
+
+[Term]
+id: CO_010:0000048
+name: local language
+comment: Language in which the accession name is given.
+is_a: CO_010:0000237 ! local germplasm name descriptor
+is_a: CO_010:0000249 ! crop name descriptor
+
+[Term]
+id: CO_010:0000049
+name: accession size
+comment: Number of seeds, seedlings, budsticks, in vitro plants, etc. of an accession in the genebank.
+is_a: CO_010:0000037 ! accession descriptor
+
+[Term]
+id: CO_010:0000050
+name: previous location
+comment: Register other known previous locations of the accession, from the most recent to the oldest known location.
+is_a: CO_010:0000003 ! collected germplasm descriptor
+
+[Term]
+id: CO_010:0000051
+name: remarks
+comment: The remarks field is used to add notes or to elaborate on descriptors with value 99 or 999 (=Other). Prefix remarks with the field name they refer to and a colon (e.g. COLLSRC:riverside). Separate remarks referring to different fields are separated by semicolons without space.
+synonym: "notes" RELATED []
+synonym: "REMARKS" EXACT []
+xref: multicrop passport ontology:CO_020:0000028
+is_a: CO_010:0000037 ! accession descriptor
+is_a: CO_010:0000124 ! management descriptor
+
+[Term]
+id: CO_010:0000052
+name: pedigree information
+comment: Parentage or nomenclature, and designations assigned to breeders material, in the case of an artificial hybrid only.
+is_a: CO_010:0000152 ! ancestral data
+
+[Term]
+id: CO_010:0000053
+name: female parent
+is_a: CO_010:0000220 ! parentage of pedigree
+
+[Term]
+id: CO_010:0000054
+name: male parent
+is_a: CO_010:0000220 ! parentage of pedigree
+
+[Term]
+id: CO_010:0000055
+name: pedigree release year
+is_a: CO_010:0000052 ! pedigree information
+
+[Term]
+id: CO_010:0000056
+name: donor name
+comment: Name of institution or individual responsible for donating the germplasm.
+is_a: CO_010:0000225 ! donated germplasm descriptor
+
+[Term]
+id: CO_010:0000057
+name: acquisition date
+comment: Date on which the accession entered the collection where YYYY is the year, MM is the month and DD is the day. Missing data (MM or DD) should be indicated with hyphens. Leading zeros are required. Format: [DDMMYYYY].
+synonym: "ACQDATE" EXACT []
+xref: multicrop passport ontology:CO_020:0000012
+is_a: CO_010:0000037 ! accession descriptor
+
+[Term]
+id: CO_010:0000058
+name: accession number
+comment: This number serves as a unique identifier for accessions and is assigned when an accession is entered into the collection. Once assigned this number should never be reassigned to another accession in the collection. Even if an accession is lost, its assigned number should never be reused. Letters should be used before the number to identify the genebank or national system (e.g. IDG indicates an accession that comes from the genebank at Bari, Italy; CGN indicates an accession from the genebank at Wageningen, The Netherlands; PI indicates an accession within the USA system).
+synonym: "ACCENUMB" EXACT []
+xref: multicrop passport ontology:CO_020:0000002
+is_a: CO_010:0000021 ! accession identifier descriptor
+is_a: CO_010:0000124 ! management descriptor
+is_a: CO_010:0000345 ! multiplication descriptor
+is_a: CO_010:0000375 ! regeneration descriptor
+
+[Term]
+id: CO_010:0000059
+name: donor accession number
+comment: Number assigned to an accession by the donor. Follows ACCENUMB standard.
+synonym: "DONORNUMB" EXACT []
+xref: multicrop passport ontology:CO_020:0000024
+is_a: CO_010:0000058 ! accession number
+is_a: CO_010:0000225 ! donated germplasm descriptor
+
+[Term]
+id: CO_010:0000060
+name: type of material received
+is_a: CO_010:0000037 ! accession descriptor
+
+[Term]
+id: CO_010:0000061
+name: other identification number
+comment: Other identification (numbers) associated with the accession (OTHERNUMB)\nAny other identification (numbers) known to exist in other collections for this accession. Use the following system: INSTCODE:ACCENUMB;INSTCODE:ACCENUMB; INSTCODE and ACCENUMB follow the standard described above and are separated by a colon. Pairs of INSTCODE and ACCENUMB are separated by a semicolon without space. When the institute is not known, the number should be preceded by a colon.
+synonym: "other number(s) associated with the accession" RELATED []
+synonym: "OTHERNUMB" EXACT []
+xref: multicrop passport ontology:CO_020:0000025
+is_a: CO_010:0000021 ! accession identifier descriptor
+
+[Term]
+id: CO_010:0000062
+name: cultivar group
+is_a: CO_010:0000224 ! taxon rank
+
+[Term]
+id: CO_010:0000063
+name: taxonomic reference
+is_a: CO_010:0000223 ! taxonomy descriptor
+
+[Term]
+id: CO_010:0000064
+name: PassportDescriptorCode
+is_a: CO_010:0000234 ! GermplasmDescriptorCode
+
+[Term]
+id: CO_010:0000065
+name: CollectingOrAcquisitionSourceCode
+xref: GCPDomainModel:CO_000:0000136
+xref: multicrop passport ontology:CO_020:0000076
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000005 ! collecting or acquisition source
+
+[Term]
+id: CO_010:0000066
+name: 10 wild habitat
+xref: multicrop passport ontology:CO_020:0000044
+is_a: CO_010:0000065 ! CollectingOrAcquisitionSourceCode
+
+[Term]
+id: CO_010:0000067
+name: 20 farm or cultivated habitat
+xref: multicrop passport ontology:CO_020:0000050
+is_a: CO_010:0000065 ! CollectingOrAcquisitionSourceCode
+
+[Term]
+id: CO_010:0000068
+name: 30 market or shop
+xref: multicrop passport ontology:CO_020:0000059
+is_a: CO_010:0000065 ! CollectingOrAcquisitionSourceCode
+
+[Term]
+id: CO_010:0000069
+name: 40 research organization
+comment: Source can also be an institute, experimental station or genebank.
+xref: multicrop passport ontology:CO_020:0000060
+is_a: CO_010:0000065 ! CollectingOrAcquisitionSourceCode
+
+[Term]
+id: CO_010:0000070
+name: other export procedure
+comment: Specify in descriptor remarks.
+xref: multicrop passport ontology:CO_020:0000043
+is_a: CO_010:0000130 ! export procedure
+
+[Term]
+id: CO_010:0000071
+name: PlantPopulationDensityCode
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000015 ! plant population density
+
+[Term]
+id: CO_010:0000072
+name: 3 low plant population density
+is_a: CO_010:0000071 ! PlantPopulationDensityCode
+
+[Term]
+id: CO_010:0000073
+name: 5 intermediate plant population density
+is_a: CO_010:0000071 ! PlantPopulationDensityCode
+
+[Term]
+id: CO_010:0000074
+name: 7 high plant population density
+is_a: CO_010:0000071 ! PlantPopulationDensityCode
+
+[Term]
+id: CO_010:0000075
+name: PlantUseCode
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000016 ! plant use
+
+[Term]
+id: CO_010:0000076
+name: 1 textile
+is_a: CO_010:0000075 ! PlantUseCode
+
+[Term]
+id: CO_010:0000077
+name: 2 building
+is_a: CO_010:0000075 ! PlantUseCode
+
+[Term]
+id: CO_010:0000078
+name: 3 food
+is_a: CO_010:0000075 ! PlantUseCode
+
+[Term]
+id: CO_010:0000079
+name: 4 ornamental
+is_a: CO_010:0000075 ! PlantUseCode
+
+[Term]
+id: CO_010:0000080
+name: collecting mission descriptor
+is_a: CO_010:0000003 ! collected germplasm descriptor
+
+[Term]
+id: CO_010:0000081
+name: StatusOfPlantationCode
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000018 ! status of plantation
+
+[Term]
+id: CO_010:0000082
+name: 1 backyard
+is_a: CO_010:0000081 ! StatusOfPlantationCode
+
+[Term]
+id: CO_010:0000083
+name: 2 smallholding
+comment: A smallholding is less than 5 hectares.
+is_a: CO_010:0000081 ! StatusOfPlantationCode
+
+[Term]
+id: CO_010:0000084
+name: 3 midsize holding
+comment: A midsize holding is 5 to 10 hectares.
+is_a: CO_010:0000081 ! StatusOfPlantationCode
+
+[Term]
+id: CO_010:0000085
+name: 4 plantation
+comment: A plantation is greater than 10 hectares.
+is_a: CO_010:0000081 ! StatusOfPlantationCode
+
+[Term]
+id: CO_010:0000086
+name: collecting mission code
+is_a: CO_010:0000080 ! collecting mission descriptor
+
+[Term]
+id: CO_010:0000087
+name: collecting mission title
+is_a: CO_010:0000080 ! collecting mission descriptor
+
+[Term]
+id: CO_010:0000088
+name: collecting mission start date
+is_a: CO_010:0000080 ! collecting mission descriptor
+
+[Term]
+id: CO_010:0000089
+name: BiologicalStatusOfAccessionCode
+xref: GCPDomainModel:CO_000:0000071
+xref: multicrop passport ontology:CO_020:0000075
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000022 ! biological status of accession
+
+[Term]
+id: CO_010:0000090
+name: 100 wild
+xref: multicrop passport ontology:CO_020:0000029
+is_a: CO_010:0000089 ! BiologicalStatusOfAccessionCode
+
+[Term]
+id: CO_010:0000091
+name: 200 weedy
+xref: multicrop passport ontology:CO_020:0000032
+is_a: CO_010:0000089 ! BiologicalStatusOfAccessionCode
+
+[Term]
+id: CO_010:0000092
+name: 300 traditional cultivar
+synonym: "landrace" RELATED []
+synonym: "primitive cultivar" RELATED []
+xref: multicrop passport ontology:CO_020:0000033
+is_a: CO_010:0000089 ! BiologicalStatusOfAccessionCode
+
+[Term]
+id: CO_010:0000093
+name: 410 breeder's line
+xref: multicrop passport ontology:CO_020:0000035
+is_a: CO_010:0000159 ! 400 breedingmaterial
+
+[Term]
+id: CO_010:0000094
+name: 500 improved cultivar
+synonym: "advanced cultivar" RELATED []
+xref: multicrop passport ontology:CO_020:0000042
+is_a: CO_010:0000089 ! BiologicalStatusOfAccessionCode
+
+[Term]
+id: CO_010:0000095
+name: collecting mission end date
+is_a: CO_010:0000080 ! collecting mission descriptor
+
+[Term]
+id: CO_010:0000096
+name: collector descriptor
+is_a: CO_010:0000256 ! collecting event descriptor
+
+[Term]
+id: CO_010:0000097
+name: collector name
+is_a: CO_010:0000096 ! collector descriptor
+
+[Term]
+id: CO_010:0000098
+name: collector institute
+is_a: CO_010:0000096 ! collector descriptor
+
+[Term]
+id: CO_010:0000099
+name: in vitro regeneration process
+is_a: CO_010:0000307 ! in vitro conservation descriptor
+
+[Term]
+id: CO_010:0000100
+name: location after the last in vitro subculture
+is_a: CO_010:0000307 ! in vitro conservation descriptor
+
+[Term]
+id: CO_010:0000101
+name: 999 other biological status of accession
+comment: Specify in descriptor collector's notes.
+xref: multicrop passport ontology:CO_020:0000043
+is_a: CO_010:0000089 ! BiologicalStatusOfAccessionCode
+
+[Term]
+id: CO_010:0000102
+name: 99 other collecting or acquisition source
+comment: Specify in descriptor collector's notes.
+xref: multicrop passport ontology:CO_020:0000077
+is_a: CO_010:0000065 ! CollectingOrAcquisitionSourceCode
+
+[Term]
+id: CO_010:0000103
+name: 99 other cropping system
+comment: Specify in descriptor collector's notes.
+is_a: CO_010:0000277 ! CroppingSystemCode
+
+[Term]
+id: CO_010:0000104
+name: PartsOfThePlantUsedCode
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000035 ! parts of the plant used
+
+[Term]
+id: CO_010:0000105
+name: 1 root
+is_a: CO_010:0000104 ! PartsOfThePlantUsedCode
+
+[Term]
+id: CO_010:0000106
+name: 2 stem
+synonym: "trunk" RELATED []
+is_a: CO_010:0000104 ! PartsOfThePlantUsedCode
+
+[Term]
+id: CO_010:0000107
+name: 3 bark
+is_a: CO_010:0000104 ! PartsOfThePlantUsedCode
+
+[Term]
+id: CO_010:0000108
+name: 4 leaf
+is_a: CO_010:0000104 ! PartsOfThePlantUsedCode
+
+[Term]
+id: CO_010:0000109
+name: 5 flower
+is_a: CO_010:0000104 ! PartsOfThePlantUsedCode
+
+[Term]
+id: CO_010:0000110
+name: 6 fruit
+is_a: CO_010:0000104 ! PartsOfThePlantUsedCode
+
+[Term]
+id: CO_010:0000111
+name: 99 other cultivar origin
+comment: Specify in descriptor collector's notes.
+is_a: CO_010:0000258 ! CultivarOriginCode
+
+[Term]
+id: CO_010:0000112
+name: TypeOfSampleCollectedCode
+comment: Specify in collector's notes.
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000036 ! type of sample collected
+
+[Term]
+id: CO_010:0000113
+name: 99 other fertilizer application
+comment: Specify in descriptor collector's notes.
+is_a: CO_010:0000371 ! FertilizerApplicationCode
+
+[Term]
+id: CO_010:0000114
+name: 1 seed
+is_a: CO_010:0000319 ! TypeOfPlantMaterialCode
+
+[Term]
+id: CO_010:0000115
+name: 4 shoot
+comment: Also for budwood or stem cutting.
+is_a: CO_010:0000112 ! TypeOfSampleCollectedCode
+
+[Term]
+id: CO_010:0000116
+name: 99 other frequency of use of the plant
+comment: Specify in descriptor collector's notes.
+is_a: CO_010:0000360 ! FrequencyOfUseOfThePlantCode
+
+[Term]
+id: CO_010:0000117
+name: TypeOfMaterialReceivedCode
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000060 ! type of material received
+
+[Term]
+id: CO_010:0000118
+name: 1 in vitro plant
+is_a: CO_010:0000117 ! TypeOfMaterialReceivedCode
+
+[Term]
+id: CO_010:0000119
+name: 3 sucker
+is_a: CO_010:0000117 ! TypeOfMaterialReceivedCode
+
+[Term]
+id: CO_010:0000120
+name: 99 other method of use
+comment: Specify in descriptor collector's notes.
+is_a: CO_010:0000365 ! MethodOfUseCode
+
+[Term]
+id: CO_010:0000121
+name: 4 bud
+is_a: CO_010:0000117 ! TypeOfMaterialReceivedCode
+
+[Term]
+id: CO_010:0000122
+name: 7 peel
+is_a: CO_010:0000104 ! PartsOfThePlantUsedCode
+
+[Term]
+id: CO_010:0000123
+name: 99 other plant use
+comment: Specify in descriptor collector's notes.
+is_a: CO_010:0000075 ! PlantUseCode
+
+[Term]
+id: CO_010:0000124
+name: management descriptor
+comment: Management descriptors: These provide the basis for the management of accessions in the genebank and assist with their multiplication and regeneration.
+is_a: CO_010:0000232 ! germplasm descriptor
+relationship: CO_010:0000002 CO_010:0000044 ! accession
+
+[Term]
+id: CO_010:0000125
+name: population identification
+comment: Collecting number, pedigree, cultivar name, etc. depending on the population type.
+is_a: CO_010:0000124 ! management descriptor
+is_a: CO_010:0000345 ! multiplication descriptor
+is_a: CO_010:0000375 ! regeneration descriptor
+
+[Term]
+id: CO_010:0000126
+name: location of safety duplicates
+comment: Code of the institute where a safety duplicate of the accession is maintained. Follows INSTCODE standard.
+synonym: "DUPLSITE" EXACT []
+xref: multicrop passport ontology:CO_020:0000026
+is_a: CO_010:0000124 ! management descriptor
+is_a: CO_010:0000154 ! institute code
+
+[Term]
+id: CO_010:0000127
+name: 99 other propagation method
+comment: Specify in descriptor collector's notes.
+is_a: CO_010:0000278 ! PropagationMethodCode
+
+[Term]
+id: CO_010:0000128
+name: 99 other regeneration process
+comment: Specify in descriptor remarks.
+is_a: CO_010:0000326 ! RegenerationProcessCode
+
+[Term]
+id: CO_010:0000129
+name: availability for exchange
+is_a: CO_010:0000124 ! management descriptor
+
+[Term]
+id: CO_010:0000130
+name: export procedure
+is_a: CO_010:0000231 ! import or export activity
+
+[Term]
+id: CO_010:0000131
+name: 5 other status of plantation
+comment: Specify in descriptor collector's notes.
+is_a: CO_010:0000081 ! StatusOfPlantationCode
+
+[Term]
+id: CO_010:0000132
+name: import permit from receiving country needed
+is_a: CO_010:0000130 ! export procedure
+
+[Term]
+id: CO_010:0000133
+name: export permit needed
+is_a: CO_010:0000130 ! export procedure
+
+[Term]
+id: CO_010:0000134
+name: pre and postmovement activities data
+is_a: CO_010:0000124 ! management descriptor
+
+[Term]
+id: CO_010:0000135
+name: treatment of sample during mission
+comment: Note all relevant information on how the sample was treated between its collection and the deposit at its destination.
+is_a: CO_010:0000134 ! pre and postmovement activities data
+
+[Term]
+id: CO_010:0000136
+name: destination of the accession
+comment: Note where the sample is sent after it has been collected. Specify the institution, the name of the collection or station, the address and country.
+is_a: CO_010:0000134 ! pre and postmovement activities data
+
+[Term]
+id: CO_010:0000137
+name: type of germplasm storage
+comment: If germplasm is maintained under different types of storage, multiple choices are allowed, separated by a semicolon (e.g. 20;30). (Refer to FAO/IPGRI Genebank Standards 1994 for details on storage type.).
+synonym: "STORAGE" EXACT []
+xref: multicrop passport ontology:CO_020:0000027
+is_a: CO_010:0000124 ! management descriptor
+
+[Term]
+id: CO_010:0000138
+name: import procedure
+is_a: CO_010:0000231 ! import or export activity
+
+[Term]
+id: CO_010:0000139
+name: phytosanitary certificate needed
+is_a: CO_010:0000138 ! import procedure
+
+[Term]
+id: CO_010:0000140
+name: import permit needed
+is_a: CO_010:0000138 ! import procedure
+
+[Term]
+id: CO_010:0000141
+name: quarantine required
+is_a: CO_010:0000138 ! import procedure
+
+[Term]
+id: CO_010:0000142
+name: ManagementDescriptorCode
+is_a: CO_010:0000234 ! GermplasmDescriptorCode
+
+[Term]
+id: CO_010:0000143
+name: TypeOfGermplasmStorageCode
+synonym: "TypeOfMaintenanceOfTheAccessionCode" RELATED []
+xref: multicrop passport ontology:CO_020:0000078
+is_a: CO_010:0000142 ! ManagementDescriptorCode
+relationship: CO_010:0000001 CO_010:0000137 ! type of germplasm storage
+
+[Term]
+id: CO_010:0000144
+name: 20 field collection
+synonym: "InVivo collection" RELATED []
+xref: multicrop passport ontology:CO_020:0000070
+is_a: CO_010:0000143 ! TypeOfGermplasmStorageCode
+
+[Term]
+id: CO_010:0000145
+name: 30 in vitro collection
+comment: An in vitro sample has a characteristic slow growth.
+xref: multicrop passport ontology:CO_020:0000071
+is_a: CO_010:0000143 ! TypeOfGermplasmStorageCode
+
+[Term]
+id: CO_010:0000146
+name: 10 seed collection
+xref: multicrop passport ontology:CO_020:0000066
+is_a: CO_010:0000143 ! TypeOfGermplasmStorageCode
+
+[Term]
+id: CO_010:0000147
+name: 99 other type of germplasm storage
+comment: Specify in descriptor remarks.
+xref: multicrop passport ontology:CO_020:0000073
+is_a: CO_010:0000143 ! TypeOfGermplasmStorageCode
+
+[Term]
+id: CO_010:0000148
+name: DestinationOfTheAccessionCode
+is_a: CO_010:0000142 ! ManagementDescriptorCode
+relationship: CO_010:0000001 CO_010:0000136 ! destination of the accession
+
+[Term]
+id: CO_010:0000149
+name: 1 final destination of sample
+is_a: CO_010:0000148 ! DestinationOfTheAccessionCode
+
+[Term]
+id: CO_010:0000150
+name: 2 intermediate holding station
+is_a: CO_010:0000148 ! DestinationOfTheAccessionCode
+
+[Term]
+id: CO_010:0000151
+name: entity
+xref: GCPDomainModel:CO_000:0000125
+is_a: CO_010:0000000 ! GCP germplasm ontology
+
+[Term]
+id: CO_010:0000152
+name: ancestral data
+comment: Information about either pedigree or other description of ancestral information (i.e. parent variety in case of mutant or selection). For example a pedigree 'Hanna/7*Atlas//Turk/8*Atlas' or a description 'mutation found in Hanna', 'selection from Irene' or 'cross involving amongst others Hanna and Irene'.
+synonym: "ANCEST" EXACT []
+xref: multicrop passport ontology:CO_020:0000021
+is_a: CO_010:0000250 ! generated germplasmd descriptor
+
+[Term]
+id: CO_010:0000153
+name: common crop name
+comment: Name of the crop in colloquial language, preferably English (i.e. 'malting barley, 'cauliflower', or 'white cabbage').
+synonym: "CROPNAME" EXACT []
+xref: multicrop passport ontology:CO_020:0000010
+is_a: CO_010:0000249 ! crop name descriptor
+
+[Term]
+id: CO_010:0000154
+name: institute code
+comment: Code of the institute where the accession is maintained. The codes consist of the 3-letter ISO 3166 country code of the country where the institute is located plus number or an acronym as specified in the Institute database that will be made available by FAO. Preliminary codes (i.e. codes not yet incorporated in the FAO Institute database) start with an asterisk followed by a 3-letter ISO 3166 country code and an acronym.
+synonym: "INSTCODE" EXACT []
+xref: GCPDomainModel:CO_000:0000224
+xref: multicrop passport ontology:CO_020:0000001
+is_a: CO_010:0000037 ! accession descriptor
+
+[Term]
+id: CO_010:0000155
+name: breeding institute code
+comment: Institute code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard.
+synonym: "BREDCODE" EXACT []
+xref: multicrop passport ontology:CO_020:0000019
+is_a: CO_010:0000154 ! institute code
+
+[Term]
+id: CO_010:0000156
+name: donor institute code
+comment: Code for the donor institute. Follows INSTCODE standard.
+synonym: "DONORCODE" EXACT []
+xref: multicrop passport ontology:CO_020:0000023
+is_a: CO_010:0000154 ! institute code
+is_a: CO_010:0000225 ! donated germplasm descriptor
+
+[Term]
+id: CO_010:0000157
+name: species authority
+comment: Provide the authority for the species name.
+synonym: "SPAUTHOR" EXACT []
+xref: multicrop passport ontology:CO_020:0000007
+is_a: CO_010:0000223 ! taxonomy descriptor
+
+[Term]
+id: CO_010:0000158
+name: subtaxa authority
+comment: Provide the subtaxa authority at the most detailed taxonomic level.
+synonym: "SUBTAUTHOR" EXACT []
+xref: multicrop passport ontology:CO_020:0000009
+is_a: CO_010:0000223 ! taxonomy descriptor
+
+[Term]
+id: CO_010:0000159
+name: 400 breedingmaterial
+synonym: "research material" RELATED []
+xref: multicrop passport ontology:CO_020:0000034
+is_a: CO_010:0000089 ! BiologicalStatusOfAccessionCode
+
+[Term]
+id: CO_010:0000160
+name: 413 founder stock
+synonym: "base population" RELATED []
+xref: multicrop passport ontology:CO_020:0000038
+is_a: CO_010:0000093 ! 410 breeder's line
+
+[Term]
+id: CO_010:0000161
+name: 412 hybrid
+xref: multicrop passport ontology:CO_020:0000037
+is_a: CO_010:0000093 ! 410 breeder's line
+
+[Term]
+id: CO_010:0000162
+name: 414 inbred line
+synonym: "parent of hybrid cultivar" RELATED []
+xref: multicrop passport ontology:CO_020:0000039
+is_a: CO_010:0000093 ! 410 breeder's line
+
+[Term]
+id: CO_010:0000163
+name: 415 segregating population
+xref: multicrop passport ontology:CO_020:0000040
+is_a: CO_010:0000093 ! 410 breeder's line
+
+[Term]
+id: CO_010:0000164
+name: 411 synthetic population
+xref: multicrop passport ontology:CO_020:0000036
+is_a: CO_010:0000093 ! 410 breeder's line
+
+[Term]
+id: CO_010:0000165
+name: 99 other type of material received
+comment: Specify in descriptor collector's notes.
+is_a: CO_010:0000117 ! TypeOfMaterialReceivedCode
+
+[Term]
+id: CO_010:0000166
+name: identified gene
+comment: Refers to any gene identified for any of the morphological and biochemical characters. List all identified genes. Refer to gene ontology at http://www.geneontology.org/.
+is_a: CO_010:0000233 ! evaluation descriptor
+
+[Term]
+id: CO_010:0000167
+name: biochemical marker
+comment: Specify methods used and cite reference(s). Refer to Descriptors for Genetic Markers Technologies, available in PDF (portable format document) from the Bioversity Web site (www.bioversityinternational.org) or by email request to: bioversity@cgiar.org.
+is_a: CO_010:0000233 ! evaluation descriptor
+
+[Term]
+id: CO_010:0000168
+name: 99 other type of plant material
+comment: Specify in descriptor remarks.
+is_a: CO_010:0000319 ! TypeOfPlantMaterialCode
+
+[Term]
+id: CO_010:0000169
+name: 99 other type of sample collected
+comment: Specify in descriptor collector's notes.
+is_a: CO_010:0000112 ! TypeOfSampleCollectedCode
+
+[Term]
+id: CO_010:0000170
+name: abiotic stress susceptibility
+comment: Scored under artificial and/or natural conditions, which should be clearly specified. These are coded on a susceptibility scale from 1 to 9.
+is_a: CO_010:0000248 ! stress susceptibility
+
+[Term]
+id: CO_010:0000171
+name: wind susceptibility
+is_a: CO_010:0000170 ! abiotic stress susceptibility
+
+[Term]
+id: CO_010:0000172
+name: flooding susceptibility
+is_a: CO_010:0000170 ! abiotic stress susceptibility
+
+[Term]
+id: CO_010:0000173
+name: susceptibility to mineral deficiency
+is_a: CO_010:0000170 ! abiotic stress susceptibility
+
+[Term]
+id: CO_010:0000174
+name: low temperature susceptibility
+is_a: CO_010:0000170 ! abiotic stress susceptibility
+
+[Term]
+id: CO_010:0000175
+name: high temperature susceptibility
+is_a: CO_010:0000170 ! abiotic stress susceptibility
+
+[Term]
+id: CO_010:0000176
+name: 99 other water requirement
+comment: Specify in descriptor collector's notes.
+is_a: CO_010:0000284 ! WaterRequirementCode
+
+[Term]
+id: CO_010:0000177
+name: susceptibility to manganese toxicity
+is_a: CO_010:0000170 ! abiotic stress susceptibility
+
+[Term]
+id: CO_010:0000178
+name: drought susceptibility
+is_a: CO_010:0000170 ! abiotic stress susceptibility
+
+[Term]
+id: CO_010:0000179
+name: susceptibility to soil acidity
+is_a: CO_010:0000170 ! abiotic stress susceptibility
+
+[Term]
+id: CO_010:0000180
+name: biotic stress susceptibility
+comment: In each case, it is important to state the origin of the infestation or infection, i.e. natural, field inoculation, laboratory. Record such information in descriptor remarks.
+is_a: CO_010:0000248 ! stress susceptibility
+
+[Term]
+id: CO_010:0000181
+name: pest susceptibility
+is_a: CO_010:0000180 ! biotic stress susceptibility
+
+[Term]
+id: CO_010:0000182
+name: 8 pericarp
+is_a: CO_010:0000104 ! PartsOfThePlantUsedCode
+
+[Term]
+id: CO_010:0000183
+name: disease susceptibility
+is_a: CO_010:0000180 ! biotic stress susceptibility
+
+[Term]
+id: CO_010:0000184
+name: molecular marker
+comment: Describe any specific discriminating or useful trait for this accession. Report probe-enzyme combination analyzed. Refer to Descriptors for Genetic Markers Technologies, available in PDF (portable format document) from the Bioversity Web site (www.bioversityinternational.org) or by email request to: bioversity@cgiar.org.
+is_a: CO_010:0000233 ! evaluation descriptor
+
+[Term]
+id: CO_010:0000185
+name: 9 seed
+is_a: CO_010:0000104 ! PartsOfThePlantUsedCode
+
+[Term]
+id: CO_010:0000186
+name: 99 other parts of the plant used
+comment: Specify in descriptor collector's notes.
+is_a: CO_010:0000104 ! PartsOfThePlantUsedCode
+
+[Term]
+id: CO_010:0000187
+name: 99 other special uses
+comment: Specify in descriptor collector's notes.
+is_a: CO_010:0000354 ! SpecialUseCode
+
+[Term]
+id: CO_010:0000188
+name: bacterial susceptibility
+is_a: CO_010:0000180 ! biotic stress susceptibility
+
+[Term]
+id: CO_010:0000189
+name: fungal susceptibility
+is_a: CO_010:0000180 ! biotic stress susceptibility
+
+[Term]
+id: CO_010:0000190
+name: cytological character
+comment: Refer to gene ontology at http://www.geneontology.org/.
+is_a: CO_010:0000233 ! evaluation descriptor
+
+[Term]
+id: CO_010:0000191
+name: BooleanCode
+is_a: CO_010:0000234 ! GermplasmDescriptorCode
+relationship: CO_010:0000001 CO_010:0000006 ! photograph
+relationship: CO_010:0000001 CO_010:0000027 ! herbarium specimen
+relationship: CO_010:0000001 CO_010:0000132 ! import permit from receiving country needed
+relationship: CO_010:0000001 CO_010:0000133 ! export permit needed
+relationship: CO_010:0000001 CO_010:0000139 ! phytosanitary certificate needed
+relationship: CO_010:0000001 CO_010:0000140 ! import permit needed
+relationship: CO_010:0000001 CO_010:0000141 ! quarantine required
+relationship: CO_010:0000001 CO_010:0000273 ! cultural characteristic
+relationship: CO_010:0000001 CO_010:0000369 ! preferred growing condition
+
+[Term]
+id: CO_010:0000192
+name: 1 yes
+is_a: CO_010:0000191 ! BooleanCode
+
+[Term]
+id: CO_010:0000193
+name: 0 no
+is_a: CO_010:0000191 ! BooleanCode
+
+[Term]
+id: CO_010:0000194
+name: 420 genetic stock
+synonym: "mutant stock" RELATED []
+xref: multicrop passport ontology:CO_020:0000041
+is_a: CO_010:0000159 ! 400 breedingmaterial
+
+[Term]
+id: CO_010:0000195
+name: 110 natural
+xref: multicrop passport ontology:CO_020:0000030
+is_a: CO_010:0000090 ! 100 wild
+
+[Term]
+id: CO_010:0000196
+name: 120 semi-natural or wild
+xref: multicrop passport ontology:CO_020:0000031
+is_a: CO_010:0000090 ! 100 wild
+
+[Term]
+id: CO_010:0000197
+name: 50 seed company
+xref: multicrop passport ontology:CO_020:0000061
+is_a: CO_010:0000065 ! CollectingOrAcquisitionSourceCode
+
+[Term]
+id: CO_010:0000198
+name: 60 weedy habitat
+synonym: "disturbed habitat" RELATED []
+synonym: "ruderal habitat" RELATED []
+xref: multicrop passport ontology:CO_020:0000062
+is_a: CO_010:0000065 ! CollectingOrAcquisitionSourceCode
+
+[Term]
+id: CO_010:0000199
+name: 23 home garden
+comment: Also a backyard or kitchen garden in an urban, peri-urban or rural area.
+xref: multicrop passport ontology:CO_020:0000053
+is_a: CO_010:0000067 ! 20 farm or cultivated habitat
+
+[Term]
+id: CO_010:0000200
+name: 24 fallow land
+xref: multicrop passport ontology:CO_020:0000054
+is_a: CO_010:0000067 ! 20 farm or cultivated habitat
+
+[Term]
+id: CO_010:0000201
+name: 26 farm store
+xref: multicrop passport ontology:CO_020:0000056
+is_a: CO_010:0000067 ! 20 farm or cultivated habitat
+
+[Term]
+id: CO_010:0000202
+name: 21 field
+xref: multicrop passport ontology:CO_020:0000051
+is_a: CO_010:0000067 ! 20 farm or cultivated habitat
+
+[Term]
+id: CO_010:0000203
+name: 22 orchard
+xref: multicrop passport ontology:CO_020:0000052
+is_a: CO_010:0000067 ! 20 farm or cultivated habitat
+
+[Term]
+id: CO_010:0000204
+name: 28 park
+xref: multicrop passport ontology:CO_020:0000058
+is_a: CO_010:0000067 ! 20 farm or cultivated habitat
+
+[Term]
+id: CO_010:0000205
+name: 25 pasture
+xref: multicrop passport ontology:CO_020:0000055
+is_a: CO_010:0000067 ! 20 farm or cultivated habitat
+
+[Term]
+id: CO_010:0000206
+name: 27 threshing floor
+xref: multicrop passport ontology:CO_020:0000057
+is_a: CO_010:0000067 ! 20 farm or cultivated habitat
+
+[Term]
+id: CO_010:0000207
+name: 62 field margin
+xref: multicrop passport ontology:CO_020:0000064
+is_a: CO_010:0000198 ! 60 weedy habitat
+
+[Term]
+id: CO_010:0000208
+name: 61 roadside
+xref: multicrop passport ontology:CO_020:0000063
+is_a: CO_010:0000198 ! 60 weedy habitat
+
+[Term]
+id: CO_010:0000209
+name: 15 aquatic habitat
+xref: multicrop passport ontology:CO_020:0000049
+is_a: CO_010:0000066 ! 10 wild habitat
+
+[Term]
+id: CO_010:0000210
+name: 14 desert
+synonym: "<new synonym>" RELATED []
+xref: multicrop passport ontology:CO_020:0000048
+is_a: CO_010:0000066 ! 10 wild habitat
+
+[Term]
+id: CO_010:0000211
+name: 11 forest
+synonym: "woodland" RELATED []
+xref: multicrop passport ontology:CO_020:0000045
+is_a: CO_010:0000066 ! 10 wild habitat
+
+[Term]
+id: CO_010:0000212
+name: 13 grassland
+xref: multicrop passport ontology:CO_020:0000047
+is_a: CO_010:0000066 ! 10 wild habitat
+
+[Term]
+id: CO_010:0000213
+name: 12 shrubland
+xref: multicrop passport ontology:CO_020:0000046
+is_a: CO_010:0000066 ! 10 wild habitat
+
+[Term]
+id: CO_010:0000214
+name: CountryOfOriginCode
+xref: multicrop passport ontology:CO_020:0000085
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000010 ! country of origin
+
+[Term]
+id: CO_010:0000215
+name: InstituteCode
+xref: multicrop passport ontology:CO_020:0000084
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000154 ! institute code
+
+[Term]
+id: CO_010:0000216
+name: 40 cryopreserved collection
+xref: multicrop passport ontology:CO_020:0000072
+is_a: CO_010:0000143 ! TypeOfGermplasmStorageCode
+
+[Term]
+id: CO_010:0000217
+name: 13 long term
+xref: multicrop passport ontology:CO_020:0000069
+is_a: CO_010:0000146 ! 10 seed collection
+
+[Term]
+id: CO_010:0000218
+name: 12 medium term
+xref: multicrop passport ontology:CO_020:0000068
+is_a: CO_010:0000146 ! 10 seed collection
+
+[Term]
+id: CO_010:0000219
+name: 11 short term
+xref: multicrop passport ontology:CO_020:0000067
+is_a: CO_010:0000146 ! 10 seed collection
+
+[Term]
+id: CO_010:0000220
+name: parentage of pedigree
+is_a: CO_010:0000052 ! pedigree information
+
+[Term]
+id: CO_010:0000221
+name: pedigree developer
+comment: Name and address details of person who developed the pedigree.
+is_a: CO_010:0000052 ! pedigree information
+
+[Term]
+id: CO_010:0000222
+name: pedigree developer insitute
+is_a: CO_010:0000052 ! pedigree information
+
+[Term]
+id: CO_010:0000223
+name: taxonomy descriptor
+is_a: CO_010:0000373 ! classification descriptor
+
+[Term]
+id: CO_010:0000224
+name: taxon rank
+is_a: CO_010:0000223 ! taxonomy descriptor
+
+[Term]
+id: CO_010:0000225
+name: donated germplasm descriptor
+is_a: CO_010:0000037 ! accession descriptor
+relationship: CO_010:0000002 CO_010:0000253 ! donated germplasm
+
+[Term]
+id: CO_010:0000226
+name: collecting site descriptor
+is_a: CO_010:0000003 ! collected germplasm descriptor
+
+[Term]
+id: CO_010:0000227
+name: ethnobotany descriptor
+is_a: CO_010:0000003 ! collected germplasm descriptor
+
+[Term]
+id: CO_010:0000228
+name: propagation method
+comment: Method used to produce trees or planting material.
+is_a: CO_010:0000017 ! cultural method
+
+[Term]
+id: CO_010:0000229
+name: water requirement
+is_a: CO_010:0000017 ! cultural method
+
+[Term]
+id: CO_010:0000230
+name: fertilizer application
+is_a: CO_010:0000017 ! cultural method
+
+[Term]
+id: CO_010:0000231
+name: import or export activity
+is_a: CO_010:0000124 ! management descriptor
+
+[Term]
+id: CO_010:0000232
+name: germplasm descriptor
+is_a: CO_010:0000235 ! descriptor
+relationship: CO_010:0000002 CO_010:0000251 ! germplasm
+
+[Term]
+id: CO_010:0000233
+name: evaluation descriptor
+comment: Evaluation descriptors: The expression of many of the descriptors in this category will depend on the environment and, consequently, special environmental designs and techniques are needed to assess them. Their assessment may also require complex biochemical or molecular characterization methods. These types of descriptors include characters such as yield, agronomic performance, stress susceptibilities and biochemical and cytological traits. They are generally the most interesting traits in crop improvement.
+is_a: CO_010:0000232 ! germplasm descriptor
+relationship: CO_010:0000002 CO_010:0000251 ! germplasm
+
+[Term]
+id: CO_010:0000234
+name: GermplasmDescriptorCode
+is_a: CO_010:0000236 ! Code
+
+[Term]
+id: CO_010:0000235
+name: descriptor
+is_a: CO_010:0000000 ! GCP germplasm ontology
+
+[Term]
+id: CO_010:0000236
+name: Code
+is_a: CO_010:0000000 ! GCP germplasm ontology
+
+[Term]
+id: CO_010:0000237
+name: local germplasm name descriptor
+is_a: CO_010:0000021 ! accession identifier descriptor
+
+[Term]
+id: CO_010:0000238
+name: abiotic stress
+is_a: CO_010:0000009 ! prevailing stress
+
+[Term]
+id: CO_010:0000239
+name: StressSusceptibilityDescriptorCode
+is_a: CO_010:0000370 ! EvaluationDescriptorCode
+relationship: CO_010:0000001 CO_010:0000248 ! stress susceptibility
+
+[Term]
+id: CO_010:0000240
+name: 1 very low or no visible sign of susceptibility
+is_a: CO_010:0000239 ! StressSusceptibilityDescriptorCode
+
+[Term]
+id: CO_010:0000241
+name: 3 low susceptibility
+is_a: CO_010:0000239 ! StressSusceptibilityDescriptorCode
+
+[Term]
+id: CO_010:0000242
+name: 5 intermediate susceptibility
+is_a: CO_010:0000239 ! StressSusceptibilityDescriptorCode
+
+[Term]
+id: CO_010:0000243
+name: 7 high susceptibility
+is_a: CO_010:0000239 ! StressSusceptibilityDescriptorCode
+
+[Term]
+id: CO_010:0000244
+name: 9 very high susceptibility
+is_a: CO_010:0000239 ! StressSusceptibilityDescriptorCode
+
+[Term]
+id: CO_010:0000245
+name: biotic stress
+is_a: CO_010:0000009 ! prevailing stress
+
+[Term]
+id: CO_010:0000246
+name: susceptibility to mineral toxicity
+is_a: CO_010:0000170 ! abiotic stress susceptibility
+
+[Term]
+id: CO_010:0000247
+name: susceptibility to salinity
+is_a: CO_010:0000170 ! abiotic stress susceptibility
+
+[Term]
+id: CO_010:0000248
+name: stress susceptibility
+is_a: CO_010:0000233 ! evaluation descriptor
+
+[Term]
+id: CO_010:0000249
+name: crop name descriptor
+is_a: CO_010:0000373 ! classification descriptor
+
+[Term]
+id: CO_010:0000250
+name: generated germplasmd descriptor
+is_a: CO_010:0000020 ! origin descriptor
+relationship: CO_010:0000002 CO_010:0000255 ! generated germplasm
+
+[Term]
+id: CO_010:0000251
+name: germplasm
+xref: GCPDomainModel:CO_000:0000098
+is_a: CO_010:0000151 ! entity
+
+[Term]
+id: CO_010:0000252
+name: passport
+xref: GCPDomainModel:CO_000:0000225
+is_a: CO_010:0000151 ! entity
+
+[Term]
+id: CO_010:0000253
+name: donated germplasm
+xref: GCPDomainModel:CO_000:0000149
+is_a: CO_010:0000251 ! germplasm
+
+[Term]
+id: CO_010:0000254
+name: collected germplasm
+xref: GCPDomainModel:CO_000:0000218
+is_a: CO_010:0000251 ! germplasm
+
+[Term]
+id: CO_010:0000255
+name: generated germplasm
+xref: GCPDomainModel:CO_000:0000110
+is_a: CO_010:0000251 ! germplasm
+
+[Term]
+id: CO_010:0000256
+name: collecting event descriptor
+is_a: CO_010:0000003 ! collected germplasm descriptor
+
+[Term]
+id: CO_010:0000257
+name: cultivar origin
+is_a: CO_010:0000250 ! generated germplasmd descriptor
+
+[Term]
+id: CO_010:0000258
+name: CultivarOriginCode
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000257 ! cultivar origin
+
+[Term]
+id: CO_010:0000259
+name: 1 open pollination
+is_a: CO_010:0000258 ! CultivarOriginCode
+
+[Term]
+id: CO_010:0000260
+name: 2 artificial pollination
+is_a: CO_010:0000258 ! CultivarOriginCode
+
+[Term]
+id: CO_010:0000261
+name: 3 clonal selection
+is_a: CO_010:0000258 ! CultivarOriginCode
+
+[Term]
+id: CO_010:0000262
+name: 4 seedling selection
+is_a: CO_010:0000258 ! CultivarOriginCode
+
+[Term]
+id: CO_010:0000263
+name: 5 induced mutation
+is_a: CO_010:0000258 ! CultivarOriginCode
+
+[Term]
+id: CO_010:0000264
+name: 6 bud sport
+is_a: CO_010:0000258 ! CultivarOriginCode
+
+[Term]
+id: CO_010:0000265
+name: 1 fruit
+is_a: CO_010:0000112 ! TypeOfSampleCollectedCode
+
+[Term]
+id: CO_010:0000266
+name: 3 seedling or sapling
+is_a: CO_010:0000112 ! TypeOfSampleCollectedCode
+
+[Term]
+id: CO_010:0000267
+name: 5 in vitro plantlet
+is_a: CO_010:0000112 ! TypeOfSampleCollectedCode
+
+[Term]
+id: CO_010:0000268
+name: history of plant use
+is_a: CO_010:0000227 ! ethnobotany descriptor
+
+[Term]
+id: CO_010:0000269
+name: HistoryOfPlantUseCode
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000268 ! history of plant use
+
+[Term]
+id: CO_010:0000270
+name: 1 indigenous plant use
+comment: Record association with the place and community.
+synonym: "ancestral plant use" RELATED []
+is_a: CO_010:0000269 ! HistoryOfPlantUseCode
+
+[Term]
+id: CO_010:0000271
+name: 2 unknown plant use introduction
+comment: Introduced but in unknown distant past.
+is_a: CO_010:0000269 ! HistoryOfPlantUseCode
+
+[Term]
+id: CO_010:0000272
+name: 3 known plant use introduction
+comment: Record time and details known about introduction.
+is_a: CO_010:0000269 ! HistoryOfPlantUseCode
+
+[Term]
+id: CO_010:0000273
+name: cultural characteristic
+comment: Is there folklore associated with the collected mango type? (e.g. taboos, stories and/or superstitions). If so, describe it briefly in descriptor collector's notes.
+is_a: CO_010:0000227 ! ethnobotany descriptor
+
+[Term]
+id: CO_010:0000274
+name: 1 monoculture
+comment: Specify spacing.
+is_a: CO_010:0000277 ! CroppingSystemCode
+
+[Term]
+id: CO_010:0000275
+name: 2 intercropping
+comment: Specify spacing and type of intercrop.
+is_a: CO_010:0000277 ! CroppingSystemCode
+
+[Term]
+id: CO_010:0000276
+name: 3 natural cropping
+comment: Example: wild types topworked with cultivar/self sown trees retained in homesteads.
+is_a: CO_010:0000277 ! CroppingSystemCode
+
+[Term]
+id: CO_010:0000277
+name: CroppingSystemCode
+is_a: CO_010:0000372 ! MultiplicationOrRegenerationDescriptorCode
+relationship: CO_010:0000001 CO_010:0000019 ! cropping system
+
+[Term]
+id: CO_010:0000278
+name: PropagationMethodCode
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000228 ! propagation method
+
+[Term]
+id: CO_010:0000279
+name: 1 monoembryonic seed
+is_a: CO_010:0000278 ! PropagationMethodCode
+
+[Term]
+id: CO_010:0000280
+name: 2 grafting
+comment: Specify type of grafting and the species, hybrid and/or clone used as rootstock, in descriptor collector's notes.
+is_a: CO_010:0000278 ! PropagationMethodCode
+
+[Term]
+id: CO_010:0000281
+name: 3 cutting
+is_a: CO_010:0000278 ! PropagationMethodCode
+
+[Term]
+id: CO_010:0000282
+name: 4 layering
+is_a: CO_010:0000278 ! PropagationMethodCode
+
+[Term]
+id: CO_010:0000283
+name: 5 in vitro
+comment: Specify which part of plant used, in descriptor collector's notes.
+is_a: CO_010:0000278 ! PropagationMethodCode
+
+[Term]
+id: CO_010:0000284
+name: WaterRequirementCode
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000229 ! water requirement
+
+[Term]
+id: CO_010:0000285
+name: 1 rainfed
+is_a: CO_010:0000284 ! WaterRequirementCode
+
+[Term]
+id: CO_010:0000286
+name: 2 irrigated
+comment: Drip, basin or flooding-specify average annual amount of water supplied per tree per year for drip and basin and per hectare for flooding.
+is_a: CO_010:0000284 ! WaterRequirementCode
+
+[Term]
+id: CO_010:0000287
+name: 1 organic fertilizer
+is_a: CO_010:0000371 ! FertilizerApplicationCode
+
+[Term]
+id: CO_010:0000288
+name: 2 inorganic fertilizer
+is_a: CO_010:0000371 ! FertilizerApplicationCode
+
+[Term]
+id: CO_010:0000289
+name: seasonality
+is_a: CO_010:0000227 ! ethnobotany descriptor
+
+[Term]
+id: CO_010:0000290
+name: SeasonalityCode
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000289 ! seasonality
+
+[Term]
+id: CO_010:0000291
+name: 1 available only in main season
+is_a: CO_010:0000290 ! SeasonalityCode
+
+[Term]
+id: CO_010:0000292
+name: 2 available in off-season
+is_a: CO_010:0000290 ! SeasonalityCode
+
+[Term]
+id: CO_010:0000293
+name: 3 available throughout the year
+is_a: CO_010:0000290 ! SeasonalityCode
+
+[Term]
+id: CO_010:0000294
+name: 4 available in alternate years
+is_a: CO_010:0000290 ! SeasonalityCode
+
+[Term]
+id: CO_010:0000295
+name: genetic erosion
+comment: Estimate the rate of genetic erosion of the species occurring in the region of collection.
+is_a: CO_010:0000226 ! collecting site descriptor
+
+[Term]
+id: CO_010:0000296
+name: GeneticErosionCode
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000295 ! genetic erosion
+
+[Term]
+id: CO_010:0000297
+name: 3 slow genetic erosion
+is_a: CO_010:0000296 ! GeneticErosionCode
+
+[Term]
+id: CO_010:0000298
+name: 5 moderate genetic erosion
+is_a: CO_010:0000296 ! GeneticErosionCode
+
+[Term]
+id: CO_010:0000299
+name: 2 seed
+is_a: CO_010:0000112 ! TypeOfSampleCollectedCode
+is_a: CO_010:0000117 ! TypeOfMaterialReceivedCode
+
+[Term]
+id: CO_010:0000300
+name: 9 high genetic erosion
+is_a: CO_010:0000296 ! GeneticErosionCode
+
+[Term]
+id: CO_010:0000301
+name: storage address descriptor
+comment: Building, room, shelf/rack number (tissue culture material), field location where material is stored/maintained. Enter separate block designations, row numbers and tree numbers within the row for each accession.
+is_a: CO_010:0000124 ! management descriptor
+
+[Term]
+id: CO_010:0000302
+name: block designation
+is_a: CO_010:0000301 ! storage address descriptor
+
+[Term]
+id: CO_010:0000303
+name: row number
+is_a: CO_010:0000301 ! storage address descriptor
+
+[Term]
+id: CO_010:0000304
+name: planting date
+comment: Specify the date on which sowing/planting/or grafting was done. Format: [YYYYMMDD].
+synonym: "sowing date" RELATED []
+is_a: CO_010:0000124 ! management descriptor
+is_a: CO_010:0000345 ! multiplication descriptor
+is_a: CO_010:0000375 ! regeneration descriptor
+
+[Term]
+id: CO_010:0000305
+name: plant or propagule establishment
+comment: Per cent plants/propagules established from the date of sowing/planting.  [%]"
+is_a: CO_010:0000124 ! management descriptor
+
+[Term]
+id: CO_010:0000306
+name: 6 polyembryonic seed
+is_a: CO_010:0000278 ! PropagationMethodCode
+
+[Term]
+id: CO_010:0000307
+name: in vitro conservation descriptor
+is_a: CO_010:0000124 ! management descriptor
+
+[Term]
+id: CO_010:0000308
+name: type of explant
+is_a: CO_010:0000307 ! in vitro conservation descriptor
+
+[Term]
+id: CO_010:0000309
+name: date of introduction in vitro
+comment: Format: [YYYYMMDD].
+is_a: CO_010:0000307 ! in vitro conservation descriptor
+
+[Term]
+id: CO_010:0000310
+name: type of subculture material
+is_a: CO_010:0000307 ! in vitro conservation descriptor
+
+[Term]
+id: CO_010:0000311
+name: cryopreservation regeneration process
+is_a: CO_010:0000329 ! cryopreservation descriptor
+
+[Term]
+id: CO_010:0000312
+name: number of genotypes introduced in vitro
+is_a: CO_010:0000307 ! in vitro conservation descriptor
+
+[Term]
+id: CO_010:0000313
+name: number of replicates per genotype
+is_a: CO_010:0000307 ! in vitro conservation descriptor
+
+[Term]
+id: CO_010:0000314
+name: last subculture date
+comment: Format: [YYYYMMDD].
+is_a: CO_010:0000307 ! in vitro conservation descriptor
+
+[Term]
+id: CO_010:0000315
+name: medium used at the last subculture
+is_a: CO_010:0000307 ! in vitro conservation descriptor
+
+[Term]
+id: CO_010:0000316
+name: number of plants at the last subculture
+is_a: CO_010:0000307 ! in vitro conservation descriptor
+
+[Term]
+id: CO_010:0000317
+name: location after the last cryopreservation subculture
+is_a: CO_010:0000329 ! cryopreservation descriptor
+
+[Term]
+id: CO_010:0000318
+name: next subculture date
+comment: Format: [YYYYMMDD].
+is_a: CO_010:0000307 ! in vitro conservation descriptor
+
+[Term]
+id: CO_010:0000319
+name: TypeOfPlantMaterialCode
+comment: The type of plant material code values can be used for type of explant, type of subculture and type of material for cryopreservation.
+is_a: CO_010:0000142 ! ManagementDescriptorCode
+relationship: CO_010:0000001 CO_010:0000308 ! type of explant
+relationship: CO_010:0000001 CO_010:0000310 ! type of subculture material
+relationship: CO_010:0000001 CO_010:0000330 ! type of material for cryopreservation
+
+[Term]
+id: CO_010:0000320
+name: 2 zygotic embryo
+is_a: CO_010:0000319 ! TypeOfPlantMaterialCode
+
+[Term]
+id: CO_010:0000321
+name: 3 apical or axillary meristem
+is_a: CO_010:0000319 ! TypeOfPlantMaterialCode
+
+[Term]
+id: CO_010:0000322
+name: 4 apical or axillary shoot tip
+is_a: CO_010:0000319 ! TypeOfPlantMaterialCode
+
+[Term]
+id: CO_010:0000323
+name: 5 somatic embryo
+is_a: CO_010:0000319 ! TypeOfPlantMaterialCode
+
+[Term]
+id: CO_010:0000324
+name: 6 callus
+is_a: CO_010:0000319 ! TypeOfPlantMaterialCode
+
+[Term]
+id: CO_010:0000325
+name: 7 cell suspension
+is_a: CO_010:0000319 ! TypeOfPlantMaterialCode
+
+[Term]
+id: CO_010:0000326
+name: RegenerationProcessCode
+is_a: CO_010:0000142 ! ManagementDescriptorCode
+relationship: CO_010:0000001 CO_010:0000311 ! cryopreservation regeneration process
+
+[Term]
+id: CO_010:0000327
+name: 1 organogenesis
+is_a: CO_010:0000326 ! RegenerationProcessCode
+
+[Term]
+id: CO_010:0000328
+name: 2 somatic embryogenesis
+is_a: CO_010:0000326 ! RegenerationProcessCode
+
+[Term]
+id: CO_010:0000329
+name: cryopreservation descriptor
+is_a: CO_010:0000124 ! management descriptor
+
+[Term]
+id: CO_010:0000330
+name: type of material for cryopreservation
+is_a: CO_010:0000329 ! cryopreservation descriptor
+
+[Term]
+id: CO_010:0000331
+name: introduction date in liquid nitrogen
+comment: Format: [YYYYMMDD].
+is_a: CO_010:0000329 ! cryopreservation descriptor
+
+[Term]
+id: CO_010:0000332
+name: number of samples introduced in liquid nitrogen
+is_a: CO_010:0000329 ! cryopreservation descriptor
+
+[Term]
+id: CO_010:0000333
+name: end of cryopreservation storage period
+comment: Format: [YYYYMMDD].
+is_a: CO_010:0000329 ! cryopreservation descriptor
+
+[Term]
+id: CO_010:0000334
+name: number of samples taken from liquid nitrogen
+is_a: CO_010:0000329 ! cryopreservation descriptor
+
+[Term]
+id: CO_010:0000335
+name: method of cryopreservation
+is_a: CO_010:0000329 ! cryopreservation descriptor
+
+[Term]
+id: CO_010:0000336
+name: MethodOfCryopreservationCode
+is_a: CO_010:0000142 ! ManagementDescriptorCode
+relationship: CO_010:0000001 CO_010:0000335 ! method of cryopreservation
+
+[Term]
+id: CO_010:0000337
+name: 1 slow freezing cryopreservation
+is_a: CO_010:0000336 ! MethodOfCryopreservationCode
+
+[Term]
+id: CO_010:0000338
+name: 2 rapid freezing cryopreservation
+is_a: CO_010:0000336 ! MethodOfCryopreservationCode
+
+[Term]
+id: CO_010:0000339
+name: 3 encapsulation
+is_a: CO_010:0000336 ! MethodOfCryopreservationCode
+
+[Term]
+id: CO_010:0000340
+name: medium used for regeneration or recovery
+is_a: CO_010:0000329 ! cryopreservation descriptor
+
+[Term]
+id: CO_010:0000341
+name: recovery of sample
+is_a: CO_010:0000329 ! cryopreservation descriptor
+
+[Term]
+id: CO_010:0000342
+name: RecoveryOfSamplesCode
+is_a: CO_010:0000142 ! ManagementDescriptorCode
+relationship: CO_010:0000001 CO_010:0000341 ! recovery of sample
+
+[Term]
+id: CO_010:0000343
+name: 1 number of samples recovered
+is_a: CO_010:0000342 ! RecoveryOfSamplesCode
+
+[Term]
+id: CO_010:0000344
+name: 2 percent recovery
+is_a: CO_010:0000342 ! RecoveryOfSamplesCode
+
+[Term]
+id: CO_010:0000345
+name: multiplication descriptor
+comment: Management descriptors: These provide the basis for the management of accessions in the genebank and assist with their multiplication and regeneration.
+is_a: CO_010:0000232 ! germplasm descriptor
+relationship: CO_010:0000002 CO_010:0000044 ! accession
+
+[Term]
+id: CO_010:0000346
+name: field plot number
+is_a: CO_010:0000345 ! multiplication descriptor
+is_a: CO_010:0000375 ! regeneration descriptor
+
+[Term]
+id: CO_010:0000347
+name: multiplication site location
+is_a: CO_010:0000345 ! multiplication descriptor
+
+[Term]
+id: CO_010:0000348
+name: collaborator
+is_a: CO_010:0000345 ! multiplication descriptor
+is_a: CO_010:0000375 ! regeneration descriptor
+
+[Term]
+id: CO_010:0000349
+name: previous multiplication descriptor
+is_a: CO_010:0000345 ! multiplication descriptor
+
+[Term]
+id: CO_010:0000350
+name: location of multiplication
+is_a: CO_010:0000349 ! previous multiplication descriptor
+
+[Term]
+id: CO_010:0000351
+name: plot number
+is_a: CO_010:0000349 ! previous multiplication descriptor
+is_a: CO_010:0000378 ! previous regeneration descriptor
+
+[Term]
+id: CO_010:0000352
+name: number of times accession multiplied
+comment: Since the date of acquisition.
+is_a: CO_010:0000345 ! multiplication descriptor
+
+[Term]
+id: CO_010:0000353
+name: special use
+comment: If any.
+is_a: CO_010:0000016 ! plant use
+
+[Term]
+id: CO_010:0000354
+name: SpecialUseCode
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000353 ! special use
+
+[Term]
+id: CO_010:0000355
+name: 1 feast
+is_a: CO_010:0000354 ! SpecialUseCode
+
+[Term]
+id: CO_010:0000356
+name: 2 religious purpose
+is_a: CO_010:0000354 ! SpecialUseCode
+
+[Term]
+id: CO_010:0000357
+name: 3 chiefs
+is_a: CO_010:0000354 ! SpecialUseCode
+
+[Term]
+id: CO_010:0000358
+name: 4 aesthetic
+is_a: CO_010:0000354 ! SpecialUseCode
+
+[Term]
+id: CO_010:0000359
+name: frequency of use of the plant
+is_a: CO_010:0000227 ! ethnobotany descriptor
+
+[Term]
+id: CO_010:0000360
+name: FrequencyOfUseOfThePlantCode
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000359 ! frequency of use of the plant
+
+[Term]
+id: CO_010:0000361
+name: 1 daily
+is_a: CO_010:0000360 ! FrequencyOfUseOfThePlantCode
+
+[Term]
+id: CO_010:0000362
+name: 2 weekly
+is_a: CO_010:0000360 ! FrequencyOfUseOfThePlantCode
+
+[Term]
+id: CO_010:0000363
+name: 3 occasional
+is_a: CO_010:0000360 ! FrequencyOfUseOfThePlantCode
+
+[Term]
+id: CO_010:0000364
+name: method of use
+is_a: CO_010:0000227 ! ethnobotany descriptor
+
+[Term]
+id: CO_010:0000365
+name: MethodOfUseCode
+is_a: CO_010:0000064 ! PassportDescriptorCode
+relationship: CO_010:0000001 CO_010:0000364 ! method of use
+
+[Term]
+id: CO_010:0000366
+name: 1 table fruit
+is_a: CO_010:0000365 ! MethodOfUseCode
+
+[Term]
+id: CO_010:0000367
+name: 2 preserved
+is_a: CO_010:0000365 ! MethodOfUseCode
+
+[Term]
+id: CO_010:0000368
+name: 3 processed product
+is_a: CO_010:0000365 ! MethodOfUseCode
+
+[Term]
+id: CO_010:0000369
+name: preferred growing condition
+comment: Is the variety adaptable? if yes, describe farmers' perceptions of the variety (hardiness adaptability to water logging, etc.) in relation to main stresses in descriptor collector's notes.
+is_a: CO_010:0000227 ! ethnobotany descriptor
+
+[Term]
+id: CO_010:0000370
+name: EvaluationDescriptorCode
+is_a: CO_010:0000234 ! GermplasmDescriptorCode
+
+[Term]
+id: CO_010:0000371
+name: FertilizerApplicationCode
+is_a: CO_010:0000142 ! ManagementDescriptorCode
+is_a: CO_010:0000372 ! MultiplicationOrRegenerationDescriptorCode
+relationship: CO_010:0000001 CO_010:0000230 ! fertilizer application
+
+[Term]
+id: CO_010:0000372
+name: MultiplicationOrRegenerationDescriptorCode
+is_a: CO_010:0000234 ! GermplasmDescriptorCode
+
+[Term]
+id: CO_010:0000373
+name: classification descriptor
+is_a: CO_010:0000037 ! accession descriptor
+
+[Term]
+id: CO_010:0000374
+name: passport descriptor
+comment: Passport descriptors: These provide the basic information used for the general management of the accession (including the registration at the genebank and other identification information) and describe parameters that should be observed when the accession is originally collected.
+is_a: CO_010:0000232 ! germplasm descriptor
+relationship: CO_010:0000002 CO_010:0000252 ! passport
+
+[Term]
+id: CO_010:0000375
+name: regeneration descriptor
+is_a: CO_010:0000232 ! germplasm descriptor
+
+[Term]
+id: CO_010:0000376
+name: regeneration site location
+is_a: CO_010:0000375 ! regeneration descriptor
+
+[Term]
+id: CO_010:0000377
+name: number of time accession regenerated
+is_a: CO_010:0000375 ! regeneration descriptor
+
+[Term]
+id: CO_010:0000378
+name: previous regeneration descriptor
+is_a: CO_010:0000375 ! regeneration descriptor
+
+[Term]
+id: CO_010:0000379
+name: location of regeneration
+is_a: CO_010:0000378 ! previous regeneration descriptor
+
+[Term]
+id: CO_010:0000380
+name: pedigree source
+is_a: CO_010:0000052 ! pedigree information
+
+[Term]
+id: CO_010:0000381
+name: pedigree group
+is_a: CO_010:0000052 ! pedigree information
+
+[Term]
+id: CO_010:0000382
+name: derivative children
+def: "Children of a germplasm created by a derivative method." [GCP:km]
+is_a: CO_010:0000000 ! GCP germplasm ontology
+
+[Term]
+id: CO_010:0000383
+name: maintenance children
+def: "Children of a germplasm created by a maintenance method." [IRRI:km]
+is_a: CO_010:0000000 ! GCP germplasm ontology
+
+[Term]
+id: CO_010:0000384
+name: preferred name
+def: "The preferred name for a germplasm." [IRRI:km]
+is_a: CO_010:0000000 ! GCP germplasm ontology
+
+[Term]
+id: CO_010:0000385
+name: preferred id
+def: "The preferred id for a germplasm." [IRRI:km]
+is_a: CO_010:0000000 ! GCP germplasm ontology
+
+[Term]
+id: CO_010:0000386
+name: naming date
+def: "The date when the germplasm was given a name." [IRRI:km]
+is_a: CO_010:0000000 ! GCP germplasm ontology
+
+[Term]
+id: CO_010:0000387
+name: naming location
+def: "The location where the germplasm was given a name." [IRRI:km]
+is_a: CO_010:0000000 ! GCP germplasm ontology
+
+[Typedef]
+id: CO_010:0000001
+name: range_of
+
+[Typedef]
+id: CO_010:0000002
+name: descriptor_of
+
