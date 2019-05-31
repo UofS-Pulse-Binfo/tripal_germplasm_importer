@@ -40,15 +40,23 @@
    * may include a description of the file types allowed.
    */
   public static $upload_description = 'Germplasm file should be a tab separated file with the following colums:<ol>
-      <li>Year: the year the accession was made in.</li>
-      <li>Season: the season the accession was made in (e.g. Spring, Fall, Winter, Summer).</li>
-      <li>accession Number: a unique identifier for the accession (e.g. 1234S).</li>
-      <li>Maternal Parent: the name of the maternal parent of this accession.</li>
-      <li>Paternal Parent: the name of the paternal parent of this accession.</li>
-      <li>accession Type: the type of accession (e.g. single, double, triple).</li>
-      <li>Seed Type: either the market class or seed coat colour of the seed resulting from the accession.</li>
-      <li>Cotyledon Colour: the cotyledon colour of the seed resulting from the accession.</li>
-      <li>Comment: a free-text comment about the accession.</li>
+      <li>Accession Number: A unique identifier for the accession. </li>
+      <li>Germplasm Genus: The genus of the accession.</li>
+      <li>Germplasm Species: The species of the accession.</li>
+      <li>Germplasm Name: Name of this germplasm accession.</li>
+      <li>Germplasm PUI: The Permanent Unique Identifier which represents a germplasm.</li>
+      <li>Institute Code: The code for the Institute that has bred the material.</li>
+      <li>Institute Name: The name of the Institute that has bred the material.</li>
+      <li>Pedigree: The cross name and optional selection history.</li>
+      <li>Country of Origin Code: </li>
+      <li>Synonyms: The synonyms of the accession.</li>
+      <li>Default Display Name: Human readable name used for display purposes.</li>
+      <li>Seed Source: The source of the seed.</li>
+      <li>Acquisition Date: The date this germplasm was aquired by the genebank.</li>
+      <li>Biological Status of Accession Code: The 3 digit code representing the biological status of the accession.</li>
+      <li>Breeding Method DbId: The unique identifier for the breeding method used to create this germplasm.</li>
+      <li>subtaxa: Subtaxon can be used to store any additional taxonomic identifier.</li>
+      <li>Type of Germplasm Storage Code: The 2 digit code representing the type of storage this germplasm is kept in at a genebank. </li>
     </ol>';
 
   /**
@@ -125,5 +133,139 @@
   }
 
   public function loadGermplasmAccession($file_path, $organism, $user_prefix, $dbxref_id, $description, $is_obsolete){
+    // print upload file name in Job LOGS
+    $file_name_exp = explode('/', $file_path);
+    $this->logMessage('Upload file name: !input_file ',['!input_file' => array_pop($file_name_exp)], TRIPAL_WARNING);
+
+    $CV = array(
+      'schema' => array(
+        'name' => 'schema',
+        'definition' => 'Schema.org. Schema.org is sponsored by Google, Microsoft, Yahoo and Yandex. The vocabularies are developed by an open community process.',
+        'need_insert_by_function' => '1'
+      ),
+      'ncit' => array(
+        'name' => 'ncit',
+        'definition' => 'The NCIt OBO Edition project aims to increase integration of the NCIt with OBO Library ontologies. NCIt is a reference terminology that includes broad coverage of the cancer domain, including cancer related diseases, findings and abnormalities. NCIt OBO Edition releases should be considered experimental.',
+        'need_insert_by_function' => '1'
+      ),
+      'MCPD' => array(
+        'name' => 'multicrop passport ontology',
+        'definition' => '',
+        'need_insert_by_function' => '0'
+      ),
+      'GCP' => array(
+        'name' => 'GCP germplasm ontology',
+        'definition' => '',
+        'need_insert_by_function' => '0'
+      )
+    )
+    //read cvterm
+    $CVTERM = array(
+      'accession_number' => array(
+        'name' => 'accession number',
+        'cv_name' => 'multicrop passport ontology',
+        'need_insert_by_function' => '0'
+      ),
+      'germplasm_genus' => array(
+        'name' => 'genus',
+        'cv_name' => 'multicrop passport ontology',
+        'need_insert_by_function' => '0'
+      ),
+      'germplasm_species' => array(
+        'name' => 'species',
+        'cv_name' => 'multicrop passport ontology',
+        'need_insert_by_function' => '0'
+      ),
+      'germplasm_name' => array(
+        'name' => 'accession name',
+        'cv_name' => 'multicrop passport ontology',
+        'need_insert_by_function' => '0'
+      ),
+      'germplasm_PUI' => array(
+        'name' => 'url',
+        'is_obsolete' => 0,
+        'is_relationshiptype' => 0,
+        'definition' => 'URL of the item.',
+        'cv_name' => 'schema',
+        'accession' => 'url',
+        'db_name' => 'schema',
+        'need_insert_by_function' => '1'
+      ),
+      'institute_code' => array(
+        'name' => 'institute code',
+        'cv_name' => 'multicrop passport ontology',
+        'need_insert_by_function' => '0'
+      ),
+      'institute_name' => array(
+        'name' => 'Breeding institute name',
+        'cv_name' => 'multicrop passport ontology',
+        'need_insert_by_function' => '0'
+      ),
+      'pedigree' => array(
+        'name' => 'pedigree information',
+        'cv_name' => 'GCP germplasm ontology',
+        'need_insert_by_function' => '0'
+      ),
+      'country_of_origin_code' => array(
+        'name' => 'country of origin',
+        'cv_name' => 'GCP germplasm ontology',
+        'need_insert_by_function' => '0'
+      ),
+      'synonyms' => array(
+        'name' => 'synonym',
+        'cv_name' => 'GCP germplasm ontology',
+        'need_insert_by_function' => '0'
+      ),
+      'default_display_name' => array(
+        'name' => 'common crop name',
+        'cv_name' => 'multicrop passport ontology',
+        'need_insert_by_function' => '0'
+      ),
+      'seed_source' => array(
+        'name' => 'source',
+        'is_obsolete' => 0,
+        'is_relationshiptype' => 0,
+        'definition' => '',
+        'cv_name' => 'ncit',
+        'accession' => '',
+        'db_name' => 'NCIT',
+        'need_insert_by_function' => '1'
+      ),
+      'acquisition_date' => array(
+        'name' => 'acquisition date',
+        'cv_name' => 'multicrop passport ontology',
+        'need_insert_by_function' => '0'
+      ),
+      'biological_status_of_accession_code' => array(
+        'name' => 'biological status of accession',
+        'cv_name' => 'GCP germplasm ontology',
+        'need_insert_by_function' => '0'
+      ),
+      'breeding_method_DbId' => array(
+        'name' => 'method',
+        'is_obsolete' => 0,
+        'is_relationshiptype' => 0,
+        'definition' => '',
+        'cv_name' => 'ncit',
+        'accession' => '',
+        'db_name' => 'NCIT',
+        'need_insert_by_function' => '1'
+      ),
+      'subtaxa' => array(
+        'name' => 'subtaxa',
+        'cv_name' => 'multicrop passport ontology',
+        'need_insert_by_function' => '0'
+      ),
+      'type_of_germplasm_storage_code' => array(
+        'name' => 'type of germplasm storage',
+        'cv_name' => 'GCP germplasm ontology',
+        'need_insert_by_function' => '0'
+      )
+    );
+
+
+
+
+
   }
 }

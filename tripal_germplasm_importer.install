@@ -123,6 +123,7 @@ function tripal_germplasm_importer_enable(){
 // load required ontologies for this module, which includes:
 //  MCPD (Multi-Crop Passport Ontology)
 //  GCP germplasm ontology
+
 function load_ontologies(){
   global $user;
 
