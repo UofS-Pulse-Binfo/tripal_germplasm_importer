@@ -263,9 +263,80 @@
       )
     );
 
+    //database various so we need names for both cvterm and cv to determine specific cvterm id for a cvterm
+    //?????? $CV = $this->check_and_insert_cv($CV);
+
+    $CVTERM = $this->check_and_insert_cvterm($CVTERM, $CV);
+
+
+    $Header_names = array('' => , );
 
 
 
+
+
+
+
+
+
+
+
+
+    /** check all cv required in this module
+     *  after insertion/checking, update type_id(cvterm_id), cv_id, dbxref_id to array $CV
+     *  @param $CV
+     */
+    public function check_and_insert_cv($CV){
+      foreach($CV as $key_hr_name =>$one_cv){
+         $result_cv = chado_select_record('cv', ['cv_id'], ['name'=>$one_cv['name'] ]);
+         if (count($result_cv) == 0) {
+           $result_cv = chado_insert_cv($one_cv['name'], $one_cv['definition']);
+           $CV[$key_hr_name]['cv_id'] = $result_cv['cv_id'];
+         }
+         else{
+           $CV[$key_hr_name]['cv_id'] = $result_cv[0]->cv_id;
+         }
+      }
+      return $CV;
+    }
+
+
+     /** check all cvterms required in this module
+     * Three situatioins for each:
+     *    1. only one match, use it, and save cvterm_id for further use as type_id
+     *    2. no match, insert this term using api chado_insert_cvterm()
+     *    3. more than one match, then use cv name
+     *  after insertion/checking, update type_id(cvterm_id), cv_id, dbxref_id to array $CVTERM
+     *  @param $CVTERM
+     */
+     public function check_and_insert_cvterm($CVTERM, $CV){
+       //check each cvterm
+       foreach($CVTERM as $key_hr_name =>$one_cvterm){
+         $result_cvterm = chado_select_record('cvterm', ['cvterm_id','cv_id', 'dbxref_id'], ['name'=>$one_cvterm['name'], 'cv_id'=>$CV[$one_cvterm['cv_name']]['cv_id']]);
+         if (count($result_cvterm) == 0) {
+           $term = array(
+             'name' => $one_cvterm['name'],
+             'is_obsolete' => $one_cvterm['is_obsolete'],
+             'is_relationshiptype' => $one_cvterm['is_relationshiptype'],
+             'definition' => $one_cvterm['definition'],
+             'cv_name' => $one_cvterm['cv_name'],
+             'id' => $one_cvterm['db_name'].':'.$one_cvterm['accession']
+           );
+           chado_insert_cvterm($term);
+           $result_cvterm = chado_select_record('cvterm', ['cvterm_id','cv_id', 'dbxref_id'], ['name'=>$one_cvterm['name'], 'cv_id'=>$CV[$one_cvterm['cv_name']]['cv_id']]);
+         }
+         elseif(count($result_cvterm) == 1){
+           //@log $this->logMessage('The cvterm, !cvterm, has one match in chado.cvterm',['!cvterm' => $one_cvterm['name']], TRIPAL_WARNING);
+         }
+         else{
+          $this->logMessage('WARNING: The cvterm, !cvterm, has more than one match in chado.cvterm and no cvterm_id supplied for a unique match.',['!cvterm' => $one_cvterm['name']], TRIPAL_WARNING);
+         }
+         $CVTERM[$key_hr_name]['type_id'] = $result_cvterm[0]->cvterm_id;
+         $CVTERM[$key_hr_name]['cv_id'] = $CV[$one_cvterm['cv_name']]['cv_id'];
+         $CVTERM[$key_hr_name]['dbxref_id'] = $result_cvterm[0]->dbxref_id;
+       }
+       return $CVTERM;
+     }
 
   }
 }
