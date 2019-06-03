@@ -80,6 +80,10 @@
       $organisms[$organism->organism_id] = "$organism->genus $organism->species ($organism->common_name)";
     }
 
+    $sql = "SELECT DISTINCT genus FROM {organism}";
+    $org_rset = chado_query($sql);
+    dpm($org_rset);
+
     $form['instructions'] = [
       '#weight' => -100,
       '#markup' => '
@@ -268,18 +272,120 @@
 
     $CVTERM = $this->check_and_insert_cvterm($CVTERM, $CV);
 
+    //From DOC (https://tripal.readthedocs.io/en/latest/dev_guide/custom_data_loader.html)
+    // We want to provide a progress report to the end-user so that they:
+    // 1) Recognize that the loader is not hung if running a large file, but is
+    //    executing
+    // 2) Provides some indicatation for how long the file will take to load.
+    //
+    // Here we'll get the size of the file and tell the TripalImporter how
+    // many "items" we have to process (in this case bytes of the file).
+    $filesize = filesize($file_path);
+    $this->setTotalItems($filesize);
+    $this->setItemsHandled(0);
+    $bytes_read = 0;
 
-    $Header_names = array('' => , );
+    if(!file_exists($file_path)){
+       var_dump(['Could not find file: ', $file_path]);
+    }
+
+    $fh = fopen($file_path, 'r');
+
+    //read file, and explode each line
+    while ($line_germplasm = fgets($fh)){
+
+      //From DOC (https://tripal.readthedocs.io/en/latest/dev_guide/custom_data_loader.html)
+      // Calculate how many bytes we have read from the file and let the
+      // importer know how many have been processed so it can provide a
+      // progress indicator.
+      $bytes_read += drupal_strlen($line_germplasm);
+      $this->setItemsHandled($bytes_read);
+
+      $line_germplasm = trim($line_germplasm);
+      $germ_col = explode("\t", $line_germplasm);
+
+      //TO-DO: header check, confirm column order
+      //should be in order:
+      //1.Year 2.Season 3.Cross No. 4.Maternal Parent 5.paternal Parent 6.Cross Type
+      //7.Seed Type 8.Cotyledon Colour 9.Seed Coat 10.Comment
+      if (preg_match('/^Year/', $line_germplasm) ){
+        continue;
+      }
+
+      /**For each germplasm line
+      * since genus should be selected from drop-down box, so it exists in chado already
+      * cvterm should be checked, selected/inserted and cvterm_id should be reported to array CVTERM
+      * 1.  check and insert this germplasm
+      * 2.
+      * 3.
+      */
+      // skip comments
+      if (preg_match('/^#/', $line_germplasm)) {
+        continue;
+      }
+
+      // skip empty lines
+      if (preg_match('/^\s*$/', $line_germplasm)) {
+        continue;
+      }
+
+      $one_accession = array(
+        'accession_number' => $germ_col[0],
+        'germplasm_genus' => $germ_col[1],
+        'germplasm_species' => $germ_col[2],
+        'ermplasm_name' => $germ_col[3],
+        'germplasm_PUI' => $germ_col[4],
+        'institute_code' => $germ_col[5],
+        'institute_name' => $germ_col[6]
+      );
+      if($germ_col[7]){
+        $one_accession['pedigree'] = $germ_col[7];
+      }
+      if($germ_col[8]){
+        $one_accession['country_of_origin_code'] = $germ_col[8];
+      }
+      if($germ_col[9]){
+        $one_accession['synonyms'] = $germ_col[9];
+      }
+      if($germ_col[10]){
+        $one_accession['default_display_name'] = $germ_col[10];
+      }
+      if($germ_col[11]){
+        $one_accession['seed_source'] = $germ_col[11];
+      }
+      if($germ_col[12]){
+        $one_accession['acquisition_date'] = $germ_col[12];
+      }
+      if($germ_col[13]){
+        $one_accession['biological_status_of_accession_code'] = $germ_col[13];
+      }
+      if($germ_col[14]){
+        $one_accession['breeding_method_DbId'] = $germ_col[14];
+      }
+      if($germ_col[15]){
+        $one_accession['subtaxa'] = $germ_col[15];
+      }
+      if($germ_col[16]){
+        $one_accession['type_of_germplasm_storage_code'] = $germ_col[16];
+      }
+
+      // get organism_id using genus(user selected) and species(from file)
 
 
 
+      // check/insert this germ accession to table:stock
 
 
 
+      // check/insert to table:dbxref and table:db
 
 
 
+      // check/insert properties of this germ accession to table:stockprop
 
+
+    }
+  } //end of function
 
 
     /** check all cv required in this module
@@ -337,6 +443,3 @@
        }
        return $CVTERM;
      }
-
-  }
-}
