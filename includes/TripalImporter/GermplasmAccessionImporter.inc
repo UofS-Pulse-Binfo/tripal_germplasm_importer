@@ -50,7 +50,7 @@
       <li>Institute Name: The name of the Institute that has bred the material.</li>
       <li>Pedigree: The cross name and optional selection history.</li>
       <li>Country of Origin Code</li>
-      <li>Synonyms: The synonyms of the accession.</li>
+      <li>Synonym: The synonyms of the accession.</li>
       <li>Default Display Name: Human readable name used for display purposes.</li>
       <li>Seed Source: The source of the seed.</li>
       <li>Acquisition Date: The date this germplasm was aquired by the genebank.</li>
@@ -215,7 +215,7 @@
         'cv_name' => 'GCP germplasm ontology',
         'need_insert_by_function' => '0'
       ),
-      'synonyms' => array(
+      'synonym' => array(
         'name' => 'synonym',
         'cv_name' => 'GCP germplasm ontology',
         'need_insert_by_function' => '0'
@@ -268,7 +268,7 @@
     );
 
     //database various so we need names for both cvterm and cv to determine specific cvterm id for a cvterm
-    //?????? $CV = $this->check_and_insert_cv($CV);
+    $CV = $this->check_and_insert_cv($CV);
 
     $CVTERM = $this->check_and_insert_cvterm($CVTERM, $CV);
 
@@ -315,9 +315,11 @@
       /**For each germplasm line
       * since genus should be selected from drop-down box, so it exists in chado already
       * cvterm should be checked, selected/inserted and cvterm_id should be reported to array CVTERM
-      * 1.  check and insert this germplasm
-      * 2.
-      * 3.
+      * 1.  check for organism
+      * 2.  check and insert this germplasm accession
+      * 3.  check and insert properties to table dexref, and db
+      * 4.  check and insert properties to table stockprop
+      * 5.  check and insert properties to table synonym, and stock_synonym
       */
       // skip comments
       if (preg_match('/^#/', $line_germplasm)) {
@@ -340,7 +342,7 @@
         '8' => 'institute_code',
         '9' => 'pedigree',
         '10' => 'country_of_origin_code',
-        '11' => 'synonyms',
+        '11' => 'synonym',
         '12' => 'default_display_name',
         '13' => 'seed_source',
         '14' => 'acquisition_date',
@@ -361,47 +363,6 @@
           $one_accession[$spreadsheet_format[$i]] = $germ_col[$i-1];
         }
       }
-      /*
-      $one_accession = array(
-        'accession_number' => $germ_col[0],
-        'germplasm_genus' => $germ_col[1],
-        'germplasm_species' => $germ_col[2],
-        'ermplasm_name' => $germ_col[3],
-        'germplasm_PUI' => $germ_col[4],
-        'institute_code' => $germ_col[5],
-        'institute_name' => $germ_col[6]
-      );
-      if($germ_col[7]){
-        $one_accession['pedigree'] = $germ_col[7];
-      }
-      if($germ_col[8]){
-        $one_accession['country_of_origin_code'] = $germ_col[8];
-      }
-      if($germ_col[9]){
-        $one_accession['synonyms'] = $germ_col[9];
-      }
-      if($germ_col[10]){
-        $one_accession['default_display_name'] = $germ_col[10];
-      }
-      if($germ_col[11]){
-        $one_accession['seed_source'] = $germ_col[11];
-      }
-      if($germ_col[12]){
-        $one_accession['acquisition_date'] = $germ_col[12];
-      }
-      if($germ_col[13]){
-        $one_accession['biological_status_of_accession_code'] = $germ_col[13];
-      }
-      if($germ_col[14]){
-        $one_accession['breeding_method_DbId'] = $germ_col[14];
-      }
-      if($germ_col[15]){
-        $one_accession['subtaxa'] = $germ_col[15];
-      }
-      if($germ_col[16]){
-        $one_accession['type_of_germplasm_storage_code'] = $germ_col[16];
-      }
-      */
       
       /*#################################################################
       * step 1: check chado talbes: organism, find matched organsim (organism_id)
@@ -415,6 +376,9 @@
         'genus' => $genus,
         'species' => $one_accession['germplasm_species']
       );
+      if ($one_accession['subtaxa']){
+        $match['infraspecific_name'] = $one_accession['subtaxa'];
+      }
       $results = chado_select_record('organism', ['organism_id'], $match);
 
       if (count($results) > 1){
@@ -477,7 +441,7 @@
           $germplasm_dbxref_id = $results[0]->dbxref_id;
         }
       }
-
+      
       /*#################################################################
       * step 3: load to chado:dbxref abd chado:db
       *   3.1: using dbxref_id from last step to check chado:dbxref.debref_id
@@ -512,7 +476,7 @@
             'accession' => $one_accession['accession_number']
           );
           $results = chado_update_record('dbxref', $value_matched, $value_update);
-
+          
           if ($results == FALSE){
             $this->logMessage('The accession_number update for table:dbxref:accession of germplasm accession, !stock failed.',['!stock' => $one_accession['germplasm_name']], TRIPAL_WARNING);
           }
@@ -576,7 +540,6 @@
             'db_id' => $results_db->db_id
           );
           $results = chado_update_record('dbxref', $value_matched, $value_update);
-
           if ($results == FALSE){
             $this->logMessage('WARNING: The db_id update for table:dbxref:db_id of germplasm accession, !stock failed.',['!stock' => $one_accession['germplasm_name']], TRIPAL_WARNING);
           }
@@ -586,7 +549,7 @@
       else{
         $this->logMessage('WARNING: The db, !db, has no match in chado:db.',['!db' =>  $one_accession['external_database']], TRIPAL_WARNING);
       }
-
+      
       /*#################################################################
       * step 4: load to table:stockprop
       *   check/insert properties of this germ accession to table:stockprop using stcok_id from step2
@@ -612,16 +575,69 @@
       /*#################################################################
       * step 5: load other values
       *  5.1 (c11)synonyms (require new chado table stock_synonym)
-      *     load synonoyms to chado:synonym
-      *     also, load synonym-stock relationship to chado:stock_synonym
-      *  5.2 (c17)subtaxa
-      *     load subtaxa to chado:organism.infraspecific_value
-      *   ??? (10)default_display_name
+      *     a.load synonoyms to chado:synonym
+      *     b.also, load synonym-stock relationship to chado:stock_synonym
+      *  5.2 ??? (c12)default_display_name
+      *    
       */
       
-
-
-    }
+      $all_synonyms = explode(';', $one_accession['synonym']);
+      foreach($all_synonyms as $one_synonym){
+        // 5.1.a
+        $one_synonym = trim($one_synonym);
+        $match = array(
+          'name' => $one_synonym,
+          'type_id' => $CVTERM['synonym']['type_id']
+        );
+        $results_synonym = chado_select_record('synonym', ['synonym_id'], $match);
+        if (count($results_synonym) >= 2){
+          $this->logMessage('ERROR: The synonym, !synonym, has more than one matches in chado:synonym.',['!synonym' => $one_synonym], TRIPAL_WARNING);
+        }
+        elseif(count($results_synonym) == 1){
+          $one_synonym_id = $results_synonym[0]->synonym_id;
+        }
+        else{
+          $value = array(
+            'name' => $one_synonym,
+            'type_id'=> $CVTERM['$synonym']['type_id'],
+            'synonym_sgml'=> ''
+          );
+          $results = chado_insert_record('synonym',$value);
+          
+          if (count($results) == 0){
+            $this->logMessage('The import of synonym, !one_synonym, to table:synonym for germplasm accession, !stock, failed.',['!stock' =>  $one_accession['germplasm_name'], '!one_synonym' => $one_synonym], TRIPAL_WARNING);
+          }
+          else{
+            $one_synonym_id = $results[0]->synonym_id;
+          }
+        }
+        //5.1.b
+        $match = array(
+            'synonym_id' => $one_synonym_id
+        );
+        $results_stockSynonym = chado_select_record('stock_synonym', ['stock_synonym_id'], $match);
+        if (count($results_stockSynonym) >= 2){
+           $this->logMessage('ERROR: The synonym, !synonym, has more than one matches in chado:stock_synonym.',['!synonym' => $one_synonym], TRIPAL_WARNING);
+        }
+        elseif(count($results_stockSynonym) == 1){
+          
+        }
+        else{
+          $value = array(
+            'synonym_id' => $one_synonym_id,
+            'stock_id'=> $germplasm_stock_id,
+            'pub_id'=> 1,
+            'is_current' => NULL,
+            'is_internal' => NULL
+          );
+          $results = chado_insert_record('stock_synonym',$value);
+          if (count($results) == 0){
+            $this->logMessage('The import of synonym, !one_synonym, to table:stock_synonym for germplasm accession, !stock, failed.',['!stock' =>  $one_accession['germplasm_name'], '!one_synonym' => $one_synonym], TRIPAL_WARNING);
+          }
+        }
+        
+      } //end of foreach synonym
+    } //end reading each line
   } //end of function loadGermplasmAccession
 
 
@@ -633,8 +649,14 @@
       foreach($CV as $key_hr_name =>$one_cv){
          $result_cv = chado_select_record('cv', ['cv_id'], ['name'=>$one_cv['name'] ]);
          if (count($result_cv) == 0) {
-           $result_cv = chado_insert_cv($one_cv['name'], $one_cv['definition']);
-           $CV[$key_hr_name]['cv_id'] = $result_cv['cv_id'];
+           if ($one_cv['need_insert_by_function'] == 1){
+             $result_cv = chado_insert_cv($one_cv['name'], $one_cv['definition']);
+             $CV[$key_hr_name]['cv_id'] = $result_cv['cv_id'];
+           }
+           else{
+             $this->logMessage('ERROR: The cv, !cv, has no match in chado.cvterm which should be inserted in installation of this module.',['!cv' => $one_cv['name']], TRIPAL_WARNING);
+             break;
+           }
          }
          else{
            $CV[$key_hr_name]['cv_id'] = $result_cv[0]->cv_id;
@@ -656,17 +678,23 @@
        //check each cvterm
        foreach($CVTERM as $key_hr_name =>$one_cvterm){
          $result_cvterm = chado_select_record('cvterm', ['cvterm_id','cv_id', 'dbxref_id'], ['name'=>$one_cvterm['name'], 'cv_id'=>$CV[$one_cvterm['cv_name']]['cv_id']]);
-         if (count($result_cvterm) == 0) {
-           $term = array(
-             'name' => $one_cvterm['name'],
-             'is_obsolete' => $one_cvterm['is_obsolete'],
-             'is_relationshiptype' => $one_cvterm['is_relationshiptype'],
-             'definition' => $one_cvterm['definition'],
-             'cv_name' => $one_cvterm['cv_name'],
-             'id' => $one_cvterm['db_name'].':'.$one_cvterm['accession']
-           );
-           chado_insert_cvterm($term);
-           $result_cvterm = chado_select_record('cvterm', ['cvterm_id','cv_id', 'dbxref_id'], ['name'=>$one_cvterm['name'], 'cv_id'=>$CV[$one_cvterm['cv_name']]['cv_id']]);
+         if (count($result_cvterm) == 0 ) {
+           if ($one_cvterm['need_insert_by_function'] == 1){
+             $term = array(
+               'name' => $one_cvterm['name'],
+               'is_obsolete' => $one_cvterm['is_obsolete'],
+               'is_relationshiptype' => $one_cvterm['is_relationshiptype'],
+               'definition' => $one_cvterm['definition'],
+               'cv_name' => $one_cvterm['cv_name'],
+               'id' => $one_cvterm['db_name'].':'.$one_cvterm['accession']
+             );
+             chado_insert_cvterm($term);
+             $result_cvterm = chado_select_record('cvterm', ['cvterm_id','cv_id', 'dbxref_id'], ['name'=>$one_cvterm['name'], 'cv_id'=>$CV[$one_cvterm['cv_name']]['cv_id']]);
+           }
+           else{
+             $this->logMessage('ERROR: The cvterm, !cvterm, has no match in chado.cvterm which should be inserted in installation of this module.',['!cvterm' => $one_cvterm['name']], TRIPAL_WARNING);
+             break;
+           }
          }
          elseif(count($result_cvterm) == 1){
            //@log $this->logMessage('The cvterm, !cvterm, has one match in chado.cvterm',['!cvterm' => $one_cvterm['name']], TRIPAL_WARNING);
@@ -718,4 +746,4 @@
    }
    
    
-}
+} //end of this class
