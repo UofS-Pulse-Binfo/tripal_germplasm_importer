@@ -1,0 +1,3 @@
+Accession Number	Germplasm Genus	Germplasm Species	Germplasm Name	Germplasm PUI	External Database	Institute Code	Institute Name	Pedigree	Country of Origin Code	Synonyms	Default Display Name	Seed Source	Acquisition Date	Biological Status of Accession Code	Breeding Method DbId	subtaxa	Type of Germplasm Storage Code
+Test:cat005	Felis	silvestris	European wild cat			CUAC	University of Saskatchewan		Europe		HahaAnEuroCat	HahaNotSeed	12340101	0	Becoming strong		Wild
+Test:cat006	Felis	catus	Domesticated cat			CUAC	University of Saskatchewan	CatFather/CatMohter	WORLD	Cat	HahaACuteCat	HahaNotSeed	12340101	1	Becoming cute		Home
