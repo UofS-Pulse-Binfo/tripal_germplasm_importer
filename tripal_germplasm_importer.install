@@ -118,6 +118,27 @@ function tripal_germplasm_importer_enable(){
     ));
   }
 
+  $table = 'stock_synonym';
+  $schema = array(
+    'table' => 'stock_synonym',
+    'description' => '',
+    'fields' => array(
+      
+    ),
+    'primary key' => array(
+      
+    ),
+    'indexes' => array(
+      
+    ),
+    'foreign keys' => array(
+      
+    )
+    
+  );
+
+  chado_create_custom_table($table, $schema, TRUE, NULL, FALSE);
+
 }
 
 // load required ontologies for this module, which includes:
