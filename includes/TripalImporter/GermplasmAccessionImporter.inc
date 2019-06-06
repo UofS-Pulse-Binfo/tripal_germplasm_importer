@@ -76,12 +76,10 @@
     $sql = "SELECT DISTINCT genus FROM {organism}";
     $org_rset = chado_query($sql);
     $genus = array();
-    //$genus[''] = '';
-    //$genus_count = 0;
+    $genus[''] = '';
     while ($one_genus = $org_rset->fetchObject()) {
-      //$genus[$genus_count] = $one_genus->genus;
-      //$genus_count++;
-      array_push($genus, $one_genus->genus);
+      $genus[$one_genus->genus] = $one_genus->genus;
+      //array_push($genus, $one_genus->genus);
     }
 
     $form['instructions'] = [
@@ -105,7 +103,7 @@
       '#required' => TRUE,
       '#description' => t('Select the genus for germplasm accession file you would like to upload'),
     ];
-
+    dpm($form);
     return $form;
   }
 
@@ -116,8 +114,8 @@
   public function formValidate($form, &$form_state){
     //parent::formValidate($form, $form_state);
     $genus_name = $form_state['values']['genus_name'];
-
-    if ($genus_name == 0){
+    dpm($form_state, 'form state');
+    if (!$genus_name){
       form_set_error('genus_name','Please choose a genus');
     }
   }
@@ -132,12 +130,14 @@
     $analysis_id = $arguments['analysis_id'];
     $genus_name = $arguments['genus_name'];
     $user_prefix = $arguments['prefix'];
-
     $this->loadGermplasmAccession($file_path, $genus_name, $user_prefix, $dbxref_id = NULL, $description = NULL, $is_obsolete = f);
   }
 
   public function loadGermplasmAccession($file_path, $genus, $user_prefix, $dbxref_id, $description, $is_obsolete){
     // print upload file name in Job LOGS
+    
+    print("genus name: $genus/n");
+    
     $file_name_exp = explode('/', $file_path);
     $this->logMessage('Upload file name: !input_file ',['!input_file' => array_pop($file_name_exp)], TRIPAL_WARNING);
 
