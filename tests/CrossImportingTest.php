@@ -5,7 +5,7 @@ use StatonLab\TripalTestSuite\DBTransaction;
 use StatonLab\TripalTestSuite\TripalTestCase;
 use Faker\Factory;
 
-class ImportingTest extends TripalTestCase {
+class CrossImportingTest extends TripalTestCase {
   // Uncomment to auto start and rollback db transactions per test method.
   use DBTransaction;
 
@@ -33,9 +33,9 @@ class ImportingTest extends TripalTestCase {
 
     $user_prefix = 'UnitTest';
 
-    $importer = new \GermplasmImporter();
+    $importer = new \GermplasmCrossImporter();
     
-    $result = $importer->loadGermplasm($file_path, $organism_id, $user_prefix, $dbxref_id = NULL, $description = NULL, $is_obsolete = f);
+    $result = $importer->loadGermplasmCross($file_path, $organism_id, $user_prefix, $dbxref_id = NULL, $description = NULL, $is_obsolete = f);
     
     return [
       'test_file_path' => trim($file_path, '"'),

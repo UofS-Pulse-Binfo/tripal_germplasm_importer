@@ -489,7 +489,7 @@
             break;
         }
         elseif (count($results_dbxref) == 1){
-          $germplasm_dbxref_id = $results[0]->dbxref_id;
+          $germplasm_dbxref_id = $results_dbxref[0]->dbxref_id;
         }
         else{
           // insert this record to chado:dbxref
@@ -509,6 +509,15 @@
         }
         //@test
         print("S3.1: the dbxref_id for this germplasm accession: $germplasm_dbxref_id. \n\n");
+        
+        // update dbxref_id back to chado:stock.dbxref_id
+        $value_matched = array(
+          'stock_id' => $germplasm_stock_id
+        );
+        $value_update = array(
+          'dbxref_id' => $germplasm_dbxref_id
+        );
+        chado_update_record('stock', $value_matched, $value_update);
         
         //3.2
         if (($one_accession['external_database']) && ($one_accession['germplasm_PUI'])){
