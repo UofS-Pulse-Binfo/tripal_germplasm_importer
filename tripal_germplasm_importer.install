@@ -140,14 +140,15 @@ function tripal_germplasm_importer_enable(){
       'pub_id' => array(
         'size' => 'big',
         'type' => 'int',
+        'not null' => TRUE,
       ),
       'is_current' => array(
-        'type' => 'bool',
-        'default' => FALSE,
+        'type' => 'int',
+        'default' => 0,
       ),
       'is_internal' => array(
-        'type' => 'bool',
-        'default' => FALSE,
+        'type' => 'int',
+        'default' => 0,
       ),
     ),
     'primary key' => array(
@@ -188,16 +189,15 @@ function tripal_germplasm_importer_enable(){
 
   chado_create_custom_table($table, $schema, TRUE, NULL, FALSE);
 
-}
-
-// load required ontologies for this module, which includes:
-//  MCPD (Multi-Crop Passport Ontology)
-//  GCP germplasm ontology
-
-function load_ontologies(){
   global $user;
 
-  // Load all the Ontologies we need.
+  // load required ontologies for this module, which includes:
+  //  MCPD (Multi-Crop Passport Ontology)
+  //  GCP germplasm ontology
   require_once('includes/job.load_ontolgies.inc');
   load_ontologies_job();
+
 }
+
+
+

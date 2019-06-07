@@ -11,8 +11,8 @@
  */
 function load_ontologies_job($job = NULL) {
 
-  $ontology_path = drupal_get_path('module', 'kp_entities') . '/ontologies/';
-  $ontologies = kp_entities_ontology_list();
+  $ontology_path = drupal_get_path('module', 'tripal_germplasm_importer') . '/ontologies/';
+  $ontologies = module_ontology_list();
   foreach ($ontologies as $abbrev => $details) {
 
     // If indicated then we want to load all terms for this ontology.
