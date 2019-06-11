@@ -90,12 +90,6 @@
       ',
     ];
 
-    $form['prefix'] = [
-      '#type' => 'textfield',
-      '#title' => 'Prefix',
-      '#description' => 'Please give a prefix for this germplasm accession. Unique names for germplasm contained in file will be this prefix followed by stock id. Unique prefix can help you track this germplasm in the future, and default prefix is GERM.<br><b>NOTE:</b> unique names for existed germplasm accession will be updated with new prefix too.',
-    ];
-
     $form['genus_name'] = [
       '#type' => 'select',
       '#title' => t('Genus'),
@@ -103,6 +97,24 @@
       '#required' => TRUE,
       '#description' => t('Select the genus for germplasm accession file you would like to upload'),
     ];
+    /* @TO-DO update available species for this genus
+    $form['available_species'] = [
+      '#type' => 'textarea',
+      '#title' => t('Available Species under this Genus in Database'),
+      '#description' => t('All available species under selected genus, please make sure all species in file can match to one species.'),
+    ];
+    // display species in database
+    if(isset($form_state['values']['genus_name'])){
+      $sql = "SELECT DISTINCT species FROM {organism} WHERE genus = :genus_selected";
+      $args = array(':genus_selected' => $form_state['values']['genus_name']);
+      $org_rset = chado_query($sql, $args);
+      $species_inDB = array();
+      while ($one_species = $org_rset->fetchObject()) {
+        $species_inDB[$one_species->species] = $one_species->species;
+      }
+      $form['available_species']['default_value'] = $species_inDB;
+    }
+    */
     dpm($form);
     return $form;
   }
@@ -129,15 +141,14 @@
 
     $analysis_id = $arguments['analysis_id'];
     $genus_name = $arguments['genus_name'];
-    $user_prefix = $arguments['prefix'];
-    $this->loadGermplasmAccession($file_path, $genus_name, $user_prefix, $dbxref_id = NULL, $description = NULL, $is_obsolete = f);
+    $this->loadGermplasmAccession($file_path, $genus_name, $dbxref_id = NULL, $description = NULL, $is_obsolete = f);
   }
 
   public function loadGermplasmAccession($file_path, $genus, $user_prefix, $dbxref_id, $description, $is_obsolete){
     // print upload file name in Job LOGS
-    
+
     print("genus name: $genus/n");
-    
+
     $file_name_exp = explode('/', $file_path);
     $this->logMessage('Upload file name: !input_file ',['!input_file' => array_pop($file_name_exp)], TRIPAL_WARNING);
 
@@ -467,7 +478,7 @@
       //@test
       print("S2: the stock_id for this germplasm accession: $germplasm_stock_id. \n");
       print("S2: the uniquename/accession for this germplasm accession: $germplasm_uniquename_accession. \n\n");
-      
+
       /*#################################################################
       * step 3: load to chado:dbxref abd chado:db
       *   3.1: using (c1)accession_number step to check chado:dbxref.accession
@@ -483,7 +494,7 @@
           'accession' => $germplasm_uniquename_accession
         );
         $results_dbxref = chado_select_record('dbxref', ['dbxref_id', 'db_id'], $match);
-  
+
         if (count($results_dbxref) >= 2){
             $this->logMessage('ERROR: The dbxref.accession, !dbxref, has more than one matched accession in chado:dbxref.',['!dbxref' =>   $germplasm_uniquename_accession], TRIPAL_WARNING);
             break;
@@ -499,7 +510,7 @@
             'version' => 0
           );
           $results = chado_insert_record('dbxref', $value);
-          
+
           if ($results == FALSE){
             $this->logMessage('The dbxref insertion for table:dbxref of germplasm accession, !stock failed.',['!stock' => $one_accession['germplasm_name']], TRIPAL_WARNING);
           }
@@ -509,7 +520,7 @@
         }
         //@test
         print("S3.1: the dbxref_id for this germplasm accession: $germplasm_dbxref_id. \n\n");
-        
+
         // update dbxref_id back to chado:stock.dbxref_id
         $value_matched = array(
           'stock_id' => $germplasm_stock_id
@@ -518,20 +529,20 @@
           'dbxref_id' => $germplasm_dbxref_id
         );
         chado_update_record('stock', $value_matched, $value_update);
-        
+
         //3.2
         if (($one_accession['external_database']) && ($one_accession['germplasm_PUI'])){
           $match = array(
             'name' => $one_accession['external_database']
           );
           $results_db = chado_select_record('db', ['db_id','urlprefix'], $match);
-  
+
           if (count($results_db) >= 2){
               $this->logMessage('ERROR: The db, !db, has more than one matches in chado:db.',['!db' =>  $one_accession['external_database']], TRIPAL_WARNING);
               break;
           }
           elseif (count($results_db) == 1){
-  
+
             // check/update chado:db.urlprefix
             $db_urlprefix = $results_db[0]->urlprefix;
             if( $db_urlprefix ){
@@ -551,7 +562,7 @@
                 $this->logMessage('WARNING: The accession_number update for table:dbxref:accession of stock, !stock failed.',['!stock' => $one_accession['germplasm_name']], TRIPAL_WARNING);
               }
             }
-  
+
             // at this point, dbxref_id for current germplasm accession must exist in chado.dbxref, check/update chado:dbxref.db_id
             if ($results_dbxref->db_id){
               if ($results_db->db_id != $results_dbxref->db_id){
@@ -570,7 +581,7 @@
                 $this->logMessage('WARNING: The db_id update for table:dbxref:db_id of germplasm accession, !stock failed.',['!stock' => $one_accession['germplasm_name']], TRIPAL_WARNING);
               }
             }
-  
+
           }
           else{
             $this->logMessage('WARNING: The db, !db, has no match in chado:db.',['!db' =>  $one_accession['external_database']], TRIPAL_WARNING);
@@ -642,7 +653,7 @@
               'synonym_sgml'=> ''
             );
             $results = chado_insert_record('synonym',$value);
-  
+
             if (count($results) == 0){
               $this->logMessage('The import of synonym, !one_synonym, to table:synonym for germplasm accession, !stock, failed.',['!stock' =>  $one_accession['germplasm_name'], '!one_synonym' => $one_synonym], TRIPAL_WARNING);
             }
@@ -659,7 +670,7 @@
              $this->logMessage('ERROR: The synonym, !synonym, has more than one matches in chado:stock_synonym.',['!synonym' => $one_synonym], TRIPAL_WARNING);
           }
           elseif(count($results_stockSynonym) == 1){
-  
+
           }
           else{
             $value = array(
@@ -676,9 +687,9 @@
           }
         } //end of foreach synonym
       }
-      
+
     } //end reading each line
-    
+
   } //end of function loadGermplasmAccession
 
 
