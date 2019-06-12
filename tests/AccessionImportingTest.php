@@ -37,7 +37,7 @@ class AccessionImportingTest extends TripalTestCase {
 
     // the list for testing, including chado:talbe.column and column order in file
     $test_list = array(
-      '' => array(),
+      '0' => array(),
       '' => array(),
 
     );
