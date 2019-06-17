@@ -40,24 +40,19 @@
    * may include a description of the file types allowed.
    */
   public static $upload_description = 'Germplasm file should be a tab separated file with the following colums:<ol>
+      <li>Germplasm Name: Name of this germplasm accession.</li>
+      <li>External Database</li>
       <li>Accession Number: A unique identifier for the accession. </li>
       <li>Germplasm Genus: The genus of the accession.</li>
       <li>Germplasm Species: The species of the accession.</li>
-      <li>Germplasm Name: Name of this germplasm accession.</li>
-      <li>Germplasm PUI: The Permanent Unique Identifier which represents a germplasm.</li>
-      <li>External Database</li>
+      <li>Germplasm Subtaxa: Subtaxon can be used to store any additional taxonomic identifier.</li>
       <li>Institute Code: The code for the Institute that has bred the material.</li>
       <li>Institute Name: The name of the Institute that has bred the material.</li>
-      <li>Pedigree: The cross name and optional selection history.</li>
       <li>Country of Origin Code</li>
-      <li>Synonym: The synonyms of the accession.</li>
-      <li>Default Display Name: Human readable name used for display purposes.</li>
-      <li>Seed Source: The source of the seed.</li>
-      <li>Acquisition Date: The date this germplasm was aquired by the genebank.</li>
-      <li>Biological Status of Accession Code: The 3 digit code representing the biological status of the accession.</li>
-      <li>Breeding Method DbId: The unique identifier for the breeding method used to create this germplasm.</li>
-      <li>subtaxa: Subtaxon can be used to store any additional taxonomic identifier.</li>
-      <li>Type of Germplasm Storage Code: The 2 digit code representing the type of storage this germplasm is kept in at a genebank. </li>
+      <li>Biological Status of Accession: The 3 digit code representing the biological status of the accession.</li>
+      <li>Breeding Method: The unique identifier for the breeding method used to create this germplasm.</li>
+      <li>Pedigree: The cross name and optional selection history.</li>
+      <li>Synonyms: The synonyms of the accession.</li>
     </ol>';
 
   /**
@@ -97,7 +92,7 @@
       '#required' => TRUE,
       '#description' => t('Select the genus for germplasm accession file you would like to upload'),
     ];
-    /* @TO-DO update available species for this genus
+    /* @TO-DO provide available species for this genus so user can check their file
     $form['available_species'] = [
       '#type' => 'textarea',
       '#title' => t('Available Species under this Genus in Database'),
@@ -196,23 +191,13 @@
         'cv_name' => 'GCP',
         'need_insert_by_function' => '0'
       ),
-      'germplasm_PUI' => array(
-        'name' => 'url',
-        'is_obsolete' => 0,
-        'is_relationshiptype' => 0,
-        'definition' => 'URL of the item.',
-        'cv_name' => 'schema',
-        'accession' => 'url',
-        'db_name' => 'schema',
-        'need_insert_by_function' => '1'
-      ),
       'institute_code' => array(
         'name' => 'institute code',
         'cv_name' => 'MCPD',
         'need_insert_by_function' => '0'
       ),
       'institute_name' => array(
-        'name' => 'Breeding institute name',
+        'name' => 'breeding institute name',
         'cv_name' => 'MCPD',
         'need_insert_by_function' => '0'
       ),
@@ -229,26 +214,6 @@
       'synonym' => array(
         'name' => 'synonym',
         'cv_name' => 'GCP',
-        'need_insert_by_function' => '0'
-      ),
-      'default_display_name' => array(
-        'name' => 'common crop name',
-        'cv_name' => 'MCPD',
-        'need_insert_by_function' => '0'
-      ),
-      'seed_source' => array(
-        'name' => 'source',
-        'is_obsolete' => 0,
-        'is_relationshiptype' => 0,
-        'definition' => '',
-        'cv_name' => 'ncit',
-        'accession' => '',
-        'db_name' => 'NCIT',
-        'need_insert_by_function' => '1'
-      ),
-      'acquisition_date' => array(
-        'name' => 'acquisition date',
-        'cv_name' => 'MCPD',
         'need_insert_by_function' => '0'
       ),
       'biological_status_of_accession_code' => array(
@@ -269,11 +234,6 @@
       'subtaxa' => array(
         'name' => 'subtaxa',
         'cv_name' => 'MCPD',
-        'need_insert_by_function' => '0'
-      ),
-      'type_of_germplasm_storage_code' => array(
-        'name' => 'type of germplasm storage',
-        'cv_name' => 'GCP',
         'need_insert_by_function' => '0'
       )
     );
@@ -341,37 +301,34 @@
       }
 
       $spreadsheet_format = array(
-        '1' => 'accession_number',
-        '2' => 'germplasm_genus',
-        '3' => 'germplasm_species',
-        '4' => 'germplasm_name',
-        '5' => 'germplasm_PUI',
-        '6' => 'external_database',
-        '7' => 'institute_code',
-        '8' => 'institute_name',
-        '9' => 'pedigree',
-        '10' => 'country_of_origin_code',
-        '11' => 'synonym',
-        '12' => 'default_display_name',
-        '13' => 'seed_source',
-        '14' => 'acquisition_date',
-        '15' => 'biological_status_of_accession_code',
-        '16' => 'breeding_method_DbId',
-        '17' => 'subtaxa',
-        '18' => 'type_of_germplasm_storage_code'
+        '1' => ['name'=>'germplasm_name', 'required' => true],
+        '2' => ['name'=>'external_database', 'required' => false],
+        '3' => ['name'=>'accession_number', 'required' => true],
+        '4' => ['name'=>'germplasm_genus', 'required' => true],
+        '5' => ['name'=>'germplasm_species', 'required' => true],
+        '6' => ['name'=>'subtaxa', 'required' => false],
+        '7' => ['name'=>'institute_code', 'required' => false],
+        '8' => ['name'=>'institute_name', 'required' => false],
+        '9' => ['name'=>'country_of_origin_code', 'required' => false],
+        '10' => ['name'=>'biological_status_of_accession_code', 'required' => false],
+        '11' => ['name'=>'breeding_method_DbId', 'required' => false],
+        '12' => ['name'=>'pedigree', 'required' => false],
+        '13' => ['name'=>'synonym', 'required' => false],
       );
 
       $one_accession = array();
       // save required values(c1 to c8) into array
-      for ($i=1;$i<=4;$i++){
-        $one_accession[$spreadsheet_format[$i]] = $germ_col[$i-1];
-      }
-      // save optional values(c9 to c18) into array
-      for ($i=5;$i<=18;$i++){
-        if ($germ_col[$i-1]){
-          $one_accession[$spreadsheet_format[$i]] = $germ_col[$i-1];
+      for ($i=1;$i<=count($spreadsheet_format);$i++){
+        if ($spreadsheet_format[$i]['required'] == true){
+          $one_accession[$spreadsheet_format[$i]['name']] = $germ_col[$i-1];
+        }
+        else{
+          if ($germ_col[$i-1]){
+            $one_accession[$spreadsheet_format[$i]['name']] = $germ_col[$i-1];
+          }
         }
       }
+
       //@test
       print_r($one_accession);
       /*#################################################################
@@ -481,10 +438,10 @@
 
       /*#################################################################
       * step 3: load to chado:dbxref abd chado:db
-      *   3.1: using (c1)accession_number step to check chado:dbxref.accession
-      *     insert/update record to chado:dbxref.dbxref_id, chado:dbxref.accession=(c1)accession_number
-      *   3.2: using (c6)external_database check chado:db.name
-      *     insert/update record to chado:db.db_id,  chado:db.urlprefix=(c5)germplasm_pui
+      *   3.1: using (c3)accession_number step to check chado:dbxref.accession
+      *     insert/update record to chado:dbxref.dbxref_id, chado:dbxref.accession=(c3)accession_number
+      *   3.2: using (c2)external_database check chado:db.name
+      *     insert/update record to chado:db.db_id,  chado:db.urlprefix=
       *     update record chado:dbxref.db_id
       */
 
@@ -531,7 +488,7 @@
         chado_update_record('stock', $value_matched, $value_update);
 
         //3.2
-        if (($one_accession['external_database']) && ($one_accession['germplasm_PUI'])){
+        if ( $one_accession['external_database'] ){
           $match = array(
             'name' => $one_accession['external_database']
           );
@@ -542,7 +499,7 @@
               break;
           }
           elseif (count($results_db) == 1){
-
+            /*
             // check/update chado:db.urlprefix
             $db_urlprefix = $results_db[0]->urlprefix;
             if( $db_urlprefix ){
@@ -562,7 +519,7 @@
                 $this->logMessage('WARNING: The accession_number update for table:dbxref:accession of stock, !stock failed.',['!stock' => $one_accession['germplasm_name']], TRIPAL_WARNING);
               }
             }
-
+            */
             // at this point, dbxref_id for current germplasm accession must exist in chado.dbxref, check/update chado:dbxref.db_id
             if ($results_dbxref->db_id){
               if ($results_db->db_id != $results_dbxref->db_id){
@@ -607,11 +564,8 @@
         'institute_name',
         'pedigree',
         'country_of_origin_code',
-        'seed_source',
-        'acquisition_date',
         'biological_status_of_accession_code',
         'breeding_method_DbId',
-        'type_of_germplasm_storage_code'
         );
 
       foreach($column_insert_2_stockprop as $one_prop){

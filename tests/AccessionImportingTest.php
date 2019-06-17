@@ -32,14 +32,71 @@ class AccessionImportingTest extends TripalTestCase {
   * need genus, species, propter db name selected, accession_number not existed
   */
   public function testFileLoading() {
+    $this->assertTrue(true);
     module_load_include('inc', 'tripal_germplasm_importer', 'includes/TripalImporter/GermplasmAccessionImporter');
-    $this -> insert_test_file();
+
+    //$this -> insert_test_file();
 
     // the list for testing, including chado:talbe.column and column order in file
     $test_list = array(
-      '0' => array(),
-      '' => array(),
-
+      '0' => array(
+        'table' => 'stock',
+        'column' => 'name'
+      ),
+      '1' => array(
+        'table' => 'db',
+        'column' => 'name'
+      ),
+      '2' => array(
+        'table' => 'stock',
+        'column' => 'uniquename'
+      ),
+      '3' => array(
+        'table' => 'organism',
+        'column' => 'genus'
+      ),
+      '4' => array(
+        'table' => 'organism',
+        'column' => 'species'
+      ),
+      '5' => array(
+        'table' => 'organism',
+        'column' => 'infraspecific_name'
+      ),
+      '6' => array(
+        'table' => 'stockprop',
+        'column' => 'value',
+        'cvterm' => 'institute code'
+      ),
+      '7' => array(
+        'table' => 'stockprop',
+        'column' => 'value',
+        'cvterm' => 'breeding institute name'
+      ),
+      '8' => array(
+        'table' => 'stockprop',
+        'column' => 'value',
+        'cvterm' => 'country of origin'
+      ),
+      '9' => array(
+        'table' => 'stockprop',
+        'column' => 'value',
+        'cvterm' => 'biological status of accession'
+      ),
+      '10' => array(
+        'table' => 'stockprop',
+        'column' => 'value',
+        'cvterm' => 'method'
+      ),
+      '11' => array(
+        'table' => 'stockprop',
+        'column' => 'value',
+        'cvterm' => 'country of origin'
+      ),
+      '12' => array(
+        'table' => 'synonym',
+        'column' => 'name'
+      ),
     );
 
     //
