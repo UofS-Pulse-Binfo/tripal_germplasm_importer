@@ -281,9 +281,6 @@
       $bytes_read += drupal_strlen($line_germplasm);
       $this->setItemsHandled($bytes_read);
 
-      $line_germplasm = trim($line_germplasm);
-      $germ_col = explode("\t", $line_germplasm);
-
       //TO-DO: header check, confirm column order
       //should be in order:
       //1.Year 2.Season 3.Cross No. 4.Maternal Parent 5.paternal Parent 6.Cross Type
@@ -309,35 +306,37 @@
         continue;
       }
 
+      $germ_col = explode("\t", $line_germplasm);
+
       $stock = array(
-        'name' => $germ_col[2]
+        'name' => trim($germ_col[2])
       );
       if($germ_col[0]){
-        $stock['year'] = $germ_col[0];
+        $stock['year'] = trim($germ_col[0]);
       }
       if($germ_col[1]){
-        $stock['season'] = $germ_col[1];
+        $stock['season'] = trim($germ_col[1]);
       }
       if($germ_col[3]){
-        $stock['maternal_parent'] = $germ_col[3];
+        $stock['maternal_parent'] = trim($germ_col[3]);
       }
       if($germ_col[4]){
-        $stock['paternal_parent'] = $germ_col[4];
+        $stock['paternal_parent'] = trim($germ_col[4]);
       }
       if($germ_col[5]){
-        $stock['cross_type'] = $germ_col[5];
+        $stock['cross_type'] = trim($germ_col[5]);
       }
       if($germ_col[6]){
-        $stock['seed_type'] = $germ_col[6];
+        $stock['seed_type'] = trim($germ_col[6]);
       }
       if($germ_col[7]){
-        $stock['cotyledon_colour'] = $germ_col[7];
+        $stock['cotyledon_colour'] = trim($germ_col[7]);
       }
       if($germ_col[8]){
-        $stock['seed_coat_colour'] = $germ_col[8];
+        $stock['seed_coat_colour'] = trim($germ_col[8]);
       }
       if($germ_col[9]){
-        $stock['comment'] = $germ_col[9];
+        $stock['comment'] = trim($germ_col[9]);
       }
 
       //$this->logMessage(("\n\n".'Loading !stock.'),['!stock' => $stock['name']], TRIPAL_WARNING);
