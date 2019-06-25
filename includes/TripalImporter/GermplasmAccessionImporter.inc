@@ -110,7 +110,7 @@
       $form['available_species']['default_value'] = $species_inDB;
     }
     */
-    dpm($form);
+    //@test dpm($form);
     return $form;
   }
 
@@ -121,7 +121,7 @@
   public function formValidate($form, &$form_state){
     //parent::formValidate($form, $form_state);
     $genus_name = $form_state['values']['genus_name'];
-    dpm($form_state, 'form state');
+    //@test dpm($form_state, 'form state');
     if (!$genus_name){
       form_set_error('genus_name','Please choose a genus');
     }

@@ -99,11 +99,23 @@ class AccessionImportingTest extends TripalTestCase {
       ),
     );
 
-    //
+    //test file path
+    $test_file_path = DRUPAL_ROOT . '/' . drupal_get_path('module','tripal_germplasm_importer') . '/tests/test_files/';
+    $fh_test = fopen($test_file_path, 'r');
+    while ($test_line = fgets($fh_test)){
+      if (preg_match('/^Accession/', $line_germplasm) ){
+        continue;
+      }
+      $test_line_exp = explode('\t', $test_line);
+      foreach ($test_list as $key => $values){
+        chado_select_record($test_list[$key]['table'], )
 
 
+      }
 
-  }
+    }
+
+  } //end of this test
 
   /**
   * prepare all variables we need for test
