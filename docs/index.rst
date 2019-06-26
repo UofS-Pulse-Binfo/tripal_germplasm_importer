@@ -1,5 +1,5 @@
 
-Germplasm Cross Importer: Available documentation!
+Tripal Germplasm Importer: Available documentation!
 ====================================================
 
 .. toctree::

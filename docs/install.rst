@@ -37,8 +37,22 @@ Another method that can enable our module is using drush:
   drush pm-enable tripal_germplasm_importer
 
 
+.. note::
+
+  In this step, module required CVs and CVterms will be inserted if necessary.
+
+
+Set Permissions
+---------------
+
+By default, permission of using both importers in this module is not set. It can be configured in "Home » Administration » People » Permissions".
+
+.. image:: install.4.permission.png
+
 Use Module
 ----------
-After Germplasm Cross Importer is installed and enabled, it should be ready to use in "Home » Administration » Tripal » Data Loader".
+After the module is installed and enabled, both Germplasm Cross Importer and Germplasm Accession Importer should be ready to use in "Home » Administration » Tripal » Data Loader".
 
-.. image:: install.2.main_page.png
+.. image:: install.2.cross_importer.png
+
+.. image:: install.3.accession_importer.png
