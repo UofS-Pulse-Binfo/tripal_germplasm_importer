@@ -41,14 +41,14 @@
    */
   public static $upload_description = 'Germplasm file should be a tab separated file with the following colums:<ol>
       <li>Germplasm Name: Name of this germplasm accession.</li>
-      <li>External Database</li>
+      <li>External Database: The institution who assigned the following accession.</li>
       <li>Accession Number: A unique identifier for the accession. </li>
       <li>Germplasm Genus: The genus of the accession.</li>
       <li>Germplasm Species: The species of the accession.</li>
       <li>Germplasm Subtaxa: Subtaxon can be used to store any additional taxonomic identifier.</li>
       <li>Institute Code: The code for the Institute that has bred the material.</li>
       <li>Institute Name: The name of the Institute that has bred the material.</li>
-      <li>Country of Origin Code</li>
+      <li>Country of Origin Code: 3-letter ISO 3166-1 code of the country in which the sample was originally.</li>
       <li>Biological Status of Accession: The 3 digit code representing the biological status of the accession.</li>
       <li>Breeding Method: The unique identifier for the breeding method used to create this germplasm.</li>
       <li>Pedigree: The cross name and optional selection history.</li>
@@ -495,31 +495,10 @@
           $results_db = chado_select_record('db', ['db_id','urlprefix'], $match);
 
           if (count($results_db) >= 2){
-              $this->logMessage('ERROR: The db, !db, has more than one matches in chado:db.',['!db' =>  $one_accession['external_database']], TRIPAL_WARNING);
+              $this->logMessage('ERROR: The db, !db, has more than one match in chado:db.',['!db' =>  $one_accession['external_database']], TRIPAL_WARNING);
               break;
           }
           elseif (count($results_db) == 1){
-            /*
-            // check/update chado:db.urlprefix
-            $db_urlprefix = $results_db[0]->urlprefix;
-            if( $db_urlprefix ){
-              if ($one_accession['germplasm_PUI'] != $db_urlprefix){
-                $this->logMessage('WARNING: The db_urlprefix, !db_urlprefix, exists in chado.dbxref but not match to loading file germplasm_PUI: !file_url.',['!db_urlprefix' =>  $db_urlprefix, '!file_url'=> $one_accession['germplasm_PUI']], TRIPAL_WARNING);
-              }
-            }
-            else{
-              $value_matched = array(
-                'db_id'=> $results_db[0]->db_id
-              );
-              $value_update = array(
-                'urlprefix' => $one_accession['germplasm_PUI']
-              );
-              $results = chado_update_record('db', $value_matched, $value_update);
-              if ($results == FALSE){
-                $this->logMessage('WARNING: The accession_number update for table:dbxref:accession of stock, !stock failed.',['!stock' => $one_accession['germplasm_name']], TRIPAL_WARNING);
-              }
-            }
-            */
             // at this point, dbxref_id for current germplasm accession must exist in chado.dbxref, check/update chado:dbxref.db_id
             if ($results_dbxref->db_id){
               if ($results_db->db_id != $results_dbxref->db_id){
@@ -557,7 +536,23 @@
       * step 4: load to table:stockprop
       *   check/insert properties of this germ accession to table:stockprop using stcok_id from step2
       *   function load_stockprop($stockprop_name, $stockprop_stock_id, $stockprop_type_id, $stockprop_value)
-      *   ??? (c9)pedigree
+      *   Note: pedigree is saved in format: maternal-parent/paternal-parent
+      *   Note: possible options for biological status, all should have the4ir own cvterm:
+             100 wild
+             110 natural
+             120 semi-natural or wild
+             200 weedy
+             300 traditional cultivar
+             400 breedingmaterial
+             410 breeder's line
+             411 synthetic population
+             412 hybrid
+             413 founder stock
+             414 inbred line
+             415 segregating population
+             420 genetic stock
+             500 improved cultivar
+             999 other biological status of accession
       */
       $column_insert_2_stockprop = array(
         'institute_code',
@@ -578,11 +573,10 @@
       print("S4 finished. \n\n");
       /*#################################################################
       * step 5: load other values
-      *  5.1 (c11)synonyms (require new chado table stock_synonym)
+      *  5.1 (c13)synonyms (require new chado table stock_synonym)
       *     a.load synonoyms to chado:synonym
       *     b.also, load synonym-stock relationship to chado:stock_synonym
-      *  5.2 ??? (c12)default_display_name
-      *
+      *     Note: possibility of multiple synonyms, should be separated by ';'
       */
       if ($one_accession['synonym']){
         $all_synonyms = explode(';', $one_accession['synonym']);
