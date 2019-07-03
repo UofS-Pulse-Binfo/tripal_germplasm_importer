@@ -136,10 +136,10 @@
 
     $analysis_id = $arguments['analysis_id'];
     $genus_name = $arguments['genus_name'];
-    $this->loadGermplasmAccession($file_path, $genus_name, $dbxref_id = NULL, $description = NULL, $is_obsolete = f);
+    $this->loadGermplasmAccession($file_path, $genus_name, $dbxref_id = NULL, $description = NULL, $is_obsolete = 'f');
   }
 
-  public function loadGermplasmAccession($file_path, $genus, $user_prefix, $dbxref_id, $description, $is_obsolete){
+  public function loadGermplasmAccession($file_path, $genus, $dbxref_id, $description, $is_obsolete){
     // print upload file name in Job LOGS
 
     print("genus name: $genus/n");
@@ -240,9 +240,11 @@
 
     //database various so we need names for both cvterm and cv to determine specific cvterm id for a cvterm
     $CV = $this->check_and_insert_cv($CV);
-    //@test print_r($CV);
+    //@test
+    print_r($CV);
     $CVTERM = $this->check_and_insert_cvterm($CVTERM, $CV);
-    //@test print_r($CVTERM);
+    //@test
+    print_r($CVTERM);
     //From DOC (https://tripal.readthedocs.io/en/latest/dev_guide/custom_data_loader.html)
     // We want to provide a progress report to the end-user so that they:
     // 1) Recognize that the loader is not hung if running a large file, but is
@@ -277,7 +279,7 @@
 
       //TO-DO: header check, confirm column order
       //should be in pre-determined order
-      if (preg_match('/^Accession/', $line_germplasm) ){
+      if (preg_match('/^Germplasm/', $line_germplasm) ){
         continue;
       }
 
