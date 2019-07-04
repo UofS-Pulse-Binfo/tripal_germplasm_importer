@@ -142,8 +142,6 @@
   public function loadGermplasmAccession($file_path, $genus, $dbxref_id, $description, $is_obsolete){
     // print upload file name in Job LOGS
 
-    print("genus name: $genus/n");
-
     $file_name_exp = explode('/', $file_path);
     $this->logMessage('Upload file name: !input_file ',['!input_file' => array_pop($file_name_exp)], TRIPAL_WARNING);
 
@@ -197,7 +195,7 @@
         'need_insert_by_function' => '0'
       ),
       'institute_name' => array(
-        'name' => 'breeding institute name',
+        'name' => 'Breeding institute name',
         'cv_name' => 'MCPD',
         'need_insert_by_function' => '0'
       ),
@@ -240,11 +238,9 @@
 
     //database various so we need names for both cvterm and cv to determine specific cvterm id for a cvterm
     $CV = $this->check_and_insert_cv($CV);
-    //@test
-    print_r($CV);
+    //@test print_r($CV);
     $CVTERM = $this->check_and_insert_cvterm($CVTERM, $CV);
-    //@test
-    print_r($CVTERM);
+    //@test print_r($CVTERM);
     //From DOC (https://tripal.readthedocs.io/en/latest/dev_guide/custom_data_loader.html)
     // We want to provide a progress report to the end-user so that they:
     // 1) Recognize that the loader is not hung if running a large file, but is
@@ -331,8 +327,7 @@
         }
       }
 
-      //@test
-      print_r($one_accession);
+      //@test print_r($one_accession);
       /*#################################################################
       * step 1: check chado talbes: organism, find matched organsim (organism_id)
       * get genus_name using genus(user selected) and (2)germplasm_species
@@ -361,8 +356,7 @@
         $this->logMessage('ERROR: The genus, !genus, species, !species, has no matched organism in chado.organism.',['!genus' => $genus, '!species' => $one_accession['germplasm_species']], TRIPAL_WARNING);
       }
 
-      //@test
-      print("S1: the organism_id for this germplasm accession: $organism_id. \n\n");
+      //@test print("S1: the organism_id for this germplasm accession: $organism_id. \n\n");
       // check/insert this germ accession to table:stock
 
       /*#################################################################
@@ -422,9 +416,7 @@
           'is_obsolete' => $is_obsolete
         );
         $results = chado_insert_record('stock', $value);
-        //@test
-        print("Insertion results: \n");
-        print_r($results);
+        //@test print("Insertion results: \n");
         if (count($results) == 0){
           $this->logMessage('The import of germplasm to table:stock, !stock failed.',['!stock' =>  $one_accession['name']], TRIPAL_WARNING);
         }
@@ -434,9 +426,8 @@
           $germplasm_uniquename_accession = $results['uniquename'];
         }
       }
-      //@test
-      print("S2: the stock_id for this germplasm accession: $germplasm_stock_id. \n");
-      print("S2: the uniquename/accession for this germplasm accession: $germplasm_uniquename_accession. \n\n");
+      //@test print("S2: the stock_id for this germplasm accession: $germplasm_stock_id. \n");
+      //@test print("S2: the uniquename/accession for this germplasm accession: $germplasm_uniquename_accession. \n\n");
 
       /*#################################################################
       * step 3: load to chado:dbxref abd chado:db
@@ -477,8 +468,7 @@
             $germplasm_dbxref_id = $results['dbxref_id'];
           }
         }
-        //@test
-        print("S3.1: the dbxref_id for this germplasm accession: $germplasm_dbxref_id. \n\n");
+        //@test print("S3.1: the dbxref_id for this germplasm accession: $germplasm_dbxref_id. \n\n");
 
         // update dbxref_id back to chado:stock.dbxref_id
         $value_matched = array(
@@ -502,9 +492,9 @@
           }
           elseif (count($results_db) == 1){
             // at this point, dbxref_id for current germplasm accession must exist in chado.dbxref, check/update chado:dbxref.db_id
-            if ($results_dbxref->db_id){
-              if ($results_db->db_id != $results_dbxref->db_id){
-                $this->logMessage('WARNING: The db_id, !db_id, exists in chado.dbxref but not match to loading file external_database id: !file_db_id.',['!db_id' =>  $results_dbxref->db_id, '!file_db_id'=> $results_db->db_id], TRIPAL_WARNING);
+            if ($results_dbxref[0]->db_id){
+              if ($results_db[0]->db_id != $results_dbxref[0]->db_id){
+                $this->logMessage('WARNING: The db_id, !db_id, exists in chado.dbxref but not match to loading file external_database id: !file_db_id.',['!db_id' =>  $results_dbxref[0]->db_id, '!file_db_id'=> $results_db[0]->db_id], TRIPAL_WARNING);
               }
             }
             else{
@@ -512,7 +502,7 @@
                 'dbxref_id'=> $germplasm_dbxref_id
               );
               $value_update = array(
-                'db_id' => $results_db->db_id
+                'db_id' => $results_db[0]->db_id
               );
               $results = chado_update_record('dbxref', $value_matched, $value_update);
               if ($results == FALSE){
@@ -526,13 +516,11 @@
           }
         }
         else{
-          //@test
-          print("S3.2 skipped due becaue culumns External Database/Germplasm PUI not exist. \n");
+          //@test print("S3.2 skipped due becaue culumns External Database/Germplasm PUI not exist. \n");
         }
       }
       else{
-        //@test
-        print("S3 skipped because uniquename/accession of existed and new doesn't match. \n");
+        //@test print("S3 skipped because uniquename/accession of existed and new doesn't match. \n");
       }
       /*#################################################################
       * step 4: load to table:stockprop
@@ -567,12 +555,11 @@
 
       foreach($column_insert_2_stockprop as $one_prop){
         if ($one_accession[$one_prop]){
-          print("Germplasm name:". $one_accession['germplasm_name']. " stock_id: $germplasm_stock_id  type_id: ". $CVTERM[$one_prop]['type_id']. " property value:" . $one_accession[$one_prop]. " \n\n");
+          //@test print("Germplasm name:". $one_accession['germplasm_name']. " stock_id: $germplasm_stock_id  type_id: ". $CVTERM[$one_prop]['type_id']. " property value:" . $one_accession[$one_prop]. " \n\n");
           $this -> load_stockprop($one_accession['germplasm_name'], $germplasm_stock_id, $CVTERM[$one_prop]['type_id'], $one_accession[$one_prop]);
         }
       }
-      //@test
-      print("S4 finished. \n\n");
+      //@test print("S4 finished. \n\n");
       /*#################################################################
       * step 5: load other values
       *  5.1 (c13)synonyms (require new chado table stock_synonym)
@@ -626,7 +613,7 @@
             $value = array(
               'synonym_id' => $one_synonym_id,
               'stock_id'=> $germplasm_stock_id,
-              'pub_id'=> 1,
+              'pub_id'=> '1',
               'is_current' => NULL,
               'is_internal' => NULL
             );

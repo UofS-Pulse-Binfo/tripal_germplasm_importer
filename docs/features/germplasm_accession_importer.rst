@@ -7,8 +7,16 @@ Format requirements for upload files can be found easily in UI while using this 
 
 .. image:: accession.1.file_format.png
 
-Genus
------
+.. note::
+
+  For column 2 (External Database), the name in file must exist in your database in chado table:db already.
+
+  For column 12 (Pedigree), pedigree information is recommended to save in format of ``maternal-parent-name/paternal-parent-name``.
+
+  For column 13 (Synonyms), multiple synonyms are allowed but must be separated by pounctuation marks. Like, ``syn1;syn2;syn3``.
+
+Select Genus
+------------
 Genus of the accessions in file must be selected from dropdown menu before upload. All accessions in one file must belong to same genus and match this selection.
 
 .. image:: accession.2.genus.png
@@ -29,3 +37,7 @@ The general idea of how accession information will be saved in database:
 - properties will be loaded into table stockprop
 
 - synonyms will be loaded into table synonym and stock_synonym
+
+A diagram:
+
+.. image:: accession.3.ER_diagram.jpg
