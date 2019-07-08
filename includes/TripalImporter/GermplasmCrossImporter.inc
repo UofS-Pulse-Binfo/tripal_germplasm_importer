@@ -443,12 +443,15 @@
       }
 
       //TO-DO: check if insertion is successful?
+      // get genus of organism
+      $results = chado_select_record('organism', ['genus'], ['organism_id'=> $organism]);
+      $organims_genus = $results[0]->genus;
 
       //  check maternal parent exist in db
       if ($stock['maternal_parent']){
         $match = array(
           'name' => $stock['maternal_parent'],
-          'organism_id' => $organism
+          'organism_id' => ['genus' => $organims_genus]
         );
         $results = chado_select_record('stock', ['stock_id'], $match);
         $maternal_parent_stock_id = $results[0]->stock_id;
@@ -471,7 +474,7 @@
       if($stock['paternal_parent']){
         $match = array(
           'name' => $stock['paternal_parent'],
-          'organism_id' => $organism
+          'organism_id' => ['genus' => $organims_genus]
         );
         $results = chado_select_record('stock', ['stock_id'], $match);
         $paternal_parent_stock_id = $results[0]->stock_id;
