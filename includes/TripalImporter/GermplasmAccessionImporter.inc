@@ -492,7 +492,7 @@
           }
           elseif (count($results_db) == 1){
             // at this point, dbxref_id for current germplasm accession must exist in chado.dbxref, check/update chado:dbxref.db_id
-            if ($results_dbxref[0]->db_id){
+            if (($results_dbxref[0]->db_id) && ($results_dbxref[0]->db_id != '1')){
               if ($results_db[0]->db_id != $results_dbxref[0]->db_id){
                 $this->logMessage('WARNING: The db_id, !db_id, exists in chado.dbxref but not match to loading file external_database id: !file_db_id.',['!db_id' =>  $results_dbxref[0]->db_id, '!file_db_id'=> $results_db[0]->db_id], TRIPAL_WARNING);
               }
