@@ -185,7 +185,7 @@
         'need_insert_by_function' => '0'
       ),
       'germplasm_name' => array(
-        'name' => 'accession name',
+        'name' => 'accession',
         'cv_name' => 'GCP',
         'need_insert_by_function' => '0'
       ),
