@@ -161,7 +161,7 @@
         'definition' => '',
         'need_insert_by_function' => '0'
       ),
-      'germplams_ontoloty' => array(
+      'germplasm_ontology' => array(
         'name' => 'germplasm_ontology',
         'definition' => '',
         'need_insert_by_function' => '0'
@@ -243,9 +243,11 @@
 
     //database various so we need names for both cvterm and cv to determine specific cvterm id for a cvterm
     $CV = $this->check_and_insert_cv($CV);
-    //@test print_r($CV);
+    //@test
+    print_r($CV);
     $CVTERM = $this->check_and_insert_cvterm($CVTERM, $CV);
-    //@test print_r($CVTERM);
+    //@test
+    print_r($CVTERM);
     //From DOC (https://tripal.readthedocs.io/en/latest/dev_guide/custom_data_loader.html)
     // We want to provide a progress report to the end-user so that they:
     // 1) Recognize that the loader is not hung if running a large file, but is
