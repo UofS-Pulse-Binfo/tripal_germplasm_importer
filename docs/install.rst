@@ -41,6 +41,9 @@ Another method that can enable our module is using drush:
 
   In this step, module required CVs and CVterms will be inserted if necessary.
 
+.. note::
+
+  User needs to run a job to load ontology files into database after the module is enabled.
 
 Set Permissions
 ---------------
