@@ -1,3 +1,5 @@
 Germplasm Name	External Database	Accession Number	Germplasm Genus	Germplasm Species	Germplasm Subtaxa	Institute Code	Institute Name	Country of Origin Code	Biological Status of Accession	Breeding Method	Pedigree	Synonyms
 CDC Redberry	KnowPulse	KP:GERM58	Lens	culinaris		CUAC	University of Saskatchewan	CAN 	500 advanced of improved cultivar		1049F3/819-5R	
 ILL 5588	ICARDA	ILL 5588	Lens	culinaris		CUAC	University of Saskatchewan	CAN 	300 traditional cultivar or landrace			
+CDC Redberry	KnowPulse	KP:GERM58	Lens	culinarisWrong		CUAC	University of Saskatchewan	CAN 	500 advanced of improved cultivar		1049F3/819-5R	
+ILL 5588	ICARDA	ILL 5588	LensWrong	culinaris		CUAC	University of Saskatchewan	CAN 	300 traditional cultivar or landrace			

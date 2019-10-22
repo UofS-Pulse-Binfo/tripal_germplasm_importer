@@ -78,7 +78,7 @@
     }
 
     $form['instructions'] = [
-      '#weight' => -100,
+      '#weight' => -99,
       '#markup' => '
         <h2>Load germplasm into database</h2>
         <p>Upload file must in TSV (tab-separated values) format. Please confirm file format and column order before upload.</p>
@@ -86,11 +86,12 @@
     ];
 
     $form['genus_name'] = [
+      '#weight' => -80,
       '#type' => 'select',
       '#title' => t('Genus'),
       '#options' => $genus,
       '#required' => TRUE,
-      '#description' => t('Select the genus for germplasm accession file you would like to upload'),
+      '#description' => t('Select the genus for germplasm accession file you would like to upload.'),
     ];
     /* @TO-DO provide available species for this genus so user can check their file
     $form['available_species'] = [
@@ -339,7 +340,8 @@
       * record $organism_id
       */
       if ($genus != $one_accession['germplasm_genus']){
-        $this->logMessage('WARNING:, !genus, in file is different from your choosen genus', ['!genus' => $one_accession['germplasm_genus']], TRIPAL_WARNING);
+        $this->logMessage('WARNING:genus, !genus, in file for, !germplasm, is different from your choosen genus', ['!genus' => $one_accession['germplasm_genus'], '!germplasm' => $one_accession['germplasm_name']], TRIPAL_WARNING);
+        break;
       }
       $match = array(
         'genus' => $genus,
@@ -359,6 +361,7 @@
       }
       else{
         $this->logMessage('ERROR: The genus, !genus, species, !species, has no matched organism in chado.organism.',['!genus' => $genus, '!species' => $one_accession['germplasm_species']], TRIPAL_WARNING);
+        break;
       }
 
       //@test print("S1: the organism_id for this germplasm accession: $organism_id. \n\n");
