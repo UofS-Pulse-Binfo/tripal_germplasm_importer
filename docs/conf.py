@@ -57,7 +57,7 @@ master_doc = 'index'
 
 # -- Project information -----------------------------------------------------
 
-project = u'Germplasm Cross Importer'
+project = u'Tripal Germplasm Importer'
 copyright = u'2019, Yichao Shen; Lacey Sandersan, University of Saskatchewan, Pulse Bioinformatics'
 author = u'Yichao Shen; Lacey Sandersan, University of Saskatchewan, Pulse Bioinformatics'
 

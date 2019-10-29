@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b638eaaea9f2faed40a976c1a71a9d2",
+    "content-hash": "69cac23032897dac56256c18daaf9aff",
     "packages": [],
     "packages-dev": [
         {
@@ -1653,16 +1653,16 @@
         },
         {
             "name": "statonlab/tripal-test-suite",
-            "version": "1.5.2",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tripal/TripalTestSuite.git",
-                "reference": "2c89b5919e3a48c8ecd63744e5879b00fac03bd7"
+                "reference": "3e877af0204c59b9aa6b7ef0324ca4b985a7e3b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tripal/TripalTestSuite/zipball/2c89b5919e3a48c8ecd63744e5879b00fac03bd7",
-                "reference": "2c89b5919e3a48c8ecd63744e5879b00fac03bd7",
+                "url": "https://api.github.com/repos/tripal/TripalTestSuite/zipball/3e877af0204c59b9aa6b7ef0324ca4b985a7e3b4",
+                "reference": "3e877af0204c59b9aa6b7ef0324ca4b985a7e3b4",
                 "shasum": ""
             },
             "require": {
@@ -1697,7 +1697,7 @@
                     "email": "bcondon@utk.edu"
                 }
             ],
-            "time": "2019-01-10T13:18:54+00:00"
+            "time": "2019-04-09T18:52:51+00:00"
         },
         {
             "name": "symfony/console",
@@ -1884,7 +1884,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",

@@ -3,7 +3,7 @@
 /**
  * @see TripalImporter
  */
- class GermplasmImporter extends TripalImporter {
+ class GermplasmCrossImporter extends TripalImporter {
 
   /**
    * The name of this loader.  This name will be presented to the site
@@ -15,7 +15,7 @@
    * The machine name for this loader. This name will be used to construct
    * the URL for the loader.
    */
-  public static $machine_name = 'tripal_germplasm_importer';
+  public static $machine_name = 'tripal_germplasm_cross_importer';
 
   /**
    * A brief description for this loader.  This description will be
@@ -121,10 +121,10 @@
     $organism_id = $arguments['organism_id'];
     $user_prefix = $arguments['prefix'];
 
-    $this->loadGermplasm($file_path, $organism_id, $user_prefix, $dbxref_id = NULL, $description = NULL, $is_obsolete = f);
+    $this->loadGermplasmCross($file_path, $organism_id, $user_prefix, $dbxref_id = NULL, $description = NULL, $is_obsolete = 'f');
   }
 
-  public function loadGermplasm($file_path, $organism, $user_prefix, $dbxref_id, $description, $is_obsolete){
+  public function loadGermplasmCross($file_path, $organism, $user_prefix, $dbxref_id, $description, $is_obsolete){
 
     // print upload file name in Job LOGS
     $file_name_exp = explode('/', $file_path);
@@ -443,17 +443,21 @@
       }
 
       //TO-DO: check if insertion is successful?
+      // get genus of organism
+      $results = chado_select_record('organism', ['genus'], ['organism_id'=> $organism]);
+      $organims_genus = $results[0]->genus;
 
       //  check maternal parent exist in db
       if ($stock['maternal_parent']){
         $match = array(
           'name' => $stock['maternal_parent'],
-          'organism_id' => $organism
+          'organism_id' => ['genus' => $organims_genus]
         );
         $results = chado_select_record('stock', ['stock_id'], $match);
         $maternal_parent_stock_id = $results[0]->stock_id;
 
         if (count($results) == 0){
+          $this->logMessage('WARNING: Maternal parent: !parent for stock: !stock NOT exist in chado:stock.', ['!parent' => $stock['maternal_parent'], '!stock' => $stock['name']], TRIPAL_WARNING);
           // relationship with maternal parent should not exist, check it
           $result_sr_not_exist = chado_select_record('stock_relationship', ['stock_relationship_id'], ['object_id'  => $germplasm_stock_id, 'type_id' => $CVTERM['maternal_parent']['type_id'] ]);
           if (count($result_sr_not_exist) != 0){
@@ -463,9 +467,6 @@
         elseif (count($results) == 1){
           //  load maternal parent to table stock_relationship
           $this->load_stock_relationship($stock['name'], $maternal_parent_stock_id, $germplasm_stock_id, $CVTERM['maternal_parent']['type_id']);
-
-          //  load 'female parent' as a property table:stockprop
-          //$shit->load_stockprop($stock['name'], $germplasm_stock_id, $CVTERM['femal_type']['type_id'], $stock['maternal_parent']);
         }
       }
 
@@ -473,12 +474,13 @@
       if($stock['paternal_parent']){
         $match = array(
           'name' => $stock['paternal_parent'],
-          'organism_id' => $organism
+          'organism_id' => ['genus' => $organims_genus]
         );
         $results = chado_select_record('stock', ['stock_id'], $match);
         $paternal_parent_stock_id = $results[0]->stock_id;
 
         if (count($results) == 0){
+            $this->logMessage('WARNING: Paternal parent: !parent for stock: !stock NOT exist in chado:stock.', ['!parent' => $stock['paternal_parent'], '!stock' => $stock['name']], TRIPAL_WARNING);
           // relationship with paternal parent should not exist, check it
           $result_sr_not_exist = chado_select_record('stock_relationship', ['stock_relationship_id'], ['object_id'  => $germplasm_stock_id, 'type_id' => $CVTERM['paternal_parent']['type_id'] ]);
           if (count($result_sr_not_exist) != 0){
@@ -488,8 +490,6 @@
         elseif (count($results) == 1){
           //  load paternal parent to table stock_relationship
           $this->load_stock_relationship($stock['name'], $paternal_parent_stock_id, $germplasm_stock_id, $CVTERM['paternal_parent']['type_id']);
-          //  load 'female parent' as a property to table:stockprop
-          //$shit->load_stockprop($stock['name'], $germplasm_stock_id, $CVTERM['male_type']['type_id'], $stock['paternal_parent']);
         }
       }
 

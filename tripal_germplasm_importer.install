@@ -118,4 +118,86 @@ function tripal_germplasm_importer_enable(){
     ));
   }
 
+  $table = 'stock_synonym';
+  $schema = array(
+    'table' => 'stock_synonym',
+    'description' => 'Linking table between stock and synonym.',
+    'fields' => array(
+      'stock_synonym_id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+      ),
+      'synonym_id' => array(
+        'size' => 'big',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'stock_id' => array(
+        'size' => 'big',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'pub_id' => array(
+        'size' => 'big',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'is_current' => array(
+        'type' => 'int',
+        'default' => 0,
+      ),
+      'is_internal' => array(
+        'type' => 'int',
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array(
+      'stock_synonym_id',
+    ),
+    'indexes' => array(
+      'stock_synonym_idx1' => array(
+        0 => 'synonym_id',
+      ),
+      'stock_synonym_idx2' => array(
+        0 => 'stock_id',
+      ),
+      'stock_synonym_idx3' => array(
+        0 => 'pub_id',
+      ),
+    ),
+    'foreign keys' => array(
+      'synonym' => array(
+        'table' => 'synonym',
+        'columns' => array(
+          'synonym_id' => 'synonym_id',
+        ),
+      ),
+      'stock' => array(
+        'table' => 'stock',
+        'columns' => array(
+          'stock_id' => 'stock_id',
+        ),
+      ),
+      'pub' => array(
+        'table' => 'pub',
+        'columns' => array(
+          'pub_id' => 'pub_id',
+        ),
+      ),
+    ),
+  );
+
+  chado_create_custom_table($table, $schema, TRUE, NULL, FALSE);
+
+  global $user;
+
+  // load required ontologies for this module, which includes:
+  //  MCPD (Multi-Crop Passport Ontology)
+  //  GCP germplasm ontology
+  require_once('includes/job.load_ontolgies.inc');
+  load_ontologies_job();
+
 }
+
+
+

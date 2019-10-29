@@ -1,0 +1,42 @@
+<?php
+/**
+ * @file
+ * Contains core hook implementations for this module.
+ */
+
+  require_once('includes/job.load_ontolgies.inc');
+
+/**
+ * Provides a list of the ontologies and terms used by this module.
+ *
+ *  * @return
+ *   An array of ontologies keyed by ontology short-name with values themselves
+ *   being arrays with the following keys:
+ *    - name: the name of the ontology
+ *    - definition: the definition of the ontology
+ *    - file: the name of the OBO file to load this ontology
+ *        (expected to be in kp_entities/ontologies folder)
+ *    - all terms: Boolean indicating to load all terms in this ontology
+ *    - terms: an array of terms if we only use a couple
+ */
+ 
+  function module_ontology_list(){
+    $ontologies = array();
+     
+    $ontologies['CO_010'] = array(
+      'name' => 'Crop Germplasm Ontology',
+      'definition' => 'A controlled vocabulary to describe germplasm.',
+      'file' => 'CO_010.obo',
+      'all terms' => TRUE,
+    );
+     
+    $ontologies['MCPD'] = array(
+      'name' => 'Multi-Crop Passport Ontology',
+      'definition' => 'FAO/Bioversity Multi-Crop Passport Descriptors V.2.1 [MCPD V.2.1] standard.',
+      'file' => 'mcpd_v2.1_151215.obo',
+      'all terms' => TRUE,
+    );
+    
+     return $ontologies;
+     
+ }
