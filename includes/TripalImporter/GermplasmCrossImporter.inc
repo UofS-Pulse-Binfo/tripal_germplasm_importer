@@ -49,6 +49,10 @@
       <li>Seed Type: either the market class or seed coat colour of the seed resulting from the cross.</li>
       <li>Cotyledon Colour: the cotyledon colour of the seed resulting from the cross.</li>
       <li>Comment: a free-text comment about the cross.</li>
+      <li>Female Cotyledon Color: Cotyledon colour for maternal parent.</li>
+      <li>Male Cotyledon Color: Cotyledon colour for parental parent.</li>
+      <li>Female Seed Type: Seed type for maternal parent.</li>
+      <li>Male Seed Type: Seed type for parental parent.</li>
     </ol>';
 
   /**
@@ -338,6 +342,18 @@
       if($germ_col[9]){
         $stock['comment'] = trim($germ_col[9]);
       }
+      if($germ_col[10]){
+        $stock['maternal_cotyledon_colour'] = trim($germ_col[9]);
+      }
+      if($germ_col[11]){
+        $stock['paternal_cotyledon_colour'] = trim($germ_col[9]);
+      }
+      if($germ_col[12]){
+        $stock['maternal_seed_type'] = trim($germ_col[9]);
+      }
+      if($germ_col[13]){
+        $stock['paternal_seed_type'] = trim($germ_col[9]);
+      }
 
       //$this->logMessage(("\n\n".'Loading !stock.'),['!stock' => $stock['name']], TRIPAL_WARNING);
       //************************************************************************
@@ -467,6 +483,13 @@
         elseif (count($results) == 1){
           //  load maternal parent to table stock_relationship
           $this->load_stock_relationship($stock['name'], $maternal_parent_stock_id, $germplasm_stock_id, $CVTERM['maternal_parent']['type_id']);
+          // load stock property(s) for maternal parent
+          if ($stock['maternal_cotyledon_colour']){
+            $this->load_stockprop('cotyledon_colour', $maternal_parent_stock_id, $CVTERM['cotyledon_colour']['type_id'], $stock['maternal_cotyledon_colour']);
+          }
+          if ($stock['maternal_seed_type']){
+            $this->load_stockprop('seed_type', $maternal_parent_stock_id, $CVTERM['seed_type']['type_id'], $stock['maternal_seed_type']);
+          }
         }
       }
 
@@ -480,7 +503,7 @@
         $paternal_parent_stock_id = $results[0]->stock_id;
 
         if (count($results) == 0){
-            $this->logMessage('WARNING: Paternal parent: !parent for stock: !stock NOT exist in chado:stock.', ['!parent' => $stock['paternal_parent'], '!stock' => $stock['name']], TRIPAL_WARNING);
+          $this->logMessage('WARNING: Paternal parent: !parent for stock: !stock NOT exist in chado:stock.', ['!parent' => $stock['paternal_parent'], '!stock' => $stock['name']], TRIPAL_WARNING);
           // relationship with paternal parent should not exist, check it
           $result_sr_not_exist = chado_select_record('stock_relationship', ['stock_relationship_id'], ['object_id'  => $germplasm_stock_id, 'type_id' => $CVTERM['paternal_parent']['type_id'] ]);
           if (count($result_sr_not_exist) != 0){
@@ -490,6 +513,13 @@
         elseif (count($results) == 1){
           //  load paternal parent to table stock_relationship
           $this->load_stock_relationship($stock['name'], $paternal_parent_stock_id, $germplasm_stock_id, $CVTERM['paternal_parent']['type_id']);
+          // load stock property(s) for parental parent
+          if ($stock['paternal_cotyledon_colour']){
+            $this->load_stockprop('cotyledon_colour', $paternal_parent_stock_id, $CVTERM['cotyledon_colour']['type_id'], $stock['paternal_cotyledon_colour']);
+          }
+          if ($stock['paternal_seed_type']){
+            $this->load_stockprop('seed_type', $paternal_parent_stock_id, $CVTERM['seed_type']['type_id'], $stock['paternal_seed_type']);
+          }
         }
       }
 
