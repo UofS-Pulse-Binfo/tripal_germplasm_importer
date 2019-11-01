@@ -343,16 +343,16 @@
         $stock['comment'] = trim($germ_col[9]);
       }
       if($germ_col[10]){
-        $stock['maternal_cotyledon_colour'] = trim($germ_col[9]);
+        $stock['maternal_cotyledon_colour'] = trim($germ_col[10]);
       }
       if($germ_col[11]){
-        $stock['paternal_cotyledon_colour'] = trim($germ_col[9]);
+        $stock['paternal_cotyledon_colour'] = trim($germ_col[11]);
       }
       if($germ_col[12]){
-        $stock['maternal_seed_type'] = trim($germ_col[9]);
+        $stock['maternal_seed_type'] = trim($germ_col[12]);
       }
       if($germ_col[13]){
-        $stock['paternal_seed_type'] = trim($germ_col[9]);
+        $stock['paternal_seed_type'] = trim($germ_col[13]);
       }
 
       //$this->logMessage(("\n\n".'Loading !stock.'),['!stock' => $stock['name']], TRIPAL_WARNING);
