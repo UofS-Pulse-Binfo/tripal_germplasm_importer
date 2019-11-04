@@ -1,0 +1,10 @@
+Year	Season	Cross Number	Maternal Parent	Paternal Parent	Cross Type	Seed Type	Cotyledon Colour	Comment	Female Cotyledon Colour	Male Cotyledon Colour	Femail Seed Type	Male Seed Type
+1984	Winter	1234			Single	Large	Red
+1984	Winter	2345			Single	Small	Green
+1984	Winter	3456			Single	Small	Yellow
+2004	Summer	4567	1234	2345	Double	Large	Red
+2004	Summer	5678	2345	4567	Double	Small	Yellow
+2004	Summer	6789	2345	4567	Double
+2004	Summer	7890	2345	4567	Triple
+2014	Spring	parentnomatch	2345	4567	Double	Small	Yellow		Pink	Blue	Miniscule	Monstrous
+2014	Spring	fixbothparent	6789	7890	Double	Large	Green		Green	Yellow	Small	Large
