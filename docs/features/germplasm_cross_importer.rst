@@ -28,7 +28,7 @@ Germplasm cross file needs to follow a specific templet to be able to upload. Th
   6.1	Cross type information may be able to find from Cross number. A capitalized letter tends to appear within a cross number, which indicates the Cross type. “S” stands for single cross, “M” stands for multiple cross, “T” stands for triple cross, and “B” stands for back cross. The letter may also be found in low case or missing.
 
 7.	**Seed Type**: either the market class or seed coat colour of the progeny
-8.	**Cotyledon Color**: the cotyledon colour of the seed resulting from the cross
+8.	**Cotyledon Colour**: the cotyledon colour of the seed resulting from the cross
 9.	**Comment**: a free-text comment about the cross
 
 Add more columns as needed (e.g. Seed coat, Male Cotyledon Color, Female Cotyledon Color).
