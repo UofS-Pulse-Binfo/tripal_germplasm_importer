@@ -380,6 +380,19 @@
         $germplasm_stock_id = $results[0]->stock_id;
       }
       else{
+        // before insert this germplasm, check same name under genus rather than organism, report WARNING message to users
+        // still insert this germplasm though, but test uploading files on test sites first to check these WARNING messages
+        $results = chado_select_record('organism', ['genus'], ['organism_id'=> $organism]);
+        $organims_genus = $results[0]->genus;
+        $match_genus = array(
+          'name' => $stock['name'],
+          'organism_id' => ['genus' => $organims_genus]
+        );
+        $results_in_genus = chado_select_record('stock', ['stock_id','name'], $match_genus);
+        if(count($results_in_genus) > 0){
+          $this->logMessage('WARNING: The germplasm !stock exist in different species already.',['!stock' => $stock['name']], TRIPAL_WARNING);;
+        }
+
         // then try to insert this germplasm into table:stock
         //@log $this->logMessage('The stock, !stock, has no matched name in chado.stock, start insertion.',['!stock' => $stock['name']], TRIPAL_WARNING);
         // uniquename of each germplasm is a random string prefiexed with Germplasm: for now, need to update it latter
