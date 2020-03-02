@@ -13,7 +13,7 @@ Format requirements for upload files can be found easily in UI while using this 
 
   For column 12 (Pedigree), pedigree information is recommended to save in format of ``maternal-parent-name/paternal-parent-name``.
 
-  For column 13 (Synonyms), multiple synonyms are allowed but must be separated by pounctuation marks. Like, ``syn1;syn2;syn3``.
+  For column 13 (Synonyms), multiple synonyms are allowed but must be separated by semi-colons (e.g.  ``syn1;syn2;syn3``).
 
 Select Genus
 ------------

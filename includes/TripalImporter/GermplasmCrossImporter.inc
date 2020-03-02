@@ -285,7 +285,6 @@
       $bytes_read += drupal_strlen($line_germplasm);
       $this->setItemsHandled($bytes_read);
 
-      //TO-DO: header check, confirm column order
       //should be in order:
       //1.Year 2.Season 3.Cross No. 4.Maternal Parent 5.paternal Parent 6.Cross Type
       //7.Seed Type 8.Cotyledon Colour 9.Seed Coat 10.Comment
@@ -360,7 +359,6 @@
         $stock['paternal_seed_type'] = trim($germ_col[13]);
       }
 
-      //$this->logMessage(("\n\n".'Loading !stock.'),['!stock' => $stock['name']], TRIPAL_WARNING);
       //************************************************************************
       //FIRSRT: load to table Stock
       //check this germplasm name not exist in db
@@ -376,7 +374,6 @@
           break;
       }
       elseif (count($results) == 1){
-        //@log $this->logMessage('The stock, !stock, has one matched name in chado.stock.',['!stock' => $stock['name']], TRIPAL_WARNING);
         $germplasm_stock_id = $results[0]->stock_id;
       }
       else{
@@ -445,7 +442,6 @@
       if ($results == FALSE){
         $this->logMessage('The uniquename update for stock, !stock failed.',['!stock' => $stock['name']], TRIPAL_WARNING);
       }
-
 
       //  load all extra info to table:stockprop
       //  use array $CVTERM and array $stock to match (names from file header) / (variable name) / (database cvterm)
