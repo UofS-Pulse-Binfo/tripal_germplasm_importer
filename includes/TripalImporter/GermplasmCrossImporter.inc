@@ -48,7 +48,12 @@
       <li>Cross Type: the type of cross (e.g. single, double, triple).</li>
       <li>Seed Type: either the market class or seed coat colour of the seed resulting from the cross.</li>
       <li>Cotyledon Colour: the cotyledon colour of the seed resulting from the cross.</li>
+      <li>Seed Coat: colour of the sead coat.</li>
       <li>Comment: a free-text comment about the cross.</li>
+      <li>Female Cotyledon Colour: Cotyledon colour for maternal parent.</li>
+      <li>Male Cotyledon Colour: Cotyledon colour for parental parent.</li>
+      <li>Female Seed Type: Seed type for maternal parent.</li>
+      <li>Male Seed Type: Seed type for parental parent.</li>
     </ol>';
 
   /**
@@ -125,11 +130,10 @@
   }
 
   public function loadGermplasmCross($file_path, $organism, $user_prefix, $dbxref_id, $description, $is_obsolete){
-
+    $transaction = db_transaction();
     // print upload file name in Job LOGS
     $file_name_exp = explode('/', $file_path);
     $this->logMessage('Upload file name: !input_file ',['!input_file' => array_pop($file_name_exp)], TRIPAL_WARNING);
-
     $CV = array(
       'schema' => array(
         'name' => 'schema',
@@ -281,7 +285,6 @@
       $bytes_read += drupal_strlen($line_germplasm);
       $this->setItemsHandled($bytes_read);
 
-      //TO-DO: header check, confirm column order
       //should be in order:
       //1.Year 2.Season 3.Cross No. 4.Maternal Parent 5.paternal Parent 6.Cross Type
       //7.Seed Type 8.Cotyledon Colour 9.Seed Coat 10.Comment
@@ -289,6 +292,11 @@
         continue;
       }
 
+      // For TEST of import files, files with end line of 'TEST_rollback' won't upload to DB
+      if (preg_match('/^TEST_rollback/', $line_germplasm) ){
+        $this->logMessage('Flag !rollback, is found in file, germplasm will not upload to database.',['!rollback' => 'TEST_rollback'], TRIPAL_WARNING);
+        $transaction->rollback();
+      }
       /**For each germplasm line
       * since this organism is selected from drop-down box, so it exists in chado already
       * cvterm should be checked, selected/inserted and cvterm_id should be reported to array CVTERM
@@ -338,8 +346,19 @@
       if($germ_col[9]){
         $stock['comment'] = trim($germ_col[9]);
       }
+      if($germ_col[10]){
+        $stock['maternal_cotyledon_colour'] = trim($germ_col[10]);
+      }
+      if($germ_col[11]){
+        $stock['paternal_cotyledon_colour'] = trim($germ_col[11]);
+      }
+      if($germ_col[12]){
+        $stock['maternal_seed_type'] = trim($germ_col[12]);
+      }
+      if($germ_col[13]){
+        $stock['paternal_seed_type'] = trim($germ_col[13]);
+      }
 
-      //$this->logMessage(("\n\n".'Loading !stock.'),['!stock' => $stock['name']], TRIPAL_WARNING);
       //************************************************************************
       //FIRSRT: load to table Stock
       //check this germplasm name not exist in db
@@ -355,7 +374,6 @@
           break;
       }
       elseif (count($results) == 1){
-        //@log $this->logMessage('The stock, !stock, has one matched name in chado.stock.',['!stock' => $stock['name']], TRIPAL_WARNING);
         $germplasm_stock_id = $results[0]->stock_id;
       }
       else{
@@ -412,7 +430,6 @@
         $this->logMessage('The uniquename update for stock, !stock failed.',['!stock' => $stock['name']], TRIPAL_WARNING);
       }
 
-
       //  load all extra info to table:stockprop
       //  use array $CVTERM and array $stock to match (names from file header) / (variable name) / (database cvterm)
       //  loop though all keys in array $stock
@@ -434,7 +451,7 @@
           }
           else{
             //  use function to check/load this property to talbe:stockprop
-            $this->load_stockprop($key, $germplasm_stock_id, $CVTERM[$key]['type_id'], $value);
+            $this->load_stockprop($key, $germplasm_stock_id, $CVTERM[$key]['type_id'], $value, $stock['name']);
           }
         }
         else{
@@ -442,7 +459,6 @@
         }
       }
 
-      //TO-DO: check if insertion is successful?
       // get genus of organism
       $results = chado_select_record('organism', ['genus'], ['organism_id'=> $organism]);
       $organims_genus = $results[0]->genus;
@@ -467,6 +483,13 @@
         elseif (count($results) == 1){
           //  load maternal parent to table stock_relationship
           $this->load_stock_relationship($stock['name'], $maternal_parent_stock_id, $germplasm_stock_id, $CVTERM['maternal_parent']['type_id']);
+          // load stock property(s) for maternal parent
+          if ($stock['maternal_cotyledon_colour']){
+            $this->load_stockprop('cotyledon_colour', $maternal_parent_stock_id, $CVTERM['cotyledon_colour']['type_id'], $stock['maternal_cotyledon_colour'], $stock['maternal_parent']);
+          }
+          if ($stock['maternal_seed_type']){
+            $this->load_stockprop('seed_type', $maternal_parent_stock_id, $CVTERM['seed_type']['type_id'], $stock['maternal_seed_type'], $stock['maternal_parent']);
+          }
         }
       }
 
@@ -480,7 +503,7 @@
         $paternal_parent_stock_id = $results[0]->stock_id;
 
         if (count($results) == 0){
-            $this->logMessage('WARNING: Paternal parent: !parent for stock: !stock NOT exist in chado:stock.', ['!parent' => $stock['paternal_parent'], '!stock' => $stock['name']], TRIPAL_WARNING);
+          $this->logMessage('WARNING: Paternal parent: !parent for stock: !stock NOT exist in chado:stock.', ['!parent' => $stock['paternal_parent'], '!stock' => $stock['name']], TRIPAL_WARNING);
           // relationship with paternal parent should not exist, check it
           $result_sr_not_exist = chado_select_record('stock_relationship', ['stock_relationship_id'], ['object_id'  => $germplasm_stock_id, 'type_id' => $CVTERM['paternal_parent']['type_id'] ]);
           if (count($result_sr_not_exist) != 0){
@@ -490,6 +513,13 @@
         elseif (count($results) == 1){
           //  load paternal parent to table stock_relationship
           $this->load_stock_relationship($stock['name'], $paternal_parent_stock_id, $germplasm_stock_id, $CVTERM['paternal_parent']['type_id']);
+          // load stock property(s) for parental parent
+          if ($stock['paternal_cotyledon_colour']){
+            $this->load_stockprop('cotyledon_colour', $paternal_parent_stock_id, $CVTERM['cotyledon_colour']['type_id'], $stock['paternal_cotyledon_colour'], $stock['paternal_parent']);
+          }
+          if ($stock['paternal_seed_type']){
+            $this->load_stockprop('seed_type', $paternal_parent_stock_id, $CVTERM['seed_type']['type_id'], $stock['paternal_seed_type'], $stock['paternal_parent']);
+          }
         }
       }
 
@@ -612,13 +642,14 @@ public function check_and_insert_cv($CV){
    *  @param  $stockprop_type_id
    *  @param  $stockprop_value
    */
-   public function load_stockprop($stockprop_name, $stockprop_stock_id, $stockprop_type_id, $stockprop_value){
+   public function load_stockprop($stockprop_name, $stockprop_stock_id, $stockprop_type_id, $stockprop_value, $stock_name){
 
      $match = array(
        'stock_id' => $stockprop_stock_id,
        'type_id' => $stockprop_type_id
      );
-     $result_stockprop = chado_select_record('stockprop', ['stockprop_id'], $match);
+     $result_stockprop = chado_select_record('stockprop', ['stockprop_id', 'value'], $match);
+     $stckprop_value_from_db = $result_stockprop[0]->value;
 
      if (count($result_stockprop) == 0){
        $values = array(
@@ -629,7 +660,11 @@ public function check_and_insert_cv($CV){
        $results = chado_insert_record('stockprop', $values);
      }
      elseif(count($result_stockprop) == 1){
-       //@log $this->logMessage('Stock property, !stockprop, exists in table:stockprop already.', ['!stockprop' => $stockprop_name], TRIPAL_WARNING);
+       // check if what already exist match to uploading file, report error if not:
+       if($stckprop_value_from_db != $stockprop_value){
+         $this->logMessage('Stock property: !stockprop, does not match: !stockprop_db, in database for !stock_name.', ['!stockprop' => $stockprop_value, '!stockprop_db' => $stckprop_value_from_db, '!stock_name' => $stock_name], TRIPAL_WARNING);
+       }
+
      }
      else{
        // report for error, this property for this stock should only have one match
