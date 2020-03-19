@@ -350,6 +350,9 @@
       if ($one_accession['subtaxa']){
         $match['infraspecific_name'] = $one_accession['subtaxa'];
       }
+      else {
+        $match['infraspecific_name'] = NULL;
+      }
       $results = chado_select_record('organism', ['organism_id'], $match);
       if (count($results) > 1){
           $this->logMessage('ERROR: The genus, !genus, species, !species, has more than one matched organism in chado.organism.',['!genus' => $genus, '!species' => $one_accession['germplasm_species']], TRIPAL_WARNING);
