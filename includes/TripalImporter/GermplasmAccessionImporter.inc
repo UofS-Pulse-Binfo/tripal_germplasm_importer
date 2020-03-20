@@ -347,7 +347,7 @@
         'genus' => $genus,
         'species' => $one_accession['germplasm_species']
       );
-      if ($one_accession['subtaxa']){
+      if (!empty($one_accession['subtaxa'])){
         $match['infraspecific_name'] = $one_accession['subtaxa'];
       }
       else {
@@ -355,7 +355,7 @@
       }
       $results = chado_select_record('organism', ['organism_id'], $match);
       if (count($results) > 1){
-          $this->logMessage('ERROR: The genus, !genus, species, !species, has more than one matched organism in chado.organism.',['!genus' => $genus, '!species' => $one_accession['germplasm_species']], TRIPAL_WARNING);
+          $this->logMessage('ERROR: The genus, !genus, species, !species, infraspecific, !infraspecific, has more than one matched organism in chado.organism.',['!genus' => $genus, '!species' => $one_accession['germplasm_species'], '!infraspecific' => $one_accession['subtaxa']], TRIPAL_WARNING);
           break;
       }
       elseif (count($results) == 1){
@@ -363,7 +363,7 @@
         $organism_id = $results[0]->organism_id;
       }
       else{
-        $this->logMessage('ERROR: The genus, !genus, species, !species, has no matched organism in chado.organism.',['!genus' => $genus, '!species' => $one_accession['germplasm_species']], TRIPAL_WARNING);
+        $this->logMessage('ERROR: The genus, !genus, species, !species, infraspecific, !infraspecific, has no matched organism in chado.organism.',['!genus' => $genus, '!species' => $one_accession['germplasm_species'], '!infraspecific' => $one_accession['subtaxa']], TRIPAL_WARNING);
         break;
       }
 
