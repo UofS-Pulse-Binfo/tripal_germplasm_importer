@@ -74,7 +74,12 @@
     $organisms = array();
     $organisms[''] = '';
     while ($organism = $org_rset->fetchObject()) {
-      $organisms[$organism->organism_id] = "$organism->genus $organism->species ($organism->common_name)";
+      if ($organism->infraspecific_name){
+        $organisms[$organism->organism_id] = "$organism->genus $organism->species $organism->infraspecific_name  ($organism->common_name)";
+      }
+      else{
+        $organisms[$organism->organism_id] = "$organism->genus $organism->species  ($organism->common_name)";
+      }
     }
 
     $form['instructions'] = [
